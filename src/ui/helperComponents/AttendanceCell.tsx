@@ -8,7 +8,7 @@ import { getShiftFromIdRed, getStatusColorBGFromName, getStatusColorFromName, ge
 import { useAppSelector } from '../../system/redux/store/hooks';
 
 
-const AttendanceCell = ({ item, index = 0, showArrowBtn, onArrowclick }) => {
+const AttendanceCell = ({ item, index = 0, showArrowBtn, onArrowclick, highlightBorder }) => {
   const { colors } = useTheme();
   const navigation = useNavigation();
 
@@ -26,8 +26,8 @@ const AttendanceCell = ({ item, index = 0, showArrowBtn, onArrowclick }) => {
           width: '100%',
           marginTop: 5,
           backgroundColor: colors.cellBackground,
-          borderWidth: 1.5,
-          borderColor: colors.bordercolor,
+          borderWidth: (!!highlightBorder) ? (3) : (1.5),
+          borderColor: (!!highlightBorder) ? ('#007AFF') : (colors.bordercolor),
           borderRadius: 5
         }}
       >

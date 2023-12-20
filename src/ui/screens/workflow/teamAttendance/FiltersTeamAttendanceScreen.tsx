@@ -19,6 +19,7 @@ import { useAppSelector } from '../../../../system/redux/store/hooks';
 import AppHeader from '../../../uiHelpers/AppHeader';
 import FullScreenLoader from '../../../uiHelpers/FullScreenLoader';
 import DateTimeSelector from '../../../uiHelpers/DateTimeSelector';
+import moment from 'moment-timezone';
 
 
 const FiltersTeamAttendanceScreen = ({ route }) => {
@@ -50,11 +51,17 @@ const FiltersTeamAttendanceScreen = ({ route }) => {
 
   useEffect(() => {
 
-
     setTeamData(adjustTeamDataRed(RedHeartBeat.actualPayload))
     setShiftData(adjustSystemShiftDataRed(RedHeartBeat.actualPayload));
 
     if (!!myAllFilters) {
+      if (!!myAllFilters.startDate) {
+        setStartDate(new Date(myAllFilters.startDate));
+      }
+
+      if (!!myAllFilters.endDate) {
+        setEndDate(new Date(myAllFilters.endDate));
+      }
 
     }
 
@@ -267,7 +274,22 @@ const FiltersTeamAttendanceScreen = ({ route }) => {
             onPress={() => {
               if (validateForm()) {
                 if (!!onApply) {
-                  onApply();
+                  if (true) {
+
+                    var filtersObj = {};
+                    if (!!startDate) {
+
+                      console.log("Start date: ", startDate);
+                      filtersObj.startDate = moment(startDate).format('YYYY-MM-DD HH:mm:ss');
+                    }
+                    if (!!endDate) {
+                      console.log("End date: ", endDate);
+                      filtersObj.endDate = moment(endDate).format('YYYY-MM-DD HH:mm:ss');
+                    }
+
+                    onApply(filtersObj);
+                  }
+
                 }
 
                 navigation.goBack()

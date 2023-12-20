@@ -120,8 +120,20 @@ const MainTeamAttendanceScreen = ({ }) => {
     // dispatch(APIGetTeamAttendance(RedAuthUser.accessToken, '4'));
     // dispatch(APIGetTeamAttendance(RedAuthUser.accessToken, (!!mySelectedTimeDuration && !!mySelectedTimeDuration.value && mySelectedTimeDuration.value !== '0') ? (mySelectedTimeDuration.value) : ('1')));
 
+    var startDate = '';
+    var endDate = '';
 
-    const quickFilterDates = getStartEndDateFromQuickFilters();
+    if (!!myAllFilters) {
+
+      startDate = (!!myAllFilters.startDate) ? (myAllFilters.startDate) : ("");
+      endDate = (!!myAllFilters.endDate) ? (myAllFilters.endDate) : ("");
+    } else if (!!mySelectedTimeDuration) {
+      const quickFilterDates = getStartEndDateFromQuickFilters();
+
+      startDate = quickFilterDates.start_day;
+      endDate = quickFilterDates.end_day;
+    }
+
 
     dispatch(APIGetAttendanceByPagination({
       token: RedAuthUser.accessToken,
@@ -129,8 +141,8 @@ const MainTeamAttendanceScreen = ({ }) => {
       sortDirection: 'desc',
       callState: CALL_STATE.REFRESHING,
 
-      start_day: quickFilterDates.start_day,
-      end_day: quickFilterDates.end_day,
+      start_day: startDate,
+      end_day: endDate,
     }
     ));
 
@@ -139,7 +151,19 @@ const MainTeamAttendanceScreen = ({ }) => {
   const onPageChange = () => {
     const newPageNumber = RedGetAttendanceByPagination.actualPayload.data.pagination.currentPage + 1;
 
-    const quickFilterDates = getStartEndDateFromQuickFilters();
+    var startDate = '';
+    var endDate = '';
+
+    if (!!myAllFilters) {
+
+      startDate = (!!myAllFilters.startDate) ? (myAllFilters.startDate) : ("");
+      endDate = (!!myAllFilters.endDate) ? (myAllFilters.endDate) : ("");
+    } else if (!!mySelectedTimeDuration) {
+      const quickFilterDates = getStartEndDateFromQuickFilters();
+
+      startDate = quickFilterDates.start_day;
+      endDate = quickFilterDates.end_day;
+    }
 
     dispatch(APIGetAttendanceByPagination({
       token: RedAuthUser.accessToken,
@@ -148,8 +172,8 @@ const MainTeamAttendanceScreen = ({ }) => {
       pageNo: newPageNumber,
       callState: CALL_STATE.FETCHING,
 
-      start_day: quickFilterDates.start_day,
-      end_day: quickFilterDates.end_day,
+      start_day: startDate,
+      end_day: endDate,
     }
     ));
 
@@ -235,15 +259,16 @@ const MainTeamAttendanceScreen = ({ }) => {
 
         }}
         showRightButton={true}
-        rightButtonIcon={'filter-variant'}
+        rightButtonIcon={(!!myAllFilters) ? ('filter-check') : ('filter-variant')}
+        rightButtonIconColor={(!!myAllFilters) ? ("#007AFF") : (colors.appdrawerIconTextColor)}
         onRightItemClick={() => {
           navigation.navigate(ScreenNames.FiltersTeamAttendanceScreen, {
             myAllFilters: myAllFilters,
 
-            onApply: (updatedFilters) => {
+            onApply: (filtersObj) => {
 
               setMySelectedTimeDuration(null);
-              setMyAllFilters(updatedFilters)
+              setMyAllFilters(filtersObj)
             },
 
             onReset: () => {
@@ -293,6 +318,7 @@ const MainTeamAttendanceScreen = ({ }) => {
               item={item}
               index={index}
               myUserID={myUserID}
+              highlightBorder={!!myAllFilters}
               showArrowBtn={(getStatusNameFromIdRed(item.status, []) === 'Pending') ? (true) : (false)}
               onArrowclick={() => {
                 navigation.navigate(ScreenNames.EditAttendanceScreen, {

@@ -22,6 +22,7 @@ const AppHeader = props => {
     onRightItemClick,
     rightButtonTitle,
     rightButtonIcon,
+    rightButtonIconColor,
     showDivider
   } = props;
 
@@ -86,7 +87,7 @@ const AppHeader = props => {
 
             <IconButton
               icon={(!!rightButtonIcon) ? (rightButtonIcon) : ("logout")}
-              iconColor={colors.appdrawerIconTextColor}
+              iconColor={(!!rightButtonIconColor) ? (rightButtonIconColor) : (colors.appdrawerIconTextColor)}
               size={25}
               onPress={() => {
                 onRightItemClick()
