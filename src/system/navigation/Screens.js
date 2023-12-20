@@ -1,28 +1,30 @@
-import SignInScreen from '../../ui/screens/auth/SignInScreen';
-import SignUpScreen from '../../ui/screens/auth/SignUpScreen';
-import SplashScreen from '../../ui/screens/auth/SplashScreen';
-import DashboardScreen from '../../ui/screens/dashboard/DashboardScreen';
-import NotificationScreen from '../../ui/screens/dashboard/NotificationScreen';
-import ChangePasswordScreen from '../../ui/screens/drawer/ChangePasswordScreen';
-import ContactUsScreen from '../../ui/screens/drawer/ContactUsScreen';
-import PolicyScreen from '../../ui/screens/drawer/PolicyScreen';
+import SignInScreen from "../../ui/screens/auth/SignInScreen";
+import SignUpScreen from "../../ui/screens/auth/SignUpScreen";
+import SplashScreen from "../../ui/screens/auth/SplashScreen";
+import DashboardScreen from "../../ui/screens/dashboard/DashboardScreen";
+import NotificationScreen from "../../ui/screens/dashboard/NotificationScreen";
+import ChangePasswordScreen from "../../ui/screens/drawer/ChangePasswordScreen";
+import ContactUsScreen from "../../ui/screens/drawer/ContactUsScreen";
+import PolicyScreen from "../../ui/screens/drawer/PolicyScreen";
 
-import Settings from '../../ui/screens/drawer/Settings';
-import CreateAttendanceScreen from '../../ui/screens/workflow/attendance/CreateAttendanceScreen';
-import MainAttendanceScreen from '../../ui/screens/workflow/attendance/MainAttendanceScreen';
-import ViewAttendanceScreen from '../../ui/screens/workflow/attendance/ViewAttendanceScreen';
-import FinanceScreen from '../../ui/screens/workflow/finance/FinanceScreen';
-import TransactionsScreen from '../../ui/screens/workflow/finance/TransactionsScreen';
-import ViewFinanceScreen from '../../ui/screens/workflow/finance/ViewFinanceScreen';
-import ReportScreen from '../../ui/screens/workflow/report/ReportScreen';
+import Settings from "../../ui/screens/drawer/Settings";
+import CreateAttendanceScreen from "../../ui/screens/workflow/attendance/CreateAttendanceScreen";
+import MainAttendanceScreen from "../../ui/screens/workflow/attendance/MainAttendanceScreen";
 
-import EditAttendanceScreen from '../../ui/screens/workflow/attendance/EditAttendanceScreen';
-import NewsScreen from '../../ui/screens/workflow/news/NewsScreen';
+import ViewAttendanceScreen from "../../ui/screens/workflow/attendance/ViewAttendanceScreen";
+import FinanceScreen from "../../ui/screens/workflow/finance/FinanceScreen";
+import TransactionsScreen from "../../ui/screens/workflow/finance/TransactionsScreen";
+import ViewFinanceScreen from "../../ui/screens/workflow/finance/ViewFinanceScreen";
+import ReportScreen from "../../ui/screens/workflow/report/ReportScreen";
 
-import NewsOpen from '../../ui/screens/workflow/news/NewsOpen';
-import FiltersTeamAttendanceScreen from '../../ui/screens/workflow/teamAttendance/FiltersTeamAttendanceScreen';
-import MainTeamAttendanceScreen from '../../ui/screens/workflow/teamAttendance/MainTeamAttendanceScreen';
-import DrawerNavigator from './DrawerNavigator';
+import EditAttendanceScreen from "../../ui/screens/workflow/attendance/EditAttendanceScreen";
+import NewsScreen from "../../ui/screens/workflow/news/NewsScreen";
+
+import FiltersAttendanceScreen from "../../ui/screens/workflow/attendance/FiltersAttendanceScreen";
+import NewsOpen from "../../ui/screens/workflow/news/NewsOpen";
+import FiltersTeamAttendanceScreen from "../../ui/screens/workflow/teamAttendance/FiltersTeamAttendanceScreen";
+import MainTeamAttendanceScreen from "../../ui/screens/workflow/teamAttendance/MainTeamAttendanceScreen";
+import DrawerNavigator from "./DrawerNavigator";
 
 export const Screens = {
   SplashScreen: SplashScreen,
@@ -30,6 +32,7 @@ export const Screens = {
   SignInScreen: SignInScreen,
   SignUpScreen: SignUpScreen,
   MainAttendanceScreen: MainAttendanceScreen,
+  FiltersAttendanceScreen: FiltersAttendanceScreen,
   MainTeamAttendanceScreen: MainTeamAttendanceScreen,
   FiltersTeamAttendanceScreen: FiltersTeamAttendanceScreen,
   TransactionsScreen: TransactionsScreen,

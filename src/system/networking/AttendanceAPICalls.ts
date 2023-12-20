@@ -22,7 +22,7 @@ import { CALL_STATE } from "../../helpers/enum";
 export const APIGetAttendanceByPagination =
   ({
     token,
-    teamId,
+
     sortBy,
     sortDirection,
     pageNo,
@@ -31,6 +31,8 @@ export const APIGetAttendanceByPagination =
     start_day,
     end_day,
     shift,
+    teamId,
+    userId,
   }) =>
   async (dispatch, getState) => {
     try {
@@ -44,10 +46,6 @@ export const APIGetAttendanceByPagination =
       const data = new URLSearchParams();
 
       data.append("limit", (20).toString());
-
-      if (!!teamId) {
-        data.append("team_id", teamId.toString());
-      }
 
       if (!!sortBy) {
         data.append("sortBy", sortBy);
@@ -72,6 +70,14 @@ export const APIGetAttendanceByPagination =
 
       if (!!shift) {
         data.append("shift_id", shift);
+      }
+
+      if (!!teamId) {
+        data.append("team_id", teamId.toString());
+      }
+
+      if (!!userId) {
+        data.append("user_id", userId.toString());
       }
 
       dispatch(

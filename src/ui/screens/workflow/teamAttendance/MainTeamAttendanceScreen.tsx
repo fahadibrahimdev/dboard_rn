@@ -62,30 +62,6 @@ const MainTeamAttendanceScreen = ({ }) => {
 
   }, []);
 
-  // useEffect(() => {
-
-  //   if (
-  //     RedGetTeamAttendance.state !== CALL_STATE.IDLE &&
-  //     RedGetTeamAttendance.state !== CALL_STATE.FETCHING
-  //   ) {
-
-  //     dispatch(getTeamAttendanceIdle());
-  //     if (RedGetTeamAttendance.state === CALL_STATE.SUCCESS) {
-
-
-  //       setFilteredListData(RedGetTeamAttendance.actualPayload.data)
-
-
-  //       // setPermissions(RedHeartBeat.actualPayload.data.permission);
-  //     } else if (RedGetTeamAttendance.state === CALL_STATE.ERROR) {
-  //       Alert.alert('Error', RedGetTeamAttendance.error);
-  //     }
-
-  //   }
-  // }, [RedGetTeamAttendance.state])
-
-
-
   useEffect(() => {
 
     if (
@@ -125,9 +101,6 @@ const MainTeamAttendanceScreen = ({ }) => {
   }, [myAllFilters]);
 
   const onRefresh = () => {
-
-    // dispatch(APIGetTeamAttendance(RedAuthUser.accessToken, '4'));
-    // dispatch(APIGetTeamAttendance(RedAuthUser.accessToken, (!!mySelectedTimeDuration && !!mySelectedTimeDuration.value && mySelectedTimeDuration.value !== '0') ? (mySelectedTimeDuration.value) : ('1')));
 
     var startDate = '';
     var endDate = '';
