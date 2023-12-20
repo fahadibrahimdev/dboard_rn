@@ -1,0 +1,25 @@
+export const CALL_STATE = {
+  IDLE: 'IDLE',
+  FETCHING: 'FETCHING',
+  UPDATING: 'UPDATING',
+  REFRESHING: 'REFRESHING',
+  SUCCESS: 'SUCCESS',
+  ERROR: 'ERROR',
+  NULL: 'NULL',
+  CLEAR: 'CLEAR',
+  UPDATED: 'UPDATED',
+};
+
+
+export const FILTER_DATE_CODES = {
+  TODAY: 'TODAY',
+  DAYS_3: 'DAYS_3',
+  DAYS_7: 'DAYS_7',
+  DAYS_30: 'DAYS_30',
+};
+
+export const USER_ROLES = {
+  AGENT: 'AGENT',
+  LEADER: 'LEADER',
+  SUPER_USER: 'SUPER_USER',
+};

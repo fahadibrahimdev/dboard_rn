@@ -1,0 +1,52 @@
+import SignInScreen from '../../ui/screens/auth/SignInScreen';
+import SignUpScreen from '../../ui/screens/auth/SignUpScreen';
+import SplashScreen from '../../ui/screens/auth/SplashScreen';
+import DashboardScreen from '../../ui/screens/dashboard/DashboardScreen';
+import NotificationScreen from '../../ui/screens/dashboard/NotificationScreen';
+import ChangePasswordScreen from '../../ui/screens/drawer/ChangePasswordScreen';
+import ContactUsScreen from '../../ui/screens/drawer/ContactUsScreen';
+import PolicyScreen from '../../ui/screens/drawer/PolicyScreen';
+
+import Settings from '../../ui/screens/drawer/Settings';
+import CreateAttendanceScreen from '../../ui/screens/workflow/attendance/CreateAttendanceScreen';
+import MainAttendanceScreen from '../../ui/screens/workflow/attendance/MainAttendanceScreen';
+import ViewAttendanceScreen from '../../ui/screens/workflow/attendance/ViewAttendanceScreen';
+import FinanceScreen from '../../ui/screens/workflow/finance/FinanceScreen';
+import TransactionsScreen from '../../ui/screens/workflow/finance/TransactionsScreen';
+import ViewFinanceScreen from '../../ui/screens/workflow/finance/ViewFinanceScreen';
+import ReportScreen from '../../ui/screens/workflow/report/ReportScreen';
+
+import EditAttendanceScreen from '../../ui/screens/workflow/attendance/EditAttendanceScreen';
+import NewsScreen from '../../ui/screens/workflow/news/NewsScreen';
+
+import NewsOpen from '../../ui/screens/workflow/news/NewsOpen';
+import FiltersTeamAttendanceScreen from '../../ui/screens/workflow/teamAttendance/FiltersTeamAttendanceScreen';
+import MainTeamAttendanceScreen from '../../ui/screens/workflow/teamAttendance/MainTeamAttendanceScreen';
+import DrawerNavigator from './DrawerNavigator';
+
+export const Screens = {
+  SplashScreen: SplashScreen,
+
+  SignInScreen: SignInScreen,
+  SignUpScreen: SignUpScreen,
+  MainAttendanceScreen: MainAttendanceScreen,
+  MainTeamAttendanceScreen: MainTeamAttendanceScreen,
+  FiltersTeamAttendanceScreen: FiltersTeamAttendanceScreen,
+  TransactionsScreen: TransactionsScreen,
+  FinanceScreen: FinanceScreen,
+  ReportScreen: ReportScreen,
+  NewsScreen: NewsScreen,
+  NewsOpen: NewsOpen,
+  Settings: Settings,
+  ViewAttendanceScreen: ViewAttendanceScreen,
+  CreateAttendanceScreen: CreateAttendanceScreen,
+  EditAttendanceScreen: EditAttendanceScreen,
+  ViewFinanceScreen: ViewFinanceScreen,
+
+  DrawerNavigator: DrawerNavigator,
+  DashboardScreen: DashboardScreen,
+  NotificationScreen: NotificationScreen,
+  PolicyScreen: PolicyScreen,
+  ContactUsScreen: ContactUsScreen,
+  ChangePasswordScreen: ChangePasswordScreen,
+};
