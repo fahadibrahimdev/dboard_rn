@@ -12,14 +12,14 @@ import { Button, Text } from 'react-native-paper';
 import { RFValue } from 'react-native-responsive-fontsize';
 import { useDispatch } from 'react-redux';
 
+import moment from 'moment-timezone';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { adjustSystemShiftDataRed, adjustTeamDataRed } from '../../../../helpers/Utils';
 import { useAppSelector } from '../../../../system/redux/store/hooks';
 import AppHeader from '../../../uiHelpers/AppHeader';
-import FullScreenLoader from '../../../uiHelpers/FullScreenLoader';
 import DateTimeSelector from '../../../uiHelpers/DateTimeSelector';
-import moment from 'moment-timezone';
+import FullScreenLoader from '../../../uiHelpers/FullScreenLoader';
 
 
 const FiltersTeamAttendanceScreen = ({ route }) => {
@@ -61,6 +61,14 @@ const FiltersTeamAttendanceScreen = ({ route }) => {
 
       if (!!myAllFilters.endDate) {
         setEndDate(new Date(myAllFilters.endDate));
+      }
+
+      if (!!myAllFilters.shift) {
+        setShiftValue(myAllFilters.shift);
+      }
+
+      if (!!myAllFilters.team) {
+        setTeamValue(myAllFilters.team);
       }
 
     }
@@ -285,6 +293,16 @@ const FiltersTeamAttendanceScreen = ({ route }) => {
                     if (!!endDate) {
                       console.log("End date: ", endDate);
                       filtersObj.endDate = moment(endDate).format('YYYY-MM-DD HH:mm:ss');
+                    }
+
+                    if (!!shiftValue) {
+                      console.log("Shift Value: ", shiftValue);
+                      filtersObj.shift = shiftValue;
+                    }
+
+                    if (!!teamValue) {
+                      console.log("Shift Value: ", teamValue);
+                      filtersObj.team = teamValue;
                     }
 
                     onApply(filtersObj);

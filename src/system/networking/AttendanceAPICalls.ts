@@ -1,4 +1,4 @@
-import moment from 'moment-timezone';
+import moment from "moment-timezone";
 import {
   approveAttendanceError,
   approveAttendancePending,
@@ -15,9 +15,9 @@ import {
   getTeamAttendanceError,
   getTeamAttendancePending,
   getTeamAttendanceSuccess,
-} from '../redux/slice/attendanceSlice';
-import {API, HEADERS} from './NetworkingConstants';
-import {CALL_STATE} from '../../helpers/enum';
+} from "../redux/slice/attendanceSlice";
+import { API, HEADERS } from "./NetworkingConstants";
+import { CALL_STATE } from "../../helpers/enum";
 
 export const APIGetAttendanceByPagination =
   ({
@@ -30,6 +30,7 @@ export const APIGetAttendanceByPagination =
 
     start_day,
     end_day,
+    shift,
   }) =>
   async (dispatch, getState) => {
     try {
@@ -37,49 +38,53 @@ export const APIGetAttendanceByPagination =
       const apiUrl = API.GET_ATTENDANCE_BY_PAGINATION_API;
 
       let currentGetAttendanceByPagination = JSON.parse(
-        JSON.stringify(getState().attendance.getAttendanceByPagination),
+        JSON.stringify(getState().attendance.getAttendanceByPagination)
       );
 
       const data = new URLSearchParams();
 
-      data.append('limit', (20).toString());
+      data.append("limit", (20).toString());
 
       if (!!teamId) {
-        data.append('team_id', teamId.toString());
+        data.append("team_id", teamId.toString());
       }
 
       if (!!sortBy) {
-        data.append('sortBy', sortBy);
+        data.append("sortBy", sortBy);
       }
       if (!!sortDirection) {
-        data.append('sortDirection', sortDirection);
+        data.append("sortDirection", sortDirection);
       }
 
       if (!!pageNo) {
-        data.append('page', pageNo.toString());
+        data.append("page", pageNo.toString());
       } else {
-        data.append('page', (1).toString());
+        data.append("page", (1).toString());
       }
 
       if (!!start_day) {
-        data.append('start_day', start_day);
+        data.append("start_day", start_day);
       }
 
       if (!!end_day) {
-        data.append('end_day', end_day);
+        data.append("end_day", end_day);
+      }
+
+      if (!!shift) {
+        data.append("shift_id", shift);
       }
 
       dispatch(
         getAttendanceByPaginationPending({
           status: callState,
-        }),
+        })
       );
       // Make the POST request
       const response = await fetch(apiUrl, {
-        method: 'POST',
+        method: "POST",
         headers: {
           ...HEADERS,
-          Authorization: 'Bearer ' + token,
+          Authorization: "Bearer " + token,
         },
         body: data.toString(), // Convert the data to a URL-encoded string
       });
@@ -91,7 +96,7 @@ export const APIGetAttendanceByPagination =
           dispatch(
             getAttendanceByPaginationSuccess({
               data: responseData,
-            }),
+            })
           );
         } else {
           let updatedData = responseData;
@@ -106,39 +111,39 @@ export const APIGetAttendanceByPagination =
           dispatch(
             getAttendanceByPaginationSuccess({
               data: updatedData,
-            }),
+            })
           );
         }
       } else if (response.status === 401) {
         dispatch(
           getAttendanceByPaginationError({
-            error: 'Get_Attendance_By_pagination Api Call Auth Failed!',
-          }),
+            error: "Get_Attendance_By_pagination Api Call Auth Failed!",
+          })
         );
       } else if (response.status === 400) {
         const responseData = await response.json();
         dispatch(
           getAttendanceByPaginationError({
             error: responseData.message,
-          }),
+          })
         );
       } else {
         dispatch(
           getAttendanceByPaginationError({
-            error: 'Get_Attendance_By_pagination Api Call Failed!',
-          }),
+            error: "Get_Attendance_By_pagination Api Call Failed!",
+          })
         );
       }
     } catch (error) {
       dispatch(
         getAttendanceByPaginationError({
-          error: ' Error in Get_Attendance_By_pagination Api Call!',
-        }),
+          error: " Error in Get_Attendance_By_pagination Api Call!",
+        })
       );
     }
   };
 
-export const APIGetAttendance = token => async dispatch => {
+export const APIGetAttendance = (token) => async (dispatch) => {
   try {
     // Define the URL of the API endpoint
     const apiUrl = API.GET_ATTENDANCE_API;
@@ -146,10 +151,10 @@ export const APIGetAttendance = token => async dispatch => {
     dispatch(getAttendancePending());
     // Make the POST request
     const response = await fetch(apiUrl, {
-      method: 'GET',
+      method: "GET",
       headers: {
         ...HEADERS,
-        Authorization: 'Bearer ' + token,
+        Authorization: "Bearer " + token,
       },
     });
 
@@ -159,53 +164,53 @@ export const APIGetAttendance = token => async dispatch => {
       dispatch(
         getAttendanceSuccess({
           data: responseData,
-        }),
+        })
       );
     } else if (response.status === 401) {
       dispatch(
         getAttendanceError({
-          error: 'Get_Attendance Api Call Auth Failed!',
-        }),
+          error: "Get_Attendance Api Call Auth Failed!",
+        })
       );
     } else if (response.status === 400) {
       const responseData = await response.json();
       dispatch(
         getAttendanceError({
           error: responseData.message,
-        }),
+        })
       );
     } else {
       dispatch(
         getAttendanceError({
-          error: 'Get_Attendance Api Call Failed!',
-        }),
+          error: "Get_Attendance Api Call Failed!",
+        })
       );
     }
   } catch (error) {
     dispatch(
       getAttendanceError({
-        error: ' Error in Get_Attendance Api Call!',
-      }),
+        error: " Error in Get_Attendance Api Call!",
+      })
     );
   }
 };
 
-export const APIGetTeamAttendance = (token, teamId) => async dispatch => {
+export const APIGetTeamAttendance = (token, teamId) => async (dispatch) => {
   try {
     // Define the URL of the API endpoint
     const apiUrl = API.GET_TEAM_ATTENDANCE_API;
 
     const data = new URLSearchParams();
 
-    data.append('teamId', teamId);
+    data.append("teamId", teamId);
 
     dispatch(getTeamAttendancePending());
     // Make the POST request
     const response = await fetch(apiUrl, {
-      method: 'POST',
+      method: "POST",
       headers: {
         ...HEADERS,
-        Authorization: 'Bearer ' + token,
+        Authorization: "Bearer " + token,
       },
       body: data.toString(), // Convert the data to a URL-encoded string
     });
@@ -216,66 +221,66 @@ export const APIGetTeamAttendance = (token, teamId) => async dispatch => {
       dispatch(
         getTeamAttendanceSuccess({
           data: responseData,
-        }),
+        })
       );
     } else if (response.status === 401) {
       dispatch(
         getTeamAttendanceError({
-          error: 'Get_Team_Attendance Api Call Auth Failed!',
-        }),
+          error: "Get_Team_Attendance Api Call Auth Failed!",
+        })
       );
     } else if (response.status === 400) {
       const responseData = await response.json();
       dispatch(
         getTeamAttendanceError({
           error: responseData.message,
-        }),
+        })
       );
     } else {
       dispatch(
         getTeamAttendanceError({
-          error: 'Get_Team_Attendance Api Call Failed!',
-        }),
+          error: "Get_Team_Attendance Api Call Failed!",
+        })
       );
     }
   } catch (error) {
     dispatch(
       getTeamAttendanceError({
-        error: ' Error in Get_Team_Attendance Api Call!',
-      }),
+        error: " Error in Get_Team_Attendance Api Call!",
+      })
     );
   }
 };
 
 export const APIcreateAttendance =
-  (token, start_time, end_time, shift_id, teamId) => async dispatch => {
+  (token, start_time, end_time, shift_id, teamId) => async (dispatch) => {
     try {
       const apiUrl = API.CREATE_ATTENDANCE_API;
 
       const data = new URLSearchParams();
 
       data.append(
-        'start_time',
-        moment(start_time).utc().format('YYYY-MM-DD HH:mm:ss'),
+        "start_time",
+        moment(start_time).utc().format("YYYY-MM-DD HH:mm:ss")
       );
-      data.append('shift_id', shift_id);
-      data.append('teamId', teamId);
+      data.append("shift_id", shift_id);
+      data.append("teamId", teamId);
 
       if (!!end_time) {
         data.append(
-          'end_time',
-          moment(end_time).utc().format('YYYY-MM-DD HH:mm:ss'),
+          "end_time",
+          moment(end_time).utc().format("YYYY-MM-DD HH:mm:ss")
         );
       }
 
       dispatch(createAttendancePending());
 
       const response = await fetch(apiUrl, {
-        method: 'POST',
+        method: "POST",
         headers: {
           ...HEADERS,
-          Accept: 'application/json',
-          Authorization: 'Bearer ' + token,
+          Accept: "application/json",
+          Authorization: "Bearer " + token,
         },
         body: data.toString(),
       });
@@ -286,69 +291,69 @@ export const APIcreateAttendance =
         dispatch(
           createAttendanceSuccess({
             data: responseData,
-          }),
+          })
         );
       } else if (response.status === 401) {
         dispatch(
           createAttendanceError({
-            error: 'Create_Attendance Api Call Auth Failed!',
-          }),
+            error: "Create_Attendance Api Call Auth Failed!",
+          })
         );
       } else if (response.status === 400) {
         const responseData = await response.json();
         dispatch(
           createAttendanceError({
             error: responseData.message,
-          }),
+          })
         );
       } else {
         dispatch(
           createAttendanceError({
-            error: 'Create_Attendance Api Call Failed!',
-          }),
+            error: "Create_Attendance Api Call Failed!",
+          })
         );
       }
     } catch (error) {
       dispatch(
         createAttendanceError({
-          error: ' Error in Create_Attendance Api Call!',
-        }),
+          error: " Error in Create_Attendance Api Call!",
+        })
       );
     }
   };
 
 export const ApiApproveAttendance =
-  (token, end_time, attendanceID, attendanceStatus) => async dispatch => {
+  (token, end_time, attendanceID, attendanceStatus) => async (dispatch) => {
     try {
       const apiUrl = API.EDIT_ATTENDANCE_API;
 
       const data = new URLSearchParams();
 
-      data.append('attendance_id', attendanceID);
+      data.append("attendance_id", attendanceID);
 
       if (!!end_time) {
         data.append(
-          'end_time',
-          moment(end_time).utc().format('YYYY-MM-DD HH:mm:ss'),
+          "end_time",
+          moment(end_time).utc().format("YYYY-MM-DD HH:mm:ss")
         );
       }
 
-      if (!!attendanceStatus && attendanceStatus === 'Approved') {
-        data.append('approve', true);
+      if (!!attendanceStatus && attendanceStatus === "Approved") {
+        data.append("approve", true);
       }
 
-      if (!!!!attendanceStatus && attendanceStatus === 'Denied') {
-        data.append('deny', true);
+      if (!!!!attendanceStatus && attendanceStatus === "Denied") {
+        data.append("deny", true);
       }
 
       dispatch(approveAttendancePending());
 
       const response = await fetch(apiUrl, {
-        method: 'PATCH',
+        method: "PATCH",
         headers: {
           ...HEADERS,
-          Accept: 'application/json',
-          Authorization: 'Bearer ' + token,
+          Accept: "application/json",
+          Authorization: "Bearer " + token,
         },
         body: data.toString(),
       });
@@ -359,33 +364,33 @@ export const ApiApproveAttendance =
         dispatch(
           approveAttendanceSuccess({
             data: responseData,
-          }),
+          })
         );
       } else if (response.status === 401) {
         dispatch(
           approveAttendanceError({
-            error: 'Approve_Attendance Api Call Auth Failed!',
-          }),
+            error: "Approve_Attendance Api Call Auth Failed!",
+          })
         );
       } else if (response.status === 400) {
         const responseData = await response.json();
         dispatch(
           approveAttendanceError({
             error: responseData.message,
-          }),
+          })
         );
       } else {
         dispatch(
           approveAttendanceError({
-            error: 'Approve_Attendance Api Call Failed!',
-          }),
+            error: "Approve_Attendance Api Call Failed!",
+          })
         );
       }
     } catch (error) {
       dispatch(
         approveAttendanceError({
-          error: ' Error in Approve_Attendance Api Call!',
-        }),
+          error: " Error in Approve_Attendance Api Call!",
+        })
       );
     }
   };

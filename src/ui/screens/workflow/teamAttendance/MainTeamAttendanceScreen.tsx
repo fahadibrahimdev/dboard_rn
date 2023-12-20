@@ -11,7 +11,7 @@ import { } from 'react-native-gesture-handler';
 import { ActivityIndicator, Text } from 'react-native-paper';
 import { RFValue } from 'react-native-responsive-fontsize';
 import { useDispatch } from 'react-redux';
-import { getStatusNameFromIdRed } from '../../../../helpers/Utils';
+import { adjustTeamDataRed, getStatusNameFromIdRed } from '../../../../helpers/Utils';
 import { CALL_STATE, FILTER_DATE_CODES } from '../../../../helpers/enum';
 import { ScreenNames } from '../../../../system/navigation/ScreenNames';
 import { APIGetAttendanceByPagination } from '../../../../system/networking/AttendanceAPICalls';
@@ -35,6 +35,8 @@ const MainTeamAttendanceScreen = ({ }) => {
 
   const [myAllFilters, setMyAllFilters] = useState(null);
 
+  const [myCommaSeperatedTeams, setMyCommaSeperatedTeams] = useState('');
+
   // const RedGetTeamAttendance = useAppSelector(state => state.attendance.getTeamAttendance);
   const RedGetAttendanceByPagination = useAppSelector(state => state.attendance.getAttendanceByPagination);
   const RedAuthUser = useAppSelector(state => state.auth.authUser);
@@ -44,10 +46,17 @@ const MainTeamAttendanceScreen = ({ }) => {
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [data, setData] = useState([]); // Your data source
 
+  const RedHeartBeat = useAppSelector(state => state.app.heartBeat);
 
 
 
   useEffect(() => {
+
+
+    const filtersData = adjustTeamDataRed(RedHeartBeat.actualPayload);
+    const commaSeperatedIds = filtersData.map(({ value }) => value).join(",");
+
+    setMyCommaSeperatedTeams(commaSeperatedIds);
 
     // onRefresh();
 
@@ -123,15 +132,31 @@ const MainTeamAttendanceScreen = ({ }) => {
     var startDate = '';
     var endDate = '';
 
+    var shiftValue = '';
+    var teamIds = '';
+
     if (!!myAllFilters) {
 
       startDate = (!!myAllFilters.startDate) ? (myAllFilters.startDate) : ("");
       endDate = (!!myAllFilters.endDate) ? (myAllFilters.endDate) : ("");
+
+      if (!!myAllFilters.shift) {
+        shiftValue = myAllFilters.shift
+      }
+
+      if (!!myAllFilters.team) {
+        teamIds = myAllFilters.team
+      } else {
+        teamIds = myCommaSeperatedTeams;
+      }
+
     } else if (!!mySelectedTimeDuration) {
       const quickFilterDates = getStartEndDateFromQuickFilters();
 
       startDate = quickFilterDates.start_day;
       endDate = quickFilterDates.end_day;
+
+      teamIds = myCommaSeperatedTeams;
     }
 
 
@@ -143,6 +168,8 @@ const MainTeamAttendanceScreen = ({ }) => {
 
       start_day: startDate,
       end_day: endDate,
+      shift: shiftValue,
+      teamId: teamIds,
     }
     ));
 
@@ -154,15 +181,30 @@ const MainTeamAttendanceScreen = ({ }) => {
     var startDate = '';
     var endDate = '';
 
+    var shiftValue = '';
+    var teamIds = '';
+
     if (!!myAllFilters) {
 
       startDate = (!!myAllFilters.startDate) ? (myAllFilters.startDate) : ("");
       endDate = (!!myAllFilters.endDate) ? (myAllFilters.endDate) : ("");
+
+      if (!!myAllFilters.shift) {
+        shiftValue = myAllFilters.shift
+      }
+
+      if (!!myAllFilters.team) {
+        teamIds = myAllFilters.team
+      } else {
+        teamIds = myCommaSeperatedTeams;
+      }
     } else if (!!mySelectedTimeDuration) {
       const quickFilterDates = getStartEndDateFromQuickFilters();
 
       startDate = quickFilterDates.start_day;
       endDate = quickFilterDates.end_day;
+
+      teamIds = myCommaSeperatedTeams
     }
 
     dispatch(APIGetAttendanceByPagination({
@@ -174,6 +216,8 @@ const MainTeamAttendanceScreen = ({ }) => {
 
       start_day: startDate,
       end_day: endDate,
+      shift: shiftValue,
+      teamId: teamIds,
     }
     ));
 
