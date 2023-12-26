@@ -204,19 +204,19 @@ const Settings = () => {
       <TouchableOpacity
 
       >
-        {/*          
+
         {(!!RedAuthUser.actualPayload.data && !!RedAuthUser.actualPayload.data.user && !!RedAuthUser.actualPayload.data.user.image) ?
           (
 
             <Image
               style={{
-                
+
                 borderColor: colors.appTextPrimaryColor,
                 borderWidth: 2,
                 alignSelf: 'center',
                 marginTop: 17,
 
-                width:'40%',
+                width: 100,
                 height: 100,
                 borderRadius: 100
 
@@ -235,7 +235,7 @@ const Settings = () => {
               mode='outlined'
               iconColor={colors.appTextPrimaryColor}
             />
-          )} */}
+          )}
       </TouchableOpacity>
       <KeyboardAwareScrollView
         style={{

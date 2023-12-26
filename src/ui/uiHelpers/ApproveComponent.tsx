@@ -21,7 +21,7 @@ const ApproveComponent = ({ currentSelectedState, onChange }) => {
 
       }}
     >
-      <View
+      <TouchableOpacity
         style={{
           flex: 0.33,
           paddingVertical: RFValue(5),
@@ -32,17 +32,18 @@ const ApproveComponent = ({ currentSelectedState, onChange }) => {
           backgroundColor: (!!currentSelectedState && currentSelectedState === "Pending") ? (getStatusColorBGFromName(currentSelectedState)) : (colors.appBackground)
 
         }}
+        activeOpacity={0.5}
+        onPress={() => {
+          onChange('Pending')
+        }}
 
       >
-        <TouchableOpacity
+        <View
           style={{
             width: '100%',
             alignItems: 'center',
           }}
-          activeOpacity={0.5}
-          onPress={() => {
-            onChange('Pending')
-          }}
+
         >
           <Text
             style={{
@@ -53,10 +54,10 @@ const ApproveComponent = ({ currentSelectedState, onChange }) => {
 
             Pending
           </Text>
-        </TouchableOpacity>
+        </View>
 
-      </View>
-      <View
+      </TouchableOpacity>
+      <TouchableOpacity
         style={{
           flex: 0.34,
           paddingVertical: RFValue(5),
@@ -68,17 +69,17 @@ const ApproveComponent = ({ currentSelectedState, onChange }) => {
           backgroundColor: (!!currentSelectedState && currentSelectedState === "Approved") ? (getStatusColorBGFromName(currentSelectedState)) : (colors.appBackground)
 
         }}
-
+        activeOpacity={0.5}
+        onPress={() => {
+          onChange('Approved')
+        }}
       >
-        <TouchableOpacity
+        <View
           style={{
             width: '100%',
             alignItems: 'center',
           }}
-          activeOpacity={0.5}
-          onPress={() => {
-            onChange('Approved')
-          }}
+
         >
 
           <Text style={{
@@ -87,37 +88,37 @@ const ApproveComponent = ({ currentSelectedState, onChange }) => {
             Approved
           </Text>
 
-        </TouchableOpacity>
+        </View>
 
-      </View>
+      </TouchableOpacity>
 
-      <View
+      <TouchableOpacity
         style={{
           flex: 0.33,
           paddingVertical: RFValue(5),
           justifyContent: 'center',
           alignItems: 'center',
           backgroundColor: (!!currentSelectedState && currentSelectedState === "Denied") ? (getStatusColorBGFromName(currentSelectedState)) : (colors.appBackground)
+        }}
+        activeOpacity={0.5}
+        onPress={() => {
+          onChange('Denied');
         }}>
-        <TouchableOpacity
+        <View
           style={{
             width: '100%',
             alignItems: 'center',
           }}
-          activeOpacity={0.5}
-          onPress={() => {
-            onChange('Denied');
-          }}
+
         >
 
           <Text style={{
             color: (!!currentSelectedState && currentSelectedState === "Denied") ? (getStatusColorFromName(currentSelectedState)) : (colors.appTextPrimaryColor)
           }}>
             Denied
-
           </Text>
-        </TouchableOpacity>
-      </View>
+        </View>
+      </TouchableOpacity>
 
 
     </View>

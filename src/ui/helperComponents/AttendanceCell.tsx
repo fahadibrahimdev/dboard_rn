@@ -1,6 +1,6 @@
 import { useNavigation, useTheme } from '@react-navigation/native';
 import moment from 'moment-timezone';
-import React from "react";
+import React, { useState } from "react";
 import { Alert, View } from "react-native";
 import { IconButton, Text } from "react-native-paper";
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -11,6 +11,8 @@ import { useAppSelector } from '../../system/redux/store/hooks';
 const AttendanceCell = ({ item, index = 0, showArrowBtn, onArrowclick, highlightBorder }) => {
   const { colors } = useTheme();
   const navigation = useNavigation();
+
+  const [maxFullNameLength, setMaxFullNameLength] = useState<number>(20)
 
   const RedHeartBeat = useAppSelector(state => state.app.heartBeat);
 
@@ -40,16 +42,13 @@ const AttendanceCell = ({ item, index = 0, showArrowBtn, onArrowclick, highlight
 
           <View style={{
             flexDirection: 'row',
+            justifyContent: 'center',
+            alignItems: 'center',
             // backgroundColor: "#455588"
           }}>
-            <Text
-              style={{
-                color: colors.appTextPrimaryColor,
-              }}
-            >{index + 1}</Text>
             <Icon
               style={{
-                marginHorizontal: 10,
+                marginHorizontal: 6,
               }}
               color={'#007AFF'}
               name="account"
@@ -59,17 +58,20 @@ const AttendanceCell = ({ item, index = 0, showArrowBtn, onArrowclick, highlight
               style={{
                 color: colors.appTextPrimaryColor,
               }}
-            >{item.full_name}</Text>
+            >{((item.full_name).length > maxFullNameLength) ?
+              (((item.full_name).substring(0, maxFullNameLength - 3)) + '...') :
+              item.full_name}</Text>
           </View>
 
           <View style={{
             flexDirection: 'row',
+            justifyContent: 'center',
             alignItems: 'center',
             // backgroundColor: "#876544"
           }}>
             <Icon
               style={{
-                marginHorizontal: 10,
+                marginHorizontal: 6,
               }}
               color={'#007AFF'}
               name="clock"
@@ -78,14 +80,14 @@ const AttendanceCell = ({ item, index = 0, showArrowBtn, onArrowclick, highlight
             <Text
               style={{
                 color: colors.appTextPrimaryColor,
-                marginRight: 10
+                marginRight: 6
               }}
             >{moment(item.start_time).format('DD-MMM-YYYY')}</Text>
 
 
             <Icon
               style={{
-                marginHorizontal: 10,
+                marginHorizontal: 6,
               }}
               color={'#007AFF'}
               name="information-outline"
