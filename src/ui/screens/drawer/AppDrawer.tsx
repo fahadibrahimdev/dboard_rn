@@ -38,10 +38,10 @@ const AppDrawer = (props: any) => {
       !!RedHeartBeat.actualPayload.data &&
       !!RedHeartBeat.actualPayload.data.user_data
     ) {
-      setMyemail((!!RedHeartBeat.actualPayload.data.user_data[0].email) ? (RedHeartBeat.actualPayload.data.user_data[0].email) : (""));
-      setMyusername("(" + RedHeartBeat.actualPayload.data.user_data[0].user_name + ")");
+      setMyemail((!!RedHeartBeat.actualPayload.data.user_data?.email) ? (RedHeartBeat.actualPayload.data.user_data?.email) : (""));
+      setMyusername("(" + RedHeartBeat.actualPayload.data.user_data?.user_name + ")");
 
-      console.log("Fahad url: ", ENV.BASEURL + '/' + RedHeartBeat.actualPayload.data.user_data[0].image);
+      console.log("Fahad url: ", ENV.BASEURL + '/' + RedHeartBeat.actualPayload.data.user_data?.image);
     }
 
   }, [RedHeartBeat.state])
@@ -109,7 +109,7 @@ const AppDrawer = (props: any) => {
           />
 
 
-          {(!!RedHeartBeat.actualPayload.data && !!RedHeartBeat.actualPayload.data.user_data && !!RedHeartBeat.actualPayload.data.user_data[0].image) ? (<Image
+          {(!!RedHeartBeat.actualPayload.data && !!RedHeartBeat.actualPayload.data.user_data && !!RedHeartBeat.actualPayload.data.user_data?.image) ? (<Image
             style={{
               borderColor: colors.appTextPrimaryColor,
               borderWidth: 2,
@@ -122,7 +122,7 @@ const AppDrawer = (props: any) => {
               borderRadius: 100
 
             }}
-            source={{ uri: ENV.BASEURL + '/' + RedHeartBeat.actualPayload.data.user_data[0].image }}
+            source={{ uri: ENV.BASEURL + '/' + RedHeartBeat.actualPayload.data.user_data?.image }}
 
           />) : (
             <IconButton

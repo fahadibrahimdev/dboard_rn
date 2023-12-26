@@ -126,7 +126,7 @@ navigation.openDrawer();
           }
           }>
           {
-            'Welcome ' + ((!!RedHeartBeat?.actualPayload?.data && !!RedHeartBeat?.actualPayload?.data?.user_data) ? (RedHeartBeat?.actualPayload?.data?.user_data[0]?.name) : ('--'))
+            'Welcome ' + ((!!RedHeartBeat?.actualPayload?.data && !!RedHeartBeat?.actualPayload?.data?.user_data) ? (RedHeartBeat?.actualPayload?.data?.user_data?.name) : ('--'))
           }
         </Text>
 

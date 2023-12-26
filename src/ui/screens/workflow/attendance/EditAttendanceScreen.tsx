@@ -15,7 +15,7 @@ import { useDispatch } from 'react-redux';
 import moment from 'moment-timezone';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { adjustShiftDataRed, adjustSystemShiftDataRed, adjustTeamDataRed, getStatusNameFromIdRed } from '../../../../helpers/Utils';
+import { adjustSystemShiftDataRed, adjustTeamDataRed, getStatusNameFromIdRed } from '../../../../helpers/Utils';
 import { CALL_STATE, USER_ROLES } from '../../../../helpers/enum';
 import { ApiApproveAttendance } from '../../../../system/networking/AttendanceAPICalls';
 import { approveAttendanceIdle } from '../../../../system/redux/slice/attendanceSlice';
@@ -331,8 +331,8 @@ const EditAttendanceScreen = ({ route }) => {
             />
 
             {
-              (RedHeartBeat.actualPayload.data.user_data[0].code === USER_ROLES.LEADER ||
-                RedHeartBeat.actualPayload.data.user_data[0].code === USER_ROLES.SUPER_USER) &&
+              (RedHeartBeat.actualPayload.data.user_data?.code === USER_ROLES.LEADER ||
+                RedHeartBeat.actualPayload.data.user_data?.code === USER_ROLES.SUPER_USER) &&
               <View
                 style={{
                   marginTop: 20,

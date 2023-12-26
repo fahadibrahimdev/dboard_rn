@@ -8,7 +8,7 @@ import { RFValue } from 'react-native-responsive-fontsize';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useDispatch } from 'react-redux';
-import { adjustShiftDataRed, adjustTeamDataRed } from '../../../../helpers/Utils';
+import { adjustSystemShiftDataRed, adjustTeamDataRed } from '../../../../helpers/Utils';
 import { CALL_STATE } from '../../../../helpers/enum';
 import { APIcreateAttendance } from '../../../../system/networking/AttendanceAPICalls';
 import { createAttendanceIdle } from '../../../../system/redux/slice/attendanceSlice';
@@ -43,7 +43,7 @@ const CreateAttendanceScreen = ({ route }) => {
   useEffect(() => {
 
     setTeamData(adjustTeamDataRed(RedHeartBeat.actualPayload))
-    setShiftData(adjustShiftDataRed(RedHeartBeat.actualPayload));
+    setShiftData(adjustSystemShiftDataRed(RedHeartBeat.actualPayload));
 
   }, []);
 

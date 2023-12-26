@@ -94,10 +94,10 @@ const Settings = () => {
       !!RedHeartBeat.actualPayload.data &&
       !!RedHeartBeat.actualPayload.data.user_data
     ) {
-      setusername_Inp((!!RedHeartBeat.actualPayload.data.user_data[0].user_name) ? (RedHeartBeat.actualPayload.data.user_data[0].user_name) : (''));
-      setfullname_Inp((!!RedHeartBeat.actualPayload.data.user_data[0].full_name) ? (RedHeartBeat.actualPayload.data.user_data[0].full_name) : (''));
-      setEmailInp((!!RedHeartBeat.actualPayload.data.user_data[0].email) ? (RedHeartBeat.actualPayload.data.user_data[0].email) : (''));
-      setPhoneNumberInp((!!RedHeartBeat.actualPayload.data.user_data[0].mobile) ? (RedHeartBeat.actualPayload.data.user_data[0].mobile) : (''));
+      setusername_Inp((!!RedHeartBeat.actualPayload.data.user_data?.user_name) ? (RedHeartBeat.actualPayload.data.user_data?.user_name) : (''));
+      setfullname_Inp((!!RedHeartBeat.actualPayload.data.user_data?.full_name) ? (RedHeartBeat.actualPayload.data.user_data?.full_name) : (''));
+      setEmailInp((!!RedHeartBeat.actualPayload.data.user_data?.email) ? (RedHeartBeat.actualPayload.data.user_data?.email) : (''));
+      setPhoneNumberInp((!!RedHeartBeat.actualPayload.data.user_data?.mobile) ? (RedHeartBeat.actualPayload.data.user_data?.mobile) : (''));
     }
 
   }, []);

@@ -121,7 +121,7 @@ const MainAttendanceScreen = ({ }) => {
 
     // dispatch(APIGetAttendance(RedAuthUser.accessToken));
 
-    const userId = RedHeartBeat.actualPayload.data.user_data[0].id;
+    const userId = RedHeartBeat.actualPayload.data.user_data?.id;
 
     var startDate = '';
     var endDate = '';
@@ -172,7 +172,7 @@ const MainAttendanceScreen = ({ }) => {
   const onPageChange = () => {
     const newPageNumber = RedGetAttendanceByPagination.actualPayload.data.pagination.currentPage + 1;
 
-    const userId = RedHeartBeat.actualPayload.data.user_data[0].id;
+    const userId = RedHeartBeat.actualPayload.data.user_data?.id;
 
     var startDate = '';
     var endDate = '';
