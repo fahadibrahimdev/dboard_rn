@@ -61,11 +61,14 @@ export const APIGetAttendanceByPagination =
       }
 
       if (!!start_day) {
-        data.append("start_day", start_day);
+
+        const myUTCDateTime = moment(start_day).utc().format("YYYY-MM-DD HH:mm:ss");
+        data.append("start_day", myUTCDateTime );
       }
 
       if (!!end_day) {
-        data.append("end_day", end_day);
+        const myUTCDateTime = moment(end_day).utc().format("YYYY-MM-DD HH:mm:ss")
+        data.append("end_day", myUTCDateTime);
       }
 
       if (!!shift) {
