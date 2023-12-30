@@ -23,6 +23,14 @@ const DarkColors = {
 
   },
 
+  
+  delete_BUTTON: {
+    TEXT_COLOR: '#FFFFFF',
+    BG_COLOR: 'red',
+    ICON_COLOR: '#FFFFFF',
+
+  },
+
   APPdrawer_ICON: {
     TEXT_COLOR: '#FFFFFF',
     BG_COLOR: '#66acf2',

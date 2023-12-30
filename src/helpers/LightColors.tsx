@@ -24,6 +24,13 @@ const LightColors = {
 
   },
 
+  Delete_BUTTON: {
+    TEXT_COLOR: '#000000',
+    BG_COLOR: 'red',
+    ICON_COLOR: '#000000',
+
+  },
+
   APPdrawer_ICON: {
     TEXT_COLOR: '#000000',
     BG_COLOR: '#66acf2',

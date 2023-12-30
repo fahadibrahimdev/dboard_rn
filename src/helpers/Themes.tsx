@@ -27,6 +27,13 @@ export const LightTheme = {
     appLogout_ButtonBGColor: LightColors.Logout_BUTTON.BG_COLOR,
     appLogout_ButtonIconColor: LightColors.Logout_BUTTON.ICON_COLOR,
 
+
+    appDelete_ButtonTextColor: LightColors.Delete_BUTTON.TEXT_COLOR,
+    appDelete_ButtonBGColor: LightColors.Delete_BUTTON.BG_COLOR,
+    appDelete_ButtonIconColor: LightColors.Delete_BUTTON.ICON_COLOR,
+
+
+
     appdrawerIconTextColor: LightColors.APPdrawer_ICON.TEXT_COLOR,
     appdrawerIconBGColor: LightColors.APPdrawer_ICON.BG_COLOR,
     appdrawer_IconColor: LightColors.APPdrawer_ICON.ICON_COLOR,
@@ -61,6 +68,12 @@ export const DarkTheme = {
     appLogout_ButtonTextColor: DarkColors.Logout_BUTTON.TEXT_COLOR,
     appLogout_ButtonBGColor: DarkColors.Logout_BUTTON.BG_COLOR,
     appLogout_ButtonIconColor: DarkColors.Logout_BUTTON.ICON_COLOR,
+
+
+    
+    appDelete_ButtonTextColor: DarkColors.delete_BUTTON.TEXT_COLOR,
+    appDelete_ButtonBGColor: DarkColors.delete_BUTTON.BG_COLOR,
+    appDelete_ButtonIconColor: DarkColors.delete_BUTTON.ICON_COLOR,
 
     appdrawerIconTextColor: DarkColors.APPdrawer_ICON.TEXT_COLOR,
     appdrawer_ICONBGColor: DarkColors.APPdrawer_ICON.BG_COLOR,

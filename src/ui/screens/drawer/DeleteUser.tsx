@@ -134,6 +134,14 @@ const DeleteUser = ({ route }) => {
         }}
         showDivider={false}
       />
+<Text
+          variant='displayMedium'
+          style={{
+            color: colors.appTextPrimaryColor,
+          }}
+        >
+          Delete User!
+        </Text>
 
 
 
@@ -236,21 +244,16 @@ const DeleteUser = ({ route }) => {
 
           width: '50%',
           marginTop: 40,
-          alignSelf: 'flex-end',
+          alignSelf: 'center',
 
-        }} buttonColor={colors.appButtonBGColor} textColor={colors.appButtonTextColor} mode="contained"
+        }} buttonColor={colors.appDelete_ButtonBGColor} textColor={colors.appDelete_ButtonTextColor} mode="contained"
           onPress={() => {
-
             if (validateForm()) {
-
-              dispatch(APIDELETEUSER(emailInp, passwordInp));
-
-            }
-
+              dispatch(APIDELETEUSER(emailInp,passwordInp));
+           }
           }}
         >
           Delete User!
-
         </Button>
 
             </View>
