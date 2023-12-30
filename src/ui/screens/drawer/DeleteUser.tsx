@@ -14,15 +14,16 @@ import { useDispatch } from 'react-redux';
 import { AsyncStorageConstants } from '../../../helpers/AsyncStorageConstants';
 import { CALL_STATE } from '../../../helpers/enum';
 import { ScreenNames } from "../../../system/navigation/ScreenNames";
-import { APISignIn } from '../../../system/networking/AuthAPICalls';
-import { signInIdle } from '../../../system/redux/slice/authSlice';
+import { APIDELETEUSER} from '../../../system/networking/AuthAPICalls';
+import { deleteuserIdle } from '../../../system/redux/slice/authSlice';
 import { useAppSelector } from '../../../system/redux/store/hooks';
 import AppHeader from "../../uiHelpers/AppHeader";
 import FullScreenLoader from '../../uiHelpers/FullScreenLoader';
 import { h } from '../../../helpers/Dimensions';
+import { resetAll } from '../../../system/redux/slice/appSlice ';
 
 
-const SignInScreen = ({ route }) => {
+const DeleteUser = ({ route }) => {
 
   var refPasswordTI = useRef(null);
 
@@ -38,45 +39,46 @@ const SignInScreen = ({ route }) => {
 
   const dispatch = useDispatch();
 
-  const RedAuthUser = useAppSelector(state => state.auth.authUser);
+  const RedDeleteUser = useAppSelector(state => state.auth.deleteUser);
+  
+  const clearAll = async () => {
+    try {
+      await AsyncStorage.clear();
+    } catch (e) {
+      // clear error
+    }
+
+    dispatch(resetAll());
+
+    navigation.reset({
+      index: 0,
+      routes: [
+        {
+          name: ScreenNames.SignInScreen as never,
+          params: {
+          },
+        },
+      ],
+    });
+  };
 
 
   useEffect(() => {
 
     if (
-      RedAuthUser.state !== CALL_STATE.IDLE &&
-      RedAuthUser.state !== CALL_STATE.FETCHING
+      RedDeleteUser.state !== CALL_STATE.IDLE &&
+      RedDeleteUser.state !== CALL_STATE.FETCHING
     ) {
 
-      dispatch(signInIdle());
-      if (RedAuthUser.state === CALL_STATE.SUCCESS) {
-
-        AsyncStorage.multiSet([
-          [AsyncStorageConstants.SIGN_IN, JSON.stringify(RedAuthUser.actualPayload)],
-        ])
-          .then(data => {
-            console.log('Local Storage Updated: ', AsyncStorageConstants.SIGN_IN);
-          })
-          .catch(err => {
-            console.log(err);
-            console.log('Local Storage Error : ', AsyncStorageConstants.SIGN_IN);
-          });
-
-        navigation.reset({
-          index: 0,
-          routes: [
-            {
-              name: ScreenNames.DrawerNavigator as never,
-              params: {
-              },
-            },
-          ],
-        });
-      } else if (RedAuthUser.state === CALL_STATE.ERROR) {
-        Alert.alert('Error', RedAuthUser.error);
+      dispatch(deleteuserIdle());
+      if (RedDeleteUser.state === CALL_STATE.SUCCESS) {
+        resetAll();
+        
+      } else if (RedDeleteUser.state === CALL_STATE.ERROR) {
+        Alert.alert('Error', RedDeleteUser.error);
       }
     }
-  }, [RedAuthUser.state])
+  }, [RedDeleteUser.state])
 
   const validateForm = (): boolean => {
 
@@ -241,48 +243,20 @@ const SignInScreen = ({ route }) => {
 
             if (validateForm()) {
 
-              dispatch(APISignIn(emailInp, passwordInp));
+              dispatch(APIDELETEUSER(emailInp, passwordInp));
 
             }
 
           }}
         >
-          Login
+          Delete User!
 
         </Button>
 
-        <TouchableOpacity
-          style={{
-            alignSelf: 'center',
-            marginTop: 60
-          }}
-          onPress={() => {
-            navigation.navigate(ScreenNames.SignUpScreen);
-
-
-          }}
-          activeOpacity={0.5}>
-          <Text
-            variant="titleSmall"
-            style={[styles.text1, {
-              color: colors.appTextPrimaryColor,
-
-            }
-            ]}>
-            Don't have account! <Text
-
-              variant="titleMedium"
-              style={[styles.text1, {
-
-                color: colors.appTextPrimaryColor
-              }
-              ]}>Create New!</Text>
-          </Text>
-        </TouchableOpacity>
-      </View>
+            </View>
 
       <FullScreenLoader
-        loading={RedAuthUser.state === CALL_STATE.FETCHING}
+        loading={RedDeleteUser.state === CALL_STATE.FETCHING}
       />
     </View>
   )
@@ -312,4 +286,4 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   }
 });
-export default SignInScreen;
+export default DeleteUser;

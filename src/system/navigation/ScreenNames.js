@@ -23,6 +23,7 @@ export const ScreenNames = {
   NotificationScreen: "NotificationScreen",
   ChangePasswordScreen: "ChangePasswordScreen",
   PolicyScreen: "PolicyScreen",
+  DeleteUser:"DeleteUser",
   ContactUsScreen: "ContactUsScreen",
   LogoutScreen: "LogoutScreen",
 };

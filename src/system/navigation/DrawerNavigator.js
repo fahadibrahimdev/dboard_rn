@@ -41,6 +41,12 @@ export default function DrawerNavigator({navigation, route}) {
         options={{headerShown: false}}
         initialParams={route.params}
       />
+      <Drawer.Screen
+        name={ScreenNames.DeleteUser}
+        component={Screens.DeleteUser}
+        options={{headerShown: false}}
+        initialParams={route.params}
+      />
        <Drawer.Screen
       name={ScreenNames.ContactUsScreen}
       component={Screens.ContactUsScreen}

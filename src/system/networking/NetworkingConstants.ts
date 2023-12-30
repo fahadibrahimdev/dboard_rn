@@ -27,6 +27,8 @@ export const API = {
   //SignUp Related APIs
   SIGN_UP_API: `${ENV.BASEURL}/user/signup`,
 
+//DeleteUser Related APIs
+  DELETE_USER_API: `${ENV.BASEURL}/user/delete_user`,
   //App Related APIs
   HEART_BEAT_API: `${ENV.BASEURL}/user/heartbeat`,
 

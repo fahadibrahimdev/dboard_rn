@@ -3,6 +3,9 @@ import {
   changepasswordError,
   changepasswordPending,
   changepasswordSuccess,
+  deleteuserError,
+  deleteuserPending,
+  deleteuserSuccess,
   editprofileError,
   editprofilePending,
   editprofileSuccess,
@@ -252,4 +255,60 @@ export const API_CHANGE_PASSWORD =
         }),
       );
     }
+  }
+// Delete User API CALL
+
+export const APIDELETEUSER =
+(user_name,password) => async dispatch => {
+  try {
+    // Define the URL of the API endpoint
+    const apiUrl = API.DELETE_USER_API;
+
+    // Define the data you want to send in the body as key-value pairs
+    const data = new URLSearchParams();
+
+    data.append('user_name', user_name?.trim());
+    data.append('password', password?.trim());
+
+
+    dispatch(deleteuserPending());
+
+    const response = await fetch(apiUrl, {
+      method: 'DELETE',
+      headers: {
+        ...HEADERS,
+        
+      },
+      body: data.toString(), // Convert the data to a URL-encoded string
+    });
+
+    if (response.status === 200) {
+      const responseData = await response.json();
+
+      dispatch(
+        deleteuserSuccess({
+          data: responseData,
+        }),
+      );
+    } else if (response.status === 400) {
+      const responseData = await response.json();
+      dispatch(
+        deleteuserError({
+          error: responseData.message,
+        }),
+      );
+    } else {
+      dispatch(
+        deleteuserError({
+          error: 'Api Called Failed!',
+        }),
+      );
+    }
+  } catch (error) {
+    dispatch(
+      deleteuserError({
+        error: 'Error in Api Call!',
+      }),
+    );
+  }
   };

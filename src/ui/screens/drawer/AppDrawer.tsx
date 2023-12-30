@@ -230,11 +230,35 @@ const AppDrawer = (props: any) => {
           alignItems: 'center',
           paddingBottom: Platform.OS === 'android' ? RFValue(30) : RFValue(10),
         }}>
+        
+        <Button style={{
+
+  width: '55%',
+  alignSelf: 'center',
+  marginBottom:RFValue(20)
+
+  }}
+    contentStyle={{
+    flexDirection: 'row-reverse'
+  }}
+      buttonColor={colors.appLogout_ButtonBGColor} textColor={colors.appLogout_ButtonTextColor} mode="contained-tonal" 
+
+
+        onPress={() => {
+
+      navigation.navigate(ScreenNames.DeleteUser)
+
+      }}
+>
+      Delete User
+
+  </Button>
 
         <Button style={{
 
           width: '55%',
           alignSelf: 'center',
+          
 
         }}
           contentStyle={{

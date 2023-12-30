@@ -7,6 +7,7 @@ import ChangePasswordScreen from "../../ui/screens/drawer/ChangePasswordScreen";
 import ContactUsScreen from "../../ui/screens/drawer/ContactUsScreen";
 import PolicyScreen from "../../ui/screens/drawer/PolicyScreen";
 
+
 import Settings from "../../ui/screens/drawer/Settings";
 import CreateAttendanceScreen from "../../ui/screens/workflow/attendance/CreateAttendanceScreen";
 import MainAttendanceScreen from "../../ui/screens/workflow/attendance/MainAttendanceScreen";
@@ -25,6 +26,7 @@ import NewsOpen from "../../ui/screens/workflow/news/NewsOpen";
 import FiltersTeamAttendanceScreen from "../../ui/screens/workflow/teamAttendance/FiltersTeamAttendanceScreen";
 import MainTeamAttendanceScreen from "../../ui/screens/workflow/teamAttendance/MainTeamAttendanceScreen";
 import DrawerNavigator from "./DrawerNavigator";
+import DeleteUser from "../../ui/screens/drawer/DeleteUser";
 
 export const Screens = {
   SplashScreen: SplashScreen,
@@ -50,6 +52,7 @@ export const Screens = {
   DashboardScreen: DashboardScreen,
   NotificationScreen: NotificationScreen,
   PolicyScreen: PolicyScreen,
+  DeleteUser:DeleteUser,
   ContactUsScreen: ContactUsScreen,
   ChangePasswordScreen: ChangePasswordScreen,
 };

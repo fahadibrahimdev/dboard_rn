@@ -29,6 +29,11 @@ export interface AuthState {
     actualPayload: any;
     error: string;
   };
+  deleteUser: {
+    state: string;
+    actualPayload: any;
+    error: string;
+  }
 
 
 
@@ -54,11 +59,18 @@ const initialState: AuthState = {
     error: '',
   },
   
+  deleteUser: {
+    state: CALL_STATE.IDLE,
+    actualPayload: {},
+    error: '',
+  },
+  
   changepassword: {
     state: CALL_STATE.IDLE,
     actualPayload: {},
     error: '',
   },
+   
 };
 
 export const authSlice = createSlice({
@@ -156,6 +168,43 @@ export const authSlice = createSlice({
       };
 
       console.log('Slice-signUpError:', current(state).signup);
+    },
+    // Delete user
+    deleteuserIdle: state => {
+      const currentState = current(state);
+      state.deleteUser = {
+        state: CALL_STATE.IDLE,
+        actualPayload: currentState.deleteUser.actualPayload,
+        error: currentState.deleteUser.error,
+      };
+
+      console.log('Slice-deleteuserIdle:', current(state).deleteUser);
+    },
+    deleteuserPending: state => {
+      state.deleteUser = {
+        state: CALL_STATE.FETCHING,
+        actualPayload: {},
+        error: '',
+      };
+      console.log('Slice-deleteuserPending:', current(state).deleteUser);
+    },
+    deleteuserSuccess: (state, action: PayloadAction<any>) => {
+      state.deleteUser = {
+        state: CALL_STATE.SUCCESS,
+        actualPayload: action.payload.data,
+        error: '',
+      };
+
+      console.log('Slice-deleteuserSuccess:', current(state).deleteUser);
+    },
+    deleteuserError: (state, action: PayloadAction<any>) => {
+      state.deleteUser = {
+        state: CALL_STATE.ERROR,
+        actualPayload: {},
+        error: action.payload.error,
+      };
+
+      console.log('Slice-deleteuserError:', current(state).deleteUser);
     },
     // Edit Profile
 
@@ -265,6 +314,12 @@ export const {
   changepasswordPending,
   changepasswordSuccess,
   changepasswordError,
+
+  
+  deleteuserIdle,
+  deleteuserPending,
+  deleteuserSuccess,
+  deleteuserError,
 
   logoutAuth,
   
