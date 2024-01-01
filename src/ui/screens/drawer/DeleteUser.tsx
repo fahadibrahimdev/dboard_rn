@@ -7,20 +7,19 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation, useTheme } from '@react-navigation/native';
 import React, { useEffect, useRef, useState } from "react";
-import { Alert, StyleSheet, TouchableOpacity, View } from "react-native";
+import { Alert, StyleSheet, View } from "react-native";
 import { Button, Text, TextInput } from "react-native-paper";
 import { RFValue } from 'react-native-responsive-fontsize';
 import { useDispatch } from 'react-redux';
-import { AsyncStorageConstants } from '../../../helpers/AsyncStorageConstants';
+import { h } from '../../../helpers/Dimensions';
 import { CALL_STATE } from '../../../helpers/enum';
 import { ScreenNames } from "../../../system/navigation/ScreenNames";
 import { APIDELETEUSER } from '../../../system/networking/AuthAPICalls';
+import { resetAll } from '../../../system/redux/slice/appSlice ';
 import { deleteuserIdle } from '../../../system/redux/slice/authSlice';
 import { useAppSelector } from '../../../system/redux/store/hooks';
 import AppHeader from "../../uiHelpers/AppHeader";
 import FullScreenLoader from '../../uiHelpers/FullScreenLoader';
-import { h } from '../../../helpers/Dimensions';
-import { resetAll } from '../../../system/redux/slice/appSlice ';
 
 
 const DeleteUser = ({ route }) => {

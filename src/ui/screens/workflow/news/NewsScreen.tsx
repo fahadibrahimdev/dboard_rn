@@ -15,8 +15,8 @@ import { useAppSelector } from '../../../../system/redux/store/hooks';
 import CardCell from '../../../helperComponents/CardCell';
 import AppHeader from '../../../uiHelpers/AppHeader';
 
-import { APIHeartBeat } from '../../../../system/networking/AppAPICalls ';
 import { ScreenNames } from '../../../../system/navigation/ScreenNames';
+import { APIHeartBeat } from '../../../../system/networking/AppAPICalls ';
 
 
 const NewsScreen = () => {

@@ -3,11 +3,7 @@ import React from 'react';
 import { StyleSheet, Text, TouchableOpacity } from 'react-native';
 import { Divider } from 'react-native-paper';
 import { RFValue } from 'react-native-responsive-fontsize';
-// import Ionicons from 'react-native-vector-icons/Ionicons';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-// import {next_icon} from '../../../../assets/images';
-// import {h} from '../../../../helper/Dimensions';
-// import ListSeparator from '../../../Components/ListSeparator';
 
 const NavItem = props => {
   const { bgColor, onPress, title, isSelected, tint, hideIcon, tintIconColor, iconName } = props;
