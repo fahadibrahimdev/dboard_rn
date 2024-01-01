@@ -73,7 +73,8 @@ const AppDrawer = (props: any) => {
         flex: 1,
         paddingLeft: 0,
         paddingTop: 0,
-        backgroundColor: 'grey'
+        // backgroundColor: 'grey'
+        backgroundColor: colors.appBackground
       }}>
       {/* <ScreenBackgroundContainer theme={colors}> */}
       <DrawerContentScrollView
@@ -218,6 +219,20 @@ const AppDrawer = (props: any) => {
                 props.navigation.closeDrawer();
               }}
             />
+
+            <NavItem
+              title="Delete User"
+              bgColor={colors.appLogout_ButtonBGColor}
+              tint={colors.appTextPrimaryColor}
+              tintIconColor={colors.appdrawer_ICON_IconColor}
+              iconName={'account-remove'}
+              isSelected={getFocusedRouteNameFromRoute(route) === ScreenNames.DeleteUser}
+              onPress={() => {
+
+                props.navigation.closeDrawer();
+                navigation.navigate(ScreenNames.DeleteUser)
+              }}
+            />
           </View>
 
         </View>
@@ -230,35 +245,35 @@ const AppDrawer = (props: any) => {
           alignItems: 'center',
           paddingBottom: Platform.OS === 'android' ? RFValue(30) : RFValue(10),
         }}>
-        
-        <Button style={{
 
-  width: '55%',
-  alignSelf: 'center',
-  marginBottom:RFValue(20)
+        {/* <Button style={{
+          width: '55%',
+          alignSelf: 'center',
+          marginBottom: RFValue(20)
 
-  }}
-    contentStyle={{
-    flexDirection: 'row-reverse'
-  }}
-      buttonColor={colors.appLogout_ButtonBGColor} textColor={colors.appLogout_ButtonTextColor} mode="contained-tonal" 
+        }}
+          contentStyle={{
+            flexDirection: 'row-reverse'
+          }}
+          buttonColor={colors.appLogout_ButtonBGColor} textColor={colors.appLogout_ButtonTextColor} mode="contained-tonal"
 
 
-        onPress={() => {
+          onPress={() => {
 
-      navigation.navigate(ScreenNames.DeleteUser)
+            props.navigation.closeDrawer();
+            navigation.navigate(ScreenNames.DeleteUser)
 
-      }}
->
-      Delete User
+          }}
+        >
+          Delete User
 
-  </Button>
+        </Button> */}
 
         <Button style={{
 
           width: '55%',
           alignSelf: 'center',
-          
+
 
         }}
           contentStyle={{

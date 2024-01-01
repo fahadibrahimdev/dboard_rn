@@ -10,7 +10,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 // import ListSeparator from '../../../Components/ListSeparator';
 
 const NavItem = props => {
-  const { onPress, title, isSelected, tint, hideIcon, tintIconColor, iconName } = props;
+  const { bgColor, onPress, title, isSelected, tint, hideIcon, tintIconColor, iconName } = props;
   const { colors } = useTheme();
 
   return (
@@ -19,9 +19,9 @@ const NavItem = props => {
         style={[
           styles.row,
           {
-            backgroundColor: isSelected
+            backgroundColor: (!!bgColor) ? (bgColor) : (isSelected
               ? "#999"
-              : "transparent",
+              : "transparent"),
 
             // backgroundColor: "#445544"
           },

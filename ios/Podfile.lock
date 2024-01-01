@@ -375,16 +375,17 @@ PODS:
   - React-jsinspector (0.72.4)
   - React-logger (0.72.4):
     - glog
-  - react-native-date-picker (4.3.3):
+  - react-native-date-picker (4.3.5):
     - React-Core
-  - react-native-image-picker (7.0.2):
+  - react-native-image-picker (7.1.0):
+    - RCT-Folly (= 2021.07.22.00)
     - React-Core
-  - react-native-safe-area-context (4.7.2):
+  - react-native-safe-area-context (4.8.2):
     - React-Core
-  - react-native-simple-toast (3.0.2):
+  - react-native-simple-toast (3.2.0):
     - React-Core
     - Toast (~> 4)
-  - react-native-webview (13.6.2):
+  - react-native-webview (13.6.3):
     - React-Core
   - React-NativeModulesApple (0.72.4):
     - hermes-engine
@@ -496,11 +497,12 @@ PODS:
     - React-jsi (= 0.72.4)
     - React-logger (= 0.72.4)
     - React-perflogger (= 0.72.4)
-  - RNCAsyncStorage (1.19.3):
+  - RNCAsyncStorage (1.21.0):
     - React-Core
-  - RNDeviceInfo (10.11.0):
+  - RNDeviceInfo (10.12.0):
     - React-Core
-  - RNGestureHandler (2.13.2):
+  - RNGestureHandler (2.14.0):
+    - RCT-Folly (= 2021.07.22.00)
     - React-Core
   - RNReanimated (3.5.4):
     - DoubleConversion
@@ -531,10 +533,11 @@ PODS:
     - React-RCTText
     - ReactCommon/turbomodule/core
     - Yoga
-  - RNScreens (3.25.0):
+  - RNScreens (3.29.0):
+    - RCT-Folly (= 2021.07.22.00)
     - React-Core
-    - React-RCTImage
-  - RNVectorIcons (10.0.0):
+  - RNVectorIcons (10.0.3):
+    - RCT-Folly (= 2021.07.22.00)
     - React-Core
   - SocketRocket (0.6.1)
   - Toast (4.0.0)
@@ -773,11 +776,11 @@ SPEC CHECKSUMS:
   React-jsiexecutor: c7f826e40fa9cab5d37cab6130b1af237332b594
   React-jsinspector: aaed4cf551c4a1c98092436518c2d267b13a673f
   React-logger: da1ebe05ae06eb6db4b162202faeafac4b435e77
-  react-native-date-picker: 1d61c76315098a6ad4c643a356f005916c7d4875
-  react-native-image-picker: 2e2e82aba9b6a91a7c78f7d9afde341a2659c7b8
-  react-native-safe-area-context: 7aa8e6d9d0f3100a820efb1a98af68aa747f9284
-  react-native-simple-toast: d54bd028da3e842e6b1b7a60f407e29df589229f
-  react-native-webview: 8fc09f66a1a5b16bbe37c3878fda27d5982bb776
+  react-native-date-picker: 90d1d60802a20085125657940b944f2bb4e5c113
+  react-native-image-picker: 5e076db26cd81660cfb6db5bcf517cfa12054d45
+  react-native-safe-area-context: 0ee144a6170530ccc37a0fd9388e28d06f516a89
+  react-native-simple-toast: 2079d417c52fc3ca295edba094d5632f7720e68d
+  react-native-webview: 88293a0f23eca8465c0433c023ec632930e644d0
   React-NativeModulesApple: edb5ace14f73f4969df6e7b1f3e41bef0012740f
   React-perflogger: 496a1a3dc6737f964107cb3ddae7f9e265ddda58
   React-RCTActionSheet: 02904b932b50e680f4e26e7a686b33ebf7ef3c00
@@ -795,12 +798,12 @@ SPEC CHECKSUMS:
   React-runtimescheduler: 4941cc1b3cf08b792fbf666342c9fc95f1969035
   React-utils: b79f2411931f9d3ea5781404dcbb2fa8a837e13a
   ReactCommon: 4b2bdcb50a3543e1c2b2849ad44533686610826d
-  RNCAsyncStorage: c913ede1fa163a71cea118ed4670bbaaa4b511bb
-  RNDeviceInfo: bf8a32acbcb875f568217285d1793b0e8588c974
-  RNGestureHandler: bb86e378287f7713baf3ca205423eb8109790022
+  RNCAsyncStorage: 618d03a5f52fbccb3d7010076bc54712844c18ef
+  RNDeviceInfo: db5c64a060e66e5db3102d041ebe3ef307a85120
+  RNGestureHandler: 32a01c29ecc9bb0b5bf7bc0a33547f61b4dc2741
   RNReanimated: ab2e96c6d5591c3dfbb38a464f54c8d17fb34a87
-  RNScreens: 85d3880b52d34db7b8eeebe2f1a0e807c05e69fa
-  RNVectorIcons: 8b5bb0fa61d54cd2020af4f24a51841ce365c7e9
+  RNScreens: 3c5b9f4a9dcde752466854b6109b79c0e205dad3
+  RNVectorIcons: 64e6a523ac30a3241efa9baf1ffbcc5e76ff747a
   SocketRocket: f32cd54efbe0f095c4d7594881e52619cfe80b17
   Toast: 91b396c56ee72a5790816f40d3a94dd357abc196
   Yoga: 3efc43e0d48686ce2e8c60f99d4e6bd349aff981
@@ -808,4 +811,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: e77902894764f2652282520b783f63f6d8475e2f
 
-COCOAPODS: 1.14.2
+COCOAPODS: 1.12.1

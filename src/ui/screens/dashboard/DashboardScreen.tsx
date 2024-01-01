@@ -12,11 +12,12 @@ import { useDispatch } from 'react-redux';
 import { CALL_STATE } from '../../../helpers/enum';
 import { ScreenNames } from '../../../system/navigation/ScreenNames';
 import { APIHeartBeat } from '../../../system/networking/AppAPICalls ';
-import { heartbeatIdle } from '../../../system/redux/slice/appSlice ';
+import { heartbeatIdle, resetAll } from '../../../system/redux/slice/appSlice ';
 import { useAppSelector } from '../../../system/redux/store/hooks';
 import AppHeader from '../../uiHelpers/AppHeader';
 import CellComponent from '../../uiHelpers/CellComponent';
 import FullScreenLoader from '../../uiHelpers/FullScreenLoader';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 // import { tokens } from 'react-native-paper/lib/typescript/styles/themes/v3/tokens';
 
 
@@ -61,7 +62,12 @@ const DashboardScreen = ({ route }) => {
 
         setPermissions(RedHeartBeat.actualPayload.data.permission);
       } else if (RedHeartBeat.state === CALL_STATE.ERROR) {
-        Alert.alert('Error', RedHeartBeat.error);
+        Alert.alert('Error', RedHeartBeat.error, [{
+          onPress: () => {
+
+            clearAll();
+          }
+        }]);
       }
 
     }
@@ -73,6 +79,27 @@ const DashboardScreen = ({ route }) => {
     const filteredWorkflows = data.filter((obj) => permissions.some((permObj) => permObj.code === obj.code));
     setFilteredData(filteredWorkflows);
   }, [permissions])
+
+  const clearAll = async () => {
+    try {
+      await AsyncStorage.clear();
+    } catch (e) {
+      // clear error
+    }
+
+    dispatch(resetAll());
+
+    navigation.reset({
+      index: 0,
+      routes: [
+        {
+          name: ScreenNames.SignInScreen as never,
+          params: {
+          },
+        },
+      ],
+    });
+  };
 
   return (
     <View
@@ -102,7 +129,7 @@ navigation.openDrawer();
         showRightButton={true}
         rightButtonIcon={'bell'}
         onRightItemClick={() => {
-          navigation.navigate(ScreenNames.NewsScreen)
+          navigation.navigate(ScreenNames.NotificationScreen)
 
 
 

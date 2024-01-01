@@ -14,7 +14,7 @@ import { useDispatch } from 'react-redux';
 import { AsyncStorageConstants } from '../../../helpers/AsyncStorageConstants';
 import { CALL_STATE } from '../../../helpers/enum';
 import { ScreenNames } from "../../../system/navigation/ScreenNames";
-import { APIDELETEUSER} from '../../../system/networking/AuthAPICalls';
+import { APIDELETEUSER } from '../../../system/networking/AuthAPICalls';
 import { deleteuserIdle } from '../../../system/redux/slice/authSlice';
 import { useAppSelector } from '../../../system/redux/store/hooks';
 import AppHeader from "../../uiHelpers/AppHeader";
@@ -40,8 +40,9 @@ const DeleteUser = ({ route }) => {
   const dispatch = useDispatch();
 
   const RedDeleteUser = useAppSelector(state => state.auth.deleteUser);
-  
+
   const clearAll = async () => {
+
     try {
       await AsyncStorage.clear();
     } catch (e) {
@@ -49,17 +50,6 @@ const DeleteUser = ({ route }) => {
     }
 
     dispatch(resetAll());
-
-    navigation.reset({
-      index: 0,
-      routes: [
-        {
-          name: ScreenNames.SignInScreen as never,
-          params: {
-          },
-        },
-      ],
-    });
   };
 
 
@@ -72,8 +62,25 @@ const DeleteUser = ({ route }) => {
 
       dispatch(deleteuserIdle());
       if (RedDeleteUser.state === CALL_STATE.SUCCESS) {
-        resetAll();
-        
+
+        clearAll();
+        Alert.alert('Success', "User deleted successfully!", [{
+          onPress: () => {
+
+            navigation.reset({
+              index: 0,
+              routes: [
+                {
+                  name: ScreenNames.SignInScreen as never,
+                  params: {
+                  },
+                },
+              ],
+            });
+          }
+        }]);
+
+
       } else if (RedDeleteUser.state === CALL_STATE.ERROR) {
         Alert.alert('Error', RedDeleteUser.error);
       }
@@ -120,35 +127,33 @@ const DeleteUser = ({ route }) => {
 
     }]}>
       <AppHeader
-        showLeftButton={false}
+        showLeftButton={true}
         leftButtonIcon={'arrow-left'}
-
-
         onLeftItemClick={() => {
           navigation.goBack();
         }}
         showRightButton={false}
         rightButtonIcon={'logout'}
         onRightItemClick={() => {
-          navigation.goBack();
+
         }}
         showDivider={false}
       />
-<Text
-          variant='displayMedium'
-          style={{
-            color: colors.appTextPrimaryColor,
-          }}
-        >
-          Delete User!
-        </Text>
+      <Text
+        variant='displayMedium'
+        style={{
+          color: colors.appTextPrimaryColor,
+        }}
+      >
+        Delete User!
+      </Text>
 
 
 
       <View style={{
         marginTop: h(13),
         width: '80%',
-        justifyContent:'center'
+        justifyContent: 'center'
       }}>
 
         <TextInput
@@ -246,17 +251,17 @@ const DeleteUser = ({ route }) => {
           marginTop: 40,
           alignSelf: 'center',
 
-        }} buttonColor={colors.appDelete_ButtonBGColor} textColor={colors.appDelete_ButtonTextColor} mode="contained"
+        }} buttonColor={colors.appLogout_ButtonBGColor} textColor={colors.appDelete_ButtonTextColor} mode="contained"
           onPress={() => {
             if (validateForm()) {
-              dispatch(APIDELETEUSER(emailInp,passwordInp));
-           }
+              dispatch(APIDELETEUSER(emailInp, passwordInp));
+            }
           }}
         >
-          Delete User!
+          Submit
         </Button>
 
-            </View>
+      </View>
 
       <FullScreenLoader
         loading={RedDeleteUser.state === CALL_STATE.FETCHING}

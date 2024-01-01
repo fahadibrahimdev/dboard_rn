@@ -1,58 +1,53 @@
-import { createDrawerNavigator } from '@react-navigation/drawer';
-import React from 'react';
+import { createDrawerNavigator } from "@react-navigation/drawer";
+import React from "react";
 
-import { ScreenNames } from './ScreenNames';
-import { Screens } from './Screens';
+import { ScreenNames } from "./ScreenNames";
+import { Screens } from "./Screens";
 
-import { RFValue } from 'react-native-responsive-fontsize';
-import AppDrawer from '../../ui/screens/drawer/AppDrawer';
+import { RFValue } from "react-native-responsive-fontsize";
+import AppDrawer from "../../ui/screens/drawer/AppDrawer";
 
-export default function DrawerNavigator({navigation, route}) {
+export default function DrawerNavigator({ navigation, route }) {
   const Drawer = createDrawerNavigator();
 
   return (
     <Drawer.Navigator
       initialRouteName={ScreenNames.DashboardScreen}
-      drawerContent={props => <AppDrawer {...props} />}
+      drawerContent={(props) => <AppDrawer {...props} />}
       screenOptions={{
-        drawerType: 'front',
+        drawerType: "front",
         drawerStyle: {
-          backgroundColor: '#c6cbef',
+          backgroundColor: "#c6cbef",
           width: RFValue(200),
         },
-      }}>
+      }}
+    >
       <Drawer.Screen
         name={ScreenNames.DashboardScreen}
         component={Screens.DashboardScreen}
-        options={{headerShown: false}}
+        options={{ headerShown: false }}
         initialParams={route.params}
       />
 
-
-<Drawer.Screen
+      <Drawer.Screen
         name={ScreenNames.ChangePasswordScreen}
         component={Screens.ChangePasswordScreen}
-        options={{headerShown: false}}
-        initialParams={route.params}
-      />
-       <Drawer.Screen
-        name={ScreenNames.PolicyScreen}
-        component={Screens.PolicyScreen}
-        options={{headerShown: false}}
+        options={{ headerShown: false }}
         initialParams={route.params}
       />
       <Drawer.Screen
-        name={ScreenNames.DeleteUser}
-        component={Screens.DeleteUser}
-        options={{headerShown: false}}
+        name={ScreenNames.PolicyScreen}
+        component={Screens.PolicyScreen}
+        options={{ headerShown: false }}
         initialParams={route.params}
       />
-       <Drawer.Screen
-      name={ScreenNames.ContactUsScreen}
-      component={Screens.ContactUsScreen}
-      options={{headerShown: false}}
-      initialParams={route.params}
-    />
+
+      <Drawer.Screen
+        name={ScreenNames.ContactUsScreen}
+        component={Screens.ContactUsScreen}
+        options={{ headerShown: false }}
+        initialParams={route.params}
+      />
     </Drawer.Navigator>
   );
 }

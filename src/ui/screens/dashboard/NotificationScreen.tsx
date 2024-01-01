@@ -10,6 +10,7 @@ import { APIHeartBeat } from '../../../system/networking/AppAPICalls ';
 import AppHeader from '../../uiHelpers/AppHeader';
 import CardCell from '../../helperComponents/CardCell';
 import { CALL_STATE } from '../../../helpers/enum';
+import { ScreenNames } from '../../../system/navigation/ScreenNames';
 // import { useDispatch } from 'react-redux';
 // import { CALL_STATE } from '../../../../helpers/enum';
 // import { useAppSelector } from '../../../../system/redux/store/hooks';
@@ -84,9 +85,9 @@ const NotificationScreen = () => {
                 item={item}
                 index={index}
                 onClick={() => {
-                  navigation.navigate(ScreenNames.NewsOpen)
-
-
+                  navigation.navigate(ScreenNames.NewsOpen, {
+                    item: item
+                  });
                 }}
               />
             )

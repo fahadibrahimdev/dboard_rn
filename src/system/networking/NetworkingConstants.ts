@@ -1,18 +1,18 @@
 export const HEADERS = {
-  'Content-Type': 'application/x-www-form-urlencoded',
-  Accept: 'application/json',
+  "Content-Type": "application/x-www-form-urlencoded",
+  Accept: "application/json",
 };
 
 const PROD = {
-  BASEURL: 'https://mab.thundertechsol.com/mab',
+  BASEURL: "https://mab.thundertechsol.com/mab",
 };
 
 const UAT = {
-  BASEURL: 'https://mabuat.thundertechsol.com/mab',
+  BASEURL: "https://mabuat.thundertechsol.com/mab",
 };
 
 //SET MAIN ENVIRONMENT
-export const ENV = UAT;
+export const ENV = PROD;
 
 export const API = {
   //Auth Related APIs
@@ -27,7 +27,7 @@ export const API = {
   //SignUp Related APIs
   SIGN_UP_API: `${ENV.BASEURL}/user/signup`,
 
-//DeleteUser Related APIs
+  //DeleteUser Related APIs
   DELETE_USER_API: `${ENV.BASEURL}/user/delete_user`,
   //App Related APIs
   HEART_BEAT_API: `${ENV.BASEURL}/user/heartbeat`,

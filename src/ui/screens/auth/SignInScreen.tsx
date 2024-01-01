@@ -138,7 +138,7 @@ const SignInScreen = ({ route }) => {
       <View style={{
         marginTop: h(13),
         width: '80%',
-        justifyContent:'center'
+        justifyContent: 'center'
       }}>
 
         <TextInput

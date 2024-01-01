@@ -103,11 +103,8 @@ const EditAttendanceScreen = ({ route }) => {
 
       dispatch(approveAttendanceIdle());
       if (RedApproveAttendance.state === CALL_STATE.SUCCESS) {
-        Alert.alert('Success', 'Attendance approve succussfully!', [{
+        Alert.alert('Success', 'Attendance updated succussfully!', [{
           onPress: () => {
-
-
-
             if (!!onBack) {
               onBack();
             }

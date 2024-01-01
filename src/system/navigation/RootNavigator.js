@@ -95,6 +95,12 @@ export default function RootNavigator() {
       />
 
       <Stack.Screen
+        name={ScreenNames.DeleteUser}
+        component={Screens.DeleteUser}
+        options={{ headerShown: false }}
+      />
+
+      <Stack.Screen
         name={ScreenNames.CreateAttendanceScreen}
         component={Screens.CreateAttendanceScreen}
         options={{ headerShown: false }}

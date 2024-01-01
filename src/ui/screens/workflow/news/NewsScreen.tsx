@@ -85,7 +85,7 @@ const NewsScreen = () => {
                 onClick={() => {
                   navigation.navigate(ScreenNames.NewsOpen, {
                     item: item
-                  })
+                  });
 
 
                 }}
