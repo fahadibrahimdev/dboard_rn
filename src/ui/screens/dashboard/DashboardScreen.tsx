@@ -182,9 +182,11 @@ navigation.openDrawer();
             return (
 
               <CellComponent
+              
                 item={item}
                 index={index}
                 myUserID={0}
+                showDot={item.code === "NEWS" && !!RedHeartBeat?.actualPayload?.data?.all_notifications_seen}
                 onClick={() => {
 
                   if (item.code === "ATTENDANCE") {
