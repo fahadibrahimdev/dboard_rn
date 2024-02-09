@@ -16,7 +16,7 @@ import CardCell from '../../../helperComponents/CardCell';
 import AppHeader from '../../../uiHelpers/AppHeader';
 
 import { ScreenNames } from '../../../../system/navigation/ScreenNames';
-import { APIHeartBeat } from '../../../../system/networking/AppAPICalls ';
+import { APIHeartBeat, APIUpdateNews } from '../../../../system/networking/AppAPICalls ';
 
 
 const NewsScreen = () => {
@@ -26,10 +26,17 @@ const NewsScreen = () => {
   const dispatch = useDispatch();
 
   const RedHeartBeat = useAppSelector(state => state.app.heartBeat);
+  
   const RedAuthUser = useAppSelector(state => state.auth.authUser);
 
 
   const [newsData, setNewsData] = useState([]);
+
+const onBack = () => {
+
+    navigation.navigate(ScreenNames.DashboardScreen);
+    
+  };
 
   useEffect(() => {
 
@@ -53,7 +60,6 @@ const NewsScreen = () => {
         leftButtonIcon={'arrow-left'}
         onLeftItemClick={() => {
           navigation.goBack();
-
         }}
         showRightButton={false}
         rightButtonIcon={'bell'}
@@ -83,6 +89,8 @@ const NewsScreen = () => {
                 item={item}
                 index={index}
                 onClick={() => {
+                  // dispatch(APIUpdateNews(RedAuthUser.accessToken));
+
                   navigation.navigate(ScreenNames.NewsOpen, {
                     item: item
                   });
@@ -118,6 +126,7 @@ const NewsScreen = () => {
             />
           }
         />
+        
 
       </View>
 

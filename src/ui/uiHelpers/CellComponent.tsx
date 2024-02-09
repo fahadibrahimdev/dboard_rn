@@ -25,7 +25,7 @@ const CellComponent = ({ item, index, myUserID, onClick, showDot }) => {
       Animated.loop(
         Animated.sequence([
           Animated.timing(bounceValue, {
-            toValue: 1.2,
+            toValue: 1.5,
             duration: 200,
             useNativeDriver: true,
           }),

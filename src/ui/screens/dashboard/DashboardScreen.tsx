@@ -12,8 +12,8 @@ import { Text } from 'react-native-paper';
 import { useDispatch } from 'react-redux';
 import { CALL_STATE } from '../../../helpers/enum';
 import { ScreenNames } from '../../../system/navigation/ScreenNames';
-import { APIHeartBeat } from '../../../system/networking/AppAPICalls ';
-import { heartbeatIdle, resetAll } from '../../../system/redux/slice/appSlice ';
+import { APIHeartBeat, APIUpdateNews } from '../../../system/networking/AppAPICalls ';
+import { heartbeatIdle, heartbeatUpdate, resetAll, updatenewsIdle } from '../../../system/redux/slice/appSlice ';
 import { useAppSelector } from '../../../system/redux/store/hooks';
 import AppHeader from '../../uiHelpers/AppHeader';
 import CellComponent from '../../uiHelpers/CellComponent';
@@ -38,6 +38,7 @@ const DashboardScreen = ({ route }) => {
   const [filteredData, setFilteredData] = useState([]);
   const RedHeartBeat = useAppSelector(state => state.app.heartBeat);
   const RedAuthUser = useAppSelector(state => state.auth.authUser);
+  const RedUpdateNews = useAppSelector(state => state.app.updateNews);
   const dispatch = useDispatch();
 
 
@@ -72,6 +73,32 @@ const DashboardScreen = ({ route }) => {
 
     }
   }, [RedHeartBeat.state])
+
+  useEffect(() => {
+
+
+    if (
+      RedUpdateNews.state !== CALL_STATE.IDLE &&
+      RedUpdateNews.state !== CALL_STATE.FETCHING
+    ) {
+
+      dispatch(updatenewsIdle());
+      if (RedUpdateNews.state === CALL_STATE.SUCCESS) {
+
+        const updatedHeartBeatPayload = JSON.parse(JSON.stringify(RedHeartBeat.actualPayload));
+        updatedHeartBeatPayload.data.all_notifications_seen = false;
+
+        console.log("fahad updated data: ", updatedHeartBeatPayload);
+        dispatch(heartbeatUpdate({
+          data: updatedHeartBeatPayload,
+
+        }));
+      } else if (RedUpdateNews.state === CALL_STATE.ERROR) {
+        
+      }
+    }
+    
+  }, [RedUpdateNews.state])
 
 
   useEffect(() => {
@@ -194,6 +221,12 @@ navigation.openDrawer();
                   } else if (item.code === "TEAM_ATTENDANCE") {
                     navigation.navigate(ScreenNames.MainTeamAttendanceScreen);
                   } else if (item.code === "NEWS") {
+
+                    if(item.code === "NEWS" && !!RedHeartBeat?.actualPayload?.data?.all_notifications_seen) {
+                      dispatch(APIUpdateNews(RedAuthUser.accessToken));
+                    }
+                    
+
                     navigation.navigate(ScreenNames.NewsScreen);
                   }
                   else if (item.code === "REPORTS") {

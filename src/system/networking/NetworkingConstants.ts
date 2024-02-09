@@ -12,7 +12,7 @@ const UAT = {
 };
 
 //SET MAIN ENVIRONMENT
-export const ENV = PROD;
+export const ENV = UAT;
 
 export const API = {
   //Auth Related APIs
@@ -31,6 +31,10 @@ export const API = {
   DELETE_USER_API: `${ENV.BASEURL}/user/delete_user`,
   //App Related APIs
   HEART_BEAT_API: `${ENV.BASEURL}/user/heartbeat`,
+
+
+  // Update News APIs
+  UPDATE_NEWS_API: `${ENV.BASEURL}/user/update_news_flags`,
 
   //Attendance Related APIs
   GET_ATTENDANCE_API: `${ENV.BASEURL}/attendance/user_id`,
