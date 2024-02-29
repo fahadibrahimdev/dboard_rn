@@ -15,7 +15,7 @@ import { useDispatch } from 'react-redux';
 import moment from 'moment-timezone';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { adjustSystemShiftDataRed, adjustTeamDataRed } from '../../../../helpers/Utils';
+import { adjustSystemShiftDataRed, adjustTeamDataRed, adjustUserDataRed } from '../../../../helpers/Utils';
 import { useAppSelector } from '../../../../system/redux/store/hooks';
 import AppHeader from '../../../uiHelpers/AppHeader';
 import DateTimeSelector from '../../../uiHelpers/DateTimeSelector';
@@ -32,7 +32,7 @@ const FiltersTeamAttendanceScreen = ({ route }) => {
 
 
   const RedHeartBeat = useAppSelector(state => state.app.heartBeat);
-  const RedApproveAttendance = useAppSelector(state => state.attendance.approveAttendance);
+  const RedGetUserById = useAppSelector(state => state.attendance.getUserById);
   const RedAuthUser = useAppSelector(state => state.auth.authUser);
   const dispatch = useDispatch();
 
@@ -62,7 +62,9 @@ const FiltersTeamAttendanceScreen = ({ route }) => {
 
     setTeamData(adjustTeamDataRed(RedHeartBeat.actualPayload))
     setShiftData(adjustSystemShiftDataRed(RedHeartBeat.actualPayload));
-    // setuserData(adjustUserDataRed(RedHeartBeat.actualPayload));
+    let varb = adjustUserDataRed(RedGetUserById.actualPayload);
+    console.log("Fahad data: ", varb);
+    setuserData(varb);
 
     if (!!myAllFilters) {
       if (!!myAllFilters.startDate) {
@@ -140,7 +142,7 @@ const FiltersTeamAttendanceScreen = ({ route }) => {
 
 
       ]}>
-        <Text style={styles.item}>{item.user_id}</Text>
+        <Text style={styles.textItem}>{item.label}</Text>
         {item.value === userValue && (
           <AntDesign
             style={styles.icon}
@@ -331,12 +333,12 @@ const FiltersTeamAttendanceScreen = ({ route }) => {
               onBlur={() => setIsuserFocus(false)}
               onChange={item => {
                 setuserValue(item.value);
-                setIsuserFocus(false);
+                setuserValue(false);
               }}
               renderLeftIcon={() => (
                 <Icon
                   style={styles.icon}
-                  color={isuserFocus ? '#007AFF' : colors.appTextPrimaryColor}
+                  color={isTeamFocus ? '#007AFF' : colors.appTextPrimaryColor}
                   name="account"
 
                   size={20}

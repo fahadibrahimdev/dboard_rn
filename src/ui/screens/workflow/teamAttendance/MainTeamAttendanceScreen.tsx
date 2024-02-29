@@ -264,6 +264,16 @@ const MainTeamAttendanceScreen = ({ }) => {
       </View>
     );
   };
+  function formatTime(timeString) {
+    // Split the time string into hours, minutes, and seconds
+    const [hours, minutes, seconds] = timeString.split(':').map(Number);
+  
+    // Format the time
+    const formattedTime = `${hours} hrs ${minutes} mins ${seconds} sec`;
+  
+    return formattedTime;
+  }
+  
 
 
   return (
@@ -324,9 +334,23 @@ const MainTeamAttendanceScreen = ({ }) => {
       <Text
         variant='displaySmall'
         style={{
+          
+          borderWidth: 2,
+          borderColor: colors.bordercolor,
+          borderRadius: 20,
+          marginTop: 5,
+          paddingHorizontal: 12,
+          paddingVertical: 4,
+          alignSelf:'center',
           color: 'black',
-          marginLeft: 15
-        }}>{(
+          marginLeft: 12
+        }}>
+          {
+            
+
+          }
+          
+          {(
           !!RedGetWorkingTime.actualPayload?.data &&
           RedGetWorkingTime.actualPayload?.data.length > 0 &&
           !!RedGetWorkingTime.actualPayload?.data[0]?.total_time_spent) ?

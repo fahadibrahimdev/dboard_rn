@@ -175,7 +175,8 @@ const AttendanceCell = ({ item, index = 0, showArrowBtn, onArrowclick, highlight
                     color: colors.appTextPrimaryColor,
 
                   }}
-                >{getTeamFromIdRed(item.team_id, RedHeartBeat.actualPayload)}
+                >
+                  {getTeamFromIdRed(item.team_id, RedHeartBeat.actualPayload)}
                 </Text>
 
                 <View style={{

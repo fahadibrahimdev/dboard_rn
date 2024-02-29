@@ -126,12 +126,12 @@ export const adjustShiftDataRed = (hbPayload: any): any => {
     }
 }
 
-export const adjustUserDataRed = (hbPayload: any): any => {
-    if (!!hbPayload && !!hbPayload.data && !!hbPayload.data.user_id ) {
+export const adjustUserDataRed = (payload: any): any => {
+    if (!!payload && !!payload.data && payload.data.length > 0 ) {
 
-        return hbPayload.data.user_id.map((x: any) => {
+        return payload.data.map((x: any) => {
             return ({
-                label: x.name, value: x.id.toString()
+                label: x.user_name, value: x.user_id.toString(), teamId: x.team_id, teamName: x.teamName
             })
 
         })
