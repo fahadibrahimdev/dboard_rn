@@ -18,8 +18,6 @@ import { useAppSelector } from '../../../system/redux/store/hooks';
 import AppHeader from '../../uiHelpers/AppHeader';
 import CellComponent from '../../uiHelpers/CellComponent';
 import FullScreenLoader from '../../uiHelpers/FullScreenLoader';
-// import { tokens } from 'react-native-paper/lib/typescript/styles/themes/v3/tokens';
-
 
 const DashboardScreen = ({ route }) => {
   const navigation = useNavigation();
@@ -220,6 +218,7 @@ navigation.openDrawer();
                     navigation.navigate(ScreenNames.MainAttendanceScreen);
                   } else if (item.code === "TEAM_ATTENDANCE") {
                     navigation.navigate(ScreenNames.MainTeamAttendanceScreen);
+
                   } else if (item.code === "NEWS") {
 
                     if(item.code === "NEWS" && !!RedHeartBeat?.actualPayload?.data?.all_notifications_seen) {

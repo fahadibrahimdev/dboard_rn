@@ -44,6 +44,14 @@ export const API = {
   //Team Attendance
   GET_TEAM_ATTENDANCE_API: `${ENV.BASEURL}/attendance/team_id`,
 
+  //Get Working Time 
+  GET_WORKING_TIME_API: `${ENV.BASEURL}/attendance/get_user_working_time`,
+  
+  //Get User By Id 
+  GET_USER_BY_ID__API: `${ENV.BASEURL}/user/get_users_by_team_id`,
+
+  
+
   //Global Attendance
   GET_ATTENDANCE_BY_PAGINATION_API: `${ENV.BASEURL}/attendance/get_attendance_by_pagination`,
 

@@ -334,7 +334,9 @@ const MainAttendanceScreen = ({ }) => {
               setMySelectedTimeDuration(selectedItem);
             }} />
 
+
         </View>
+        
 
       }
 

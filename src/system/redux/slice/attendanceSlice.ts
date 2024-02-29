@@ -31,6 +31,18 @@ export interface AttendanceState {
     actualPayload: any;
     error: string;
   };
+
+  getWorkingTime: {
+    state: string;
+    actualPayload: any;
+    error: string;
+  };
+  getUserById: {
+    state: string;
+    actualPayload: any;
+    error: string;
+  };
+
 }
 
 const initialState: AttendanceState = {
@@ -57,6 +69,16 @@ const initialState: AttendanceState = {
   },
 
   getAttendanceByPagination: {
+    state: CALL_STATE.IDLE,
+    actualPayload: {},
+    error: '',
+  },
+  getWorkingTime: {
+    state: CALL_STATE.IDLE,
+    actualPayload: {},
+    error: '',
+  },
+  getUserById: {
     state: CALL_STATE.IDLE,
     actualPayload: {},
     error: '',
@@ -205,7 +227,109 @@ export const AttendanceSlice = createSlice({
         current(state).approveAttendance,
       );
     },
+    //Get Working Time
 
+    getWorkingTimeIdle: state => {
+      const currentState = current(state);
+
+      state.getWorkingTime = {
+        state: CALL_STATE.IDLE,
+        actualPayload: currentState.getWorkingTime.actualPayload,
+        error: currentState.getWorkingTime.error,
+      };
+
+      console.log(
+        'Slice-get-workingTimeIdle:',
+        current(state).getWorkingTime,
+      );
+    },
+    getWorkingTimePending: state => {
+      state.getWorkingTime = {
+        state: CALL_STATE.FETCHING,
+        actualPayload: {},
+        error: '',
+      };
+      console.log(
+        'Slice-get-workingTimePending:',
+        current(state).getWorkingTime,
+      );
+    },
+    getWorkingTimeSuccess: (state, action: PayloadAction<any>) => {
+      state.getWorkingTime = {
+        state: CALL_STATE.SUCCESS,
+        actualPayload: action.payload.data,
+        error: '',
+      };
+
+      console.log(
+        'Slice-get-workingTimeSuccess:',
+        current(state).getWorkingTime,
+      );
+    },
+    getWorkingTimeError: (state, action: PayloadAction<any>) => {
+      state.getWorkingTime = {
+        state: CALL_STATE.ERROR,
+        actualPayload: {},
+        error: action.payload.error,
+      };
+
+      console.log(
+        'Slice-get-workingTimeError:',
+        current(state).getWorkingTime,
+      );
+    },
+    //get user by id 
+    getUserByIdIdle: state => {
+      const currentState = current(state);
+
+      state.getUserById = {
+        state: CALL_STATE.IDLE,
+        actualPayload: currentState.getUserById.actualPayload,
+        error: currentState.getUserById.error,
+      };
+
+      console.log(
+        'Slice-Get-UserByIDIdle:',
+        current(state).getUserById,
+      );
+    },
+    getUserByIdPending: state => {
+      state.getUserById = {
+        state: CALL_STATE.FETCHING,
+        actualPayload: {},
+        error: '',
+      };
+      console.log(
+        'Slice-Get-UserByIDPending:',
+        current(state).getUserById,
+      );
+    },
+    getUserByIdSuccess: (state, action: PayloadAction<any>) => {
+      state.getUserById = {
+        state: CALL_STATE.SUCCESS,
+        actualPayload: action.payload.data,
+        error: '',
+      };
+
+      console.log(
+        'Slice-Get-UserByIDSuccess:',
+        current(state).getUserById,
+      );
+    },
+    getUserByIdError: (state, action: PayloadAction<any>) => {
+      state.getUserById = {
+        state: CALL_STATE.ERROR,
+        actualPayload: {},
+        error: action.payload.error,
+      };
+
+      console.log(
+        'Slice-Get-UserByIDError:',
+        current(state).getUserById,
+      );
+    },
+
+    
     // Team Attendance
     getTeamAttendanceIdle: state => {
       const currentState = current(state);
@@ -271,6 +395,7 @@ export const AttendanceSlice = createSlice({
         'Slice-GET-attendance-by-pagination-Idle:',
         current(state).getAttendanceByPagination,
       );
+    
     },
     getAttendanceByPaginationPending: (state, action: PayloadAction<any>) => {
       const currentState = current(state);
@@ -315,6 +440,7 @@ export const AttendanceSlice = createSlice({
 
     logoutAttendance: state => initialState,
   },
+  
 });
 
 // Action creators are generated for each case reducer function
@@ -343,6 +469,17 @@ export const {
   getAttendanceByPaginationPending,
   getAttendanceByPaginationSuccess,
   getAttendanceByPaginationError,
+
+  
+  getWorkingTimeIdle,
+  getWorkingTimePending,
+  getWorkingTimeSuccess,
+  getWorkingTimeError,
+
+  getUserByIdIdle,
+  getUserByIdPending,
+  getUserByIdSuccess,
+  getUserByIdError,
 
   logoutAttendance,
 } = AttendanceSlice.actions;

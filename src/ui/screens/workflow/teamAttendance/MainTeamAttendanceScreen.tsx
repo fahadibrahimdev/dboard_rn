@@ -14,7 +14,7 @@ import { useDispatch } from 'react-redux';
 import { adjustTeamDataRed, getStatusNameFromIdRed } from '../../../../helpers/Utils';
 import { CALL_STATE, FILTER_DATE_CODES } from '../../../../helpers/enum';
 import { ScreenNames } from '../../../../system/navigation/ScreenNames';
-import { APIGetAttendanceByPagination } from '../../../../system/networking/AttendanceAPICalls';
+import { APIGetAttendanceByPagination, APIGetWorkingTime } from '../../../../system/networking/AttendanceAPICalls';
 import { getAttendanceByPaginationIdle, getTeamAttendanceIdle } from '../../../../system/redux/slice/attendanceSlice';
 import { useAppSelector } from '../../../../system/redux/store/hooks';
 import AttendanceCell from '../../../helperComponents/AttendanceCell';
@@ -28,6 +28,7 @@ const MainTeamAttendanceScreen = ({ }) => {
 
   const { colors } = useTheme();
   const navigation = useNavigation();
+
   const [myUserID, setMyUserID] = useState(1);
 
   const [mySelectedTimeDuration, setMySelectedTimeDuration] = useState(null);
@@ -37,16 +38,17 @@ const MainTeamAttendanceScreen = ({ }) => {
 
   const [myCommaSeperatedTeams, setMyCommaSeperatedTeams] = useState('');
 
-  // const RedGetTeamAttendance = useAppSelector(state => state.attendance.getTeamAttendance);
-  const RedGetAttendanceByPagination = useAppSelector(state => state.attendance.getAttendanceByPagination);
-  const RedAuthUser = useAppSelector(state => state.auth.authUser);
-  const dispatch = useDispatch();
-
-
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [data, setData] = useState([]); // Your data source
 
+
+  const dispatch = useDispatch();
+
+  // const RedGetTeamAttendance = useAppSelector(state => state.attendance.getTeamAttendance);
+  const RedGetAttendanceByPagination = useAppSelector(state => state.attendance.getAttendanceByPagination);
+  const RedAuthUser = useAppSelector(state => state.auth.authUser);
   const RedHeartBeat = useAppSelector(state => state.app.heartBeat);
+  const RedGetWorkingTime = useAppSelector(state => state.attendance.getWorkingTime);
 
 
 
@@ -145,6 +147,8 @@ const MainTeamAttendanceScreen = ({ }) => {
       teamId: teamIds,
     }
     ));
+
+    dispatch(APIGetWorkingTime(RedAuthUser.accessToken));
 
   };
 
@@ -316,6 +320,17 @@ const MainTeamAttendanceScreen = ({ }) => {
         </View>
 
       }
+
+      <Text
+        variant='displaySmall'
+        style={{
+          color: 'black',
+          marginLeft: 15
+        }}>{(
+          !!RedGetWorkingTime.actualPayload?.data &&
+          RedGetWorkingTime.actualPayload?.data.length > 0 &&
+          !!RedGetWorkingTime.actualPayload?.data[0]?.total_time_spent) ?
+          (RedGetWorkingTime.actualPayload?.data[0]?.total_time_spent) : ('--')}</Text>
 
       <FlatList
         style={{

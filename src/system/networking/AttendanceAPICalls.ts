@@ -15,6 +15,13 @@ import {
   getTeamAttendanceError,
   getTeamAttendancePending,
   getTeamAttendanceSuccess,
+  getWorkingTimeError,
+  getWorkingTimePending,
+  getWorkingTimeSuccess,
+  getUserByIdIdle,
+  getUserByIdPending,
+  getUserByIdSuccess,
+  getUserByIdError,
 } from "../redux/slice/attendanceSlice";
 import { API, HEADERS } from "./NetworkingConstants";
 import { CALL_STATE } from "../../helpers/enum";
@@ -152,57 +159,68 @@ export const APIGetAttendanceByPagination =
     }
   };
 
-export const APIGetAttendance = (token) => async (dispatch) => {
+  // Get user by id
+  
+
+export const APIGetUserById = (token ,team_id) => async (dispatch) => {
   try {
     // Define the URL of the API endpoint
-    const apiUrl = API.GET_ATTENDANCE_API;
+    const apiUrl = API.GET_USER_BY_ID__API;
 
-    dispatch(getAttendancePending());
+    const data = new URLSearchParams();
+
+    data.append("team_id", team_id);
+
+    dispatch(getUserByIdPending());
     // Make the POST request
     const response = await fetch(apiUrl, {
-      method: "GET",
+      method: "POST",
       headers: {
         ...HEADERS,
         Authorization: "Bearer " + token,
       },
+      body: data.toString(),
     });
 
     if (response.status === 200) {
       const responseData = await response.json();
 
       dispatch(
-        getAttendanceSuccess({
+        getUserByIdSuccess({
           data: responseData,
         })
       );
     } else if (response.status === 401) {
       dispatch(
-        getAttendanceError({
-          error: "Get_Attendance Api Call Auth Failed!",
+        getUserByIdError({
+          error: "Get_User_By_Id Api Call Auth Failed!",
         })
       );
     } else if (response.status === 400) {
       const responseData = await response.json();
       dispatch(
-        getAttendanceError({
+        getUserByIdError({
           error: responseData.message,
         })
       );
     } else {
       dispatch(
-        getAttendanceError({
-          error: "Get_Attendance Api Call Failed!",
+        getUserByIdError({
+          error: "Get_User_By_Id  Api Call Failed!",
         })
       );
     }
   } catch (error) {
     dispatch(
-      getAttendanceError({
-        error: " Error in Get_Attendance Api Call!",
+      getUserByIdError({
+        error: " Error in Get_User_By_Id  Api Call!",
       })
     );
   }
 };
+
+
+
 
 export const APIGetTeamAttendance = (token, teamId) => async (dispatch) => {
   try {
@@ -330,6 +348,72 @@ export const APIcreateAttendance =
       );
     }
   };
+
+  // working time 
+  
+export const APIGetWorkingTime =
+( token ) => async (dispatch) => {
+  try {
+    const apiUrl = API.GET_WORKING_TIME_API;
+
+    const data = new URLSearchParams();
+
+    data.append("user_id", '1');
+
+    data.append("start_date", '2023-10-01');
+
+    data.append("end_date", '2023-12-30');
+     
+
+
+    dispatch(getWorkingTimePending());
+
+    const response = await fetch(apiUrl, {
+      method: "POST",
+      headers: {
+        ...HEADERS,
+        Accept: "application/json",
+        Authorization: "Bearer " + token,
+      },
+      body: data.toString(),
+    });
+
+    if (response.status >= 200 && response.status <= 202) {
+      const responseData = await response.json();
+
+      dispatch(
+        getWorkingTimeSuccess({
+          data: responseData,
+        })
+      );
+    } else if (response.status === 401) {
+      dispatch(
+        getWorkingTimeError({
+          error: "Get_Working_Time Api Call Auth Failed!",
+        })
+      );
+    } else if (response.status === 400) {
+      const responseData = await response.json();
+      dispatch(
+        getWorkingTimeError({
+          error: responseData.message,
+        })
+      );
+    } else {
+      dispatch(
+        createAttendanceError({
+          error: "Get_Working_Time Api Call Failed!",
+        })
+      );
+    }
+  } catch (error) {
+    dispatch(
+      getWorkingTimeError({
+        error: " Error in Get_Working_TimeError Api Call!",
+      })
+    );
+  }
+};
 
 export const ApiApproveAttendance =
   (token, end_time, attendanceID, attendanceStatus) => async (dispatch) => {

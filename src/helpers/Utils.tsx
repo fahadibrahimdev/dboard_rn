@@ -126,6 +126,21 @@ export const adjustShiftDataRed = (hbPayload: any): any => {
     }
 }
 
+export const adjustUserDataRed = (hbPayload: any): any => {
+    if (!!hbPayload && !!hbPayload.data && !!hbPayload.data.user_id ) {
+
+        return hbPayload.data.user_id.map((x: any) => {
+            return ({
+                label: x.name, value: x.id.toString()
+            })
+
+        })
+    } else {
+        return [];
+    }
+}
+
+
 
 export const adjustSystemShiftDataRed = (hbPayload: any): any => {
     if (!!hbPayload && !!hbPayload.data && !!hbPayload.data.system_lookups && !!hbPayload.data.system_lookups.shift_data) {

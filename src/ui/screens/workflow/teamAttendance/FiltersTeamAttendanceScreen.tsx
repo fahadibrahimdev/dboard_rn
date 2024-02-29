@@ -20,6 +20,7 @@ import { useAppSelector } from '../../../../system/redux/store/hooks';
 import AppHeader from '../../../uiHelpers/AppHeader';
 import DateTimeSelector from '../../../uiHelpers/DateTimeSelector';
 import FullScreenLoader from '../../../uiHelpers/FullScreenLoader';
+import { APIGetUserById } from '../../../../system/networking/AttendanceAPICalls';
 
 
 const FiltersTeamAttendanceScreen = ({ route }) => {
@@ -49,10 +50,19 @@ const FiltersTeamAttendanceScreen = ({ route }) => {
   const [isTeamFocus, setIsTeamFocus] = useState(false);
 
 
+  
+  const [userData, setuserData] = useState([]);
+  const [userValue, setuserValue] = useState(null);
+  const [isuserFocus, setIsuserFocus] = useState(false);
+
+
   useEffect(() => {
+
+    dispatch(APIGetUserById(RedAuthUser.accessToken, 5));
 
     setTeamData(adjustTeamDataRed(RedHeartBeat.actualPayload))
     setShiftData(adjustSystemShiftDataRed(RedHeartBeat.actualPayload));
+    // setuserData(adjustUserDataRed(RedHeartBeat.actualPayload));
 
     if (!!myAllFilters) {
       if (!!myAllFilters.startDate) {
@@ -122,6 +132,27 @@ const FiltersTeamAttendanceScreen = ({ route }) => {
     );
   };
 
+  
+  const renderUserItem = item => {
+    return (
+
+      <View style={[styles.item,
+
+
+      ]}>
+        <Text style={styles.item}>{item.user_id}</Text>
+        {item.value === userValue && (
+          <AntDesign
+            style={styles.icon}
+            color="black"
+            name="checkcircle"
+            size={20}
+          />
+
+        )}
+      </View>
+    );
+  };
 
   return (
     <View style={{
@@ -267,6 +298,51 @@ const FiltersTeamAttendanceScreen = ({ route }) => {
                 />
               )}
               renderItem={renderTeamItem}
+            />
+
+            
+<Dropdown
+              style={[styles.dropdown, {
+                borderColor: colors.appTextPrimaryColor,
+              }, isTeamFocus && { borderWidth: 3, borderColor: '#007AFF', marginTop: 10 }]}
+              placeholderStyle={[styles.placeholderStyle, {
+                color: colors.appTextPlaceHolderColor,
+
+
+              }]}
+              selectedTextStyle={[styles.selectedTextStyle, {
+                color: colors.appTextPrimaryColor,
+
+
+              }]}
+
+              inputSearchStyle={styles.inputSearchStyle}
+              iconStyle={styles.iconStyle}
+              data={userData}
+              search
+              maxHeight={300}
+              labelField="label"
+              valueField="value"
+              placeholder={!isuserFocus ? 'Agent*' : 'Agent*'}
+              searchPlaceholder="Search..."
+              value={userValue}
+
+              onFocus={() => setIsuserFocus(true)}
+              onBlur={() => setIsuserFocus(false)}
+              onChange={item => {
+                setuserValue(item.value);
+                setIsuserFocus(false);
+              }}
+              renderLeftIcon={() => (
+                <Icon
+                  style={styles.icon}
+                  color={isuserFocus ? '#007AFF' : colors.appTextPrimaryColor}
+                  name="account"
+
+                  size={20}
+                />
+              )}
+              renderItem={renderUserItem}
             />
 
 
