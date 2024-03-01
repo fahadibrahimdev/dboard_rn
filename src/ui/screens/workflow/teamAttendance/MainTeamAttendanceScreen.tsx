@@ -148,7 +148,14 @@ const MainTeamAttendanceScreen = ({ }) => {
     }
     ));
 
-    dispatch(APIGetWorkingTime(RedAuthUser.accessToken));
+    dispatch(APIGetWorkingTime(
+      {
+        token: RedAuthUser.accessToken,
+        start_day: startDate,
+        end_day: endDate,
+        shift: shiftValue,
+        teamId: teamIds
+      }));
 
   };
 
@@ -246,7 +253,7 @@ const MainTeamAttendanceScreen = ({ }) => {
     }
   }
 
-  const renderFooter = showIndicator => {
+  const renderFooter = (showIndicator: boolean) => {
     return (
       //Footer View with Load More button
       <View
@@ -264,17 +271,16 @@ const MainTeamAttendanceScreen = ({ }) => {
       </View>
     );
   };
-  function formatTime(timeString) {
+
+  const formatTime = (timeString: string) => {
     // Split the time string into hours, minutes, and seconds
     const [hours, minutes, seconds] = timeString.split(':').map(Number);
-  
+
     // Format the time
     const formattedTime = `${hours} hrs ${minutes} mins ${seconds} sec`;
-  
+
     return formattedTime;
   }
-  
-
 
   return (
 
@@ -331,30 +337,34 @@ const MainTeamAttendanceScreen = ({ }) => {
 
       }
 
-      <Text
-        variant='displaySmall'
-        style={{
-          
-          borderWidth: 2,
-          borderColor: colors.bordercolor,
-          borderRadius: 20,
-          marginTop: 5,
-          paddingHorizontal: 12,
-          paddingVertical: 4,
-          alignSelf:'center',
-          color: 'black',
-          marginLeft: 12
-        }}>
-          {
-            
+      <View style={{
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        marginHorizontal: 12
+      }}>
+        <Text>Total Time: </Text>
+        <Text
+          variant='bodyLarge'
+          style={{
 
-          }
-          
+            borderWidth: 2,
+            borderColor: colors.bordercolor,
+            borderRadius: 20,
+            marginTop: 5,
+            paddingHorizontal: 12,
+            paddingVertical: 4,
+            alignSelf: 'center',
+            color: 'black',
+            fontWeight: 'bold'
+          }}>
+
           {(
-          !!RedGetWorkingTime.actualPayload?.data &&
-          RedGetWorkingTime.actualPayload?.data.length > 0 &&
-          !!RedGetWorkingTime.actualPayload?.data[0]?.total_time_spent) ?
-          (RedGetWorkingTime.actualPayload?.data[0]?.total_time_spent) : ('--')}</Text>
+            !!RedGetWorkingTime.actualPayload?.data &&
+            RedGetWorkingTime.actualPayload?.data.length > 0 &&
+            !!RedGetWorkingTime.actualPayload?.data[0]?.total_time_spent) ?
+            (formatTime(RedGetWorkingTime.actualPayload?.data[0]?.total_time_spent)) : ('--')}</Text>
+      </View>
 
       <FlatList
         style={{
@@ -416,7 +426,7 @@ const MainTeamAttendanceScreen = ({ }) => {
         }
 
         ListFooterComponent={() => {
-          const myFlag = RedGetAttendanceByPagination.state !== CALL_STATE.REFRESHING &&
+          const myFlag: boolean = RedGetAttendanceByPagination.state !== CALL_STATE.REFRESHING &&
             !!RedGetAttendanceByPagination.actualPayload &&
             !!RedGetAttendanceByPagination.actualPayload.data &&
             !!RedGetAttendanceByPagination.actualPayload.data.attendances &&
