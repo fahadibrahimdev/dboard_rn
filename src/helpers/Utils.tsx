@@ -112,6 +112,24 @@ export const adjustTeamDataRed = (hbPayload: any): any => {
     }
 }
 
+
+export const adjustStatusDataRed = (hbPayload: any): any => {
+    if (!!hbPayload && !!hbPayload.data && !!hbPayload.data.status_data) {
+
+        return hbPayload.data.status_data.map((x: any) => {
+            return ({
+                label: x.name.toString()
+            })
+
+        })
+    } else {
+        return [];
+    }
+}
+
+
+
+
 export const adjustShiftDataRed = (hbPayload: any): any => {
     if (!!hbPayload && !!hbPayload.data && !!hbPayload.data.user_lookups && !!hbPayload.data.user_lookups.shift_data) {
 

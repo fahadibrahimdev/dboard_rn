@@ -15,7 +15,7 @@ import { useDispatch } from 'react-redux';
 import moment from 'moment-timezone';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { adjustSystemShiftDataRed, adjustTeamDataRed, adjustUserDataRed } from '../../../../helpers/Utils';
+import { adjustStatusDataRed, adjustSystemShiftDataRed, adjustTeamDataRed, adjustUserDataRed } from '../../../../helpers/Utils';
 import { useAppSelector } from '../../../../system/redux/store/hooks';
 import AppHeader from '../../../uiHelpers/AppHeader';
 import DateTimeSelector from '../../../uiHelpers/DateTimeSelector';
@@ -56,6 +56,12 @@ const FiltersTeamAttendanceScreen = ({ route }) => {
   const [isuserFocus, setIsuserFocus] = useState(false);
 
 
+  
+  const [statusData, setstatusData] = useState([]);
+  const [statusValue, setstatusValue] = useState(null);
+  const [isstatusFocus, setIsstatusFocus] = useState(false);
+
+
   useEffect(() => {
 
     const filtersData = adjustTeamDataRed(RedHeartBeat.actualPayload);
@@ -64,7 +70,8 @@ const FiltersTeamAttendanceScreen = ({ route }) => {
 
     dispatch(APIGetUserById(RedAuthUser.accessToken, commaSeperatedIds));
 
-    setTeamData(adjustTeamDataRed(RedHeartBeat.actualPayload))
+    setstatusData(adjustStatusDataRed(RedHeartBeat.actualPayload));
+    setTeamData(adjustTeamDataRed(RedHeartBeat.actualPayload));
     setShiftData(adjustSystemShiftDataRed(RedHeartBeat.actualPayload));
     let varb = adjustUserDataRed(RedGetUserById.actualPayload);
     console.log("Fahad data: ", varb);
@@ -139,6 +146,28 @@ const FiltersTeamAttendanceScreen = ({ route }) => {
   };
 
 
+  
+  const renderStatusItem = item => {
+    return (
+
+      <View style={[styles.item,
+
+
+      ]}>
+        <Text style={styles.textItem}>{item.code}</Text>
+        {item.code === statusValue && (
+          <AntDesign
+            style={styles.icon}
+            color="black"
+            name="checkcircle"
+            size={20}
+          />
+
+        )}
+      </View>
+    );
+  };
+
   const renderUserItem = item => {
     return (
 
@@ -156,6 +185,8 @@ const FiltersTeamAttendanceScreen = ({ route }) => {
           />
 
         )}
+
+        
       </View>
     );
   };
@@ -350,6 +381,51 @@ const FiltersTeamAttendanceScreen = ({ route }) => {
               )}
               renderItem={renderUserItem}
             />
+
+<Dropdown
+              style={[styles.dropdown, {
+                borderColor: colors.appTextPrimaryColor,
+              }, isTeamFocus && { borderWidth: 3, borderColor: '#007AFF', marginTop: 10 }]}
+              placeholderStyle={[styles.placeholderStyle, {
+                color: colors.appTextPlaceHolderColor,
+
+
+              }]}
+              selectedTextStyle={[styles.selectedTextStyle, {
+                color: colors.appTextPrimaryColor,
+
+
+              }]}
+
+              inputSearchStyle={styles.inputSearchStyle}
+              iconStyle={styles.iconStyle}
+              data={statusData}
+              search
+              maxHeight={300}
+              labelField="label"
+              valueField="value"
+              placeholder={!isstatusFocus ? 'Status*' : 'Status*'}
+              searchPlaceholder="Search..."
+              value={statusValue}
+
+              onFocus={() => setIsstatusFocus(true)}
+              onBlur={() => setIsstatusFocus(false)}
+              onChange={item => {
+                setstatusValue(item.Value);
+                setstatusValue(false);
+              }}
+              renderLeftIcon={() => (
+                <Icon
+                  style={styles.icon}
+                  color={isstatusFocus ? '#007AFF' : colors.appTextPrimaryColor}
+                  name="list-status"
+
+                  size={20}
+                />
+              )}
+              renderItem={renderStatusItem}
+            />
+
 
 
 

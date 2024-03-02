@@ -357,7 +357,11 @@ const MainAttendanceScreen = ({ }) => {
         justifyContent: 'space-between',
         marginHorizontal: 12
       }}>
-        <Text>Total Time: </Text>
+        <Text
+        style={{
+         color:colors.appTextPrimaryColor,
+        }}
+        >Total Time: </Text>
         <Text
           variant='bodyLarge'
           style={{
@@ -369,7 +373,7 @@ const MainAttendanceScreen = ({ }) => {
             paddingHorizontal: 12,
             paddingVertical: 4,
             alignSelf: 'center',
-            color: 'black',
+            color:colors.appTextPrimaryColor,
             fontWeight: 'bold'
           }}>
 

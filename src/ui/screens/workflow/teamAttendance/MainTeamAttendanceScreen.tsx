@@ -11,7 +11,7 @@ import { } from 'react-native-gesture-handler';
 import { ActivityIndicator, Text } from 'react-native-paper';
 import { RFValue } from 'react-native-responsive-fontsize';
 import { useDispatch } from 'react-redux';
-import { adjustTeamDataRed, formatTime, getStatusNameFromIdRed } from '../../../../helpers/Utils';
+import { adjustTeamDataRed, getStatusNameFromIdRed } from '../../../../helpers/Utils';
 import { CALL_STATE, FILTER_DATE_CODES } from '../../../../helpers/enum';
 import { ScreenNames } from '../../../../system/navigation/ScreenNames';
 import { APIGetAttendanceByPagination, APIGetWorkingTime } from '../../../../system/networking/AttendanceAPICalls';
@@ -272,6 +272,15 @@ const MainTeamAttendanceScreen = ({ }) => {
     );
   };
 
+  const formatTime = (timeString: string) => {
+    // Split the time string into hours, minutes, and seconds
+    const [hours, minutes, seconds] = timeString.split(':').map(Number);
+
+    // Format the time
+    const formattedTime = `${hours} hrs ${minutes} mins ${seconds} sec`;
+
+    return formattedTime;
+  }
 
   return (
 
@@ -334,7 +343,11 @@ const MainTeamAttendanceScreen = ({ }) => {
         justifyContent: 'space-between',
         marginHorizontal: 12
       }}>
-        <Text>Total Time: </Text>
+        <Text
+        style={{
+          color:colors.appTextPrimaryColor,
+        }}
+        >Total Time: </Text>
         <Text
           variant='bodyLarge'
           style={{
@@ -346,7 +359,7 @@ const MainTeamAttendanceScreen = ({ }) => {
             paddingHorizontal: 12,
             paddingVertical: 4,
             alignSelf: 'center',
-            color: 'black',
+            color: colors.appTextPrimaryColor,
             fontWeight: 'bold'
           }}>
 
