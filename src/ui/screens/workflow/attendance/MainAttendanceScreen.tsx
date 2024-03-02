@@ -12,10 +12,10 @@ import { } from 'react-native-gesture-handler';
 import { ActivityIndicator, FAB, Text } from 'react-native-paper';
 import { RFValue } from 'react-native-responsive-fontsize';
 import { useDispatch } from 'react-redux';
-import { adjustTeamDataRed, getStatusNameFromIdRed } from '../../../../helpers/Utils';
+import { adjustTeamDataRed, formatTime, getStatusNameFromIdRed } from '../../../../helpers/Utils';
 import { CALL_STATE, FILTER_DATE_CODES } from '../../../../helpers/enum';
 import { ScreenNames } from '../../../../system/navigation/ScreenNames';
-import { APIGetAttendanceByPagination } from '../../../../system/networking/AttendanceAPICalls';
+import { APIGetAttendanceByPagination, APIGetWorkingTime } from '../../../../system/networking/AttendanceAPICalls';
 import { getAttendanceByPaginationIdle } from '../../../../system/redux/slice/attendanceSlice';
 import { useAppSelector } from '../../../../system/redux/store/hooks';
 import AttendanceCell from '../../../helperComponents/AttendanceCell';
@@ -46,6 +46,8 @@ const MainAttendanceScreen = ({ }) => {
 
   const RedHeartBeat = useAppSelector(state => state.app.heartBeat);
   const RedGetAttendanceByPagination = useAppSelector(state => state.attendance.getAttendanceByPagination);
+
+  const RedGetWorkingTime = useAppSelector(state => state.attendance.getWorkingTime);
 
 
   useEffect(() => {
@@ -167,6 +169,15 @@ const MainAttendanceScreen = ({ }) => {
       userId: userId
     }
     ));
+
+    dispatch(APIGetWorkingTime(
+      {
+        token: RedAuthUser.accessToken,
+        start_day: startDate,
+        end_day: endDate,
+        shift: shiftValue,
+        teamId: teamIds
+      }));
   };
 
   const onPageChange = () => {
@@ -336,9 +347,38 @@ const MainAttendanceScreen = ({ }) => {
 
 
         </View>
-        
+
 
       }
+
+      <View style={{
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        marginHorizontal: 12
+      }}>
+        <Text>Total Time: </Text>
+        <Text
+          variant='bodyLarge'
+          style={{
+
+            borderWidth: 2,
+            borderColor: colors.bordercolor,
+            borderRadius: 20,
+            marginTop: 5,
+            paddingHorizontal: 12,
+            paddingVertical: 4,
+            alignSelf: 'center',
+            color: 'black',
+            fontWeight: 'bold'
+          }}>
+
+          {(
+            !!RedGetWorkingTime.actualPayload?.data &&
+            RedGetWorkingTime.actualPayload?.data.length > 0 &&
+            !!RedGetWorkingTime.actualPayload?.data[0]?.total_time_spent) ?
+            (formatTime(RedGetWorkingTime.actualPayload?.data[0]?.total_time_spent)) : ('--')}</Text>
+      </View>
 
       <FlatList
         style={{

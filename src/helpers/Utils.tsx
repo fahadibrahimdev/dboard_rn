@@ -127,7 +127,7 @@ export const adjustShiftDataRed = (hbPayload: any): any => {
 }
 
 export const adjustUserDataRed = (payload: any): any => {
-    if (!!payload && !!payload.data && payload.data.length > 0 ) {
+    if (!!payload && !!payload.data && payload.data.length > 0) {
 
         return payload.data.map((x: any) => {
             return ({
@@ -154,4 +154,16 @@ export const adjustSystemShiftDataRed = (hbPayload: any): any => {
     } else {
         return [];
     }
+}
+
+//DateTime Functions
+export const formatTime = (timeString: string) => {
+    // Split the time string into hours, minutes, and seconds
+    const [hours, minutes, seconds] = timeString.split(':').map(Number);
+
+    // Format the time
+    // const formattedTime = `${hours} hrs ${minutes} mins ${seconds} sec`;
+    const formattedTime = `${hours} hrs ${minutes} mins`;
+
+    return formattedTime;
 }

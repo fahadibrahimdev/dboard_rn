@@ -50,7 +50,7 @@ const FiltersTeamAttendanceScreen = ({ route }) => {
   const [isTeamFocus, setIsTeamFocus] = useState(false);
 
 
-  
+
   const [userData, setuserData] = useState([]);
   const [userValue, setuserValue] = useState(null);
   const [isuserFocus, setIsuserFocus] = useState(false);
@@ -58,7 +58,11 @@ const FiltersTeamAttendanceScreen = ({ route }) => {
 
   useEffect(() => {
 
-    dispatch(APIGetUserById(RedAuthUser.accessToken, 5));
+    const filtersData = adjustTeamDataRed(RedHeartBeat.actualPayload);
+    const commaSeperatedIds = filtersData.map(({ value }) => value).join(",");
+
+
+    dispatch(APIGetUserById(RedAuthUser.accessToken, commaSeperatedIds));
 
     setTeamData(adjustTeamDataRed(RedHeartBeat.actualPayload))
     setShiftData(adjustSystemShiftDataRed(RedHeartBeat.actualPayload));
@@ -134,7 +138,7 @@ const FiltersTeamAttendanceScreen = ({ route }) => {
     );
   };
 
-  
+
   const renderUserItem = item => {
     return (
 
@@ -302,8 +306,8 @@ const FiltersTeamAttendanceScreen = ({ route }) => {
               renderItem={renderTeamItem}
             />
 
-            
-<Dropdown
+
+            <Dropdown
               style={[styles.dropdown, {
                 borderColor: colors.appTextPrimaryColor,
               }, isTeamFocus && { borderWidth: 3, borderColor: '#007AFF', marginTop: 10 }]}
