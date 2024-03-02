@@ -56,7 +56,7 @@ const FiltersTeamAttendanceScreen = ({ route }) => {
   const [isuserFocus, setIsuserFocus] = useState(false);
 
 
-  
+
   const [statusData, setstatusData] = useState([]);
   const [statusValue, setstatusValue] = useState(null);
   const [isstatusFocus, setIsstatusFocus] = useState(false);
@@ -146,16 +146,13 @@ const FiltersTeamAttendanceScreen = ({ route }) => {
   };
 
 
-  
+
   const renderStatusItem = item => {
     return (
 
-      <View style={[styles.item,
-
-
-      ]}>
-        <Text style={styles.textItem}>{item.code}</Text>
-        {item.code === statusValue && (
+      <View style={[styles.item,]}>
+        <Text style={styles.textItem}>{item.label}</Text>
+        {item.value === statusValue && (
           <AntDesign
             style={styles.icon}
             color="black"
@@ -186,7 +183,7 @@ const FiltersTeamAttendanceScreen = ({ route }) => {
 
         )}
 
-        
+
       </View>
     );
   };
@@ -368,7 +365,7 @@ const FiltersTeamAttendanceScreen = ({ route }) => {
               onBlur={() => setIsuserFocus(false)}
               onChange={item => {
                 setuserValue(item.value);
-                setuserValue(false);
+                setIsuserFocus(false);
               }}
               renderLeftIcon={() => (
                 <Icon
@@ -382,7 +379,7 @@ const FiltersTeamAttendanceScreen = ({ route }) => {
               renderItem={renderUserItem}
             />
 
-<Dropdown
+            <Dropdown
               style={[styles.dropdown, {
                 borderColor: colors.appTextPrimaryColor,
               }, isTeamFocus && { borderWidth: 3, borderColor: '#007AFF', marginTop: 10 }]}
@@ -411,8 +408,8 @@ const FiltersTeamAttendanceScreen = ({ route }) => {
               onFocus={() => setIsstatusFocus(true)}
               onBlur={() => setIsstatusFocus(false)}
               onChange={item => {
-                setstatusValue(item.Value);
-                setstatusValue(false);
+                setstatusValue(item.value);
+                setIsstatusFocus(false);
               }}
               renderLeftIcon={() => (
                 <Icon

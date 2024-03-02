@@ -114,11 +114,12 @@ export const adjustTeamDataRed = (hbPayload: any): any => {
 
 
 export const adjustStatusDataRed = (hbPayload: any): any => {
-    if (!!hbPayload && !!hbPayload.data && !!hbPayload.data.status_data) {
+    if (!!hbPayload && !!hbPayload.data && !!hbPayload.data.system_lookups.status_data) {
 
-        return hbPayload.data.status_data.map((x: any) => {
+        return hbPayload.data.system_lookups.status_data.map((x: any) => {
             return ({
-                label: x.name.toString()
+                label: x.name.toString(),
+                value: x.id.toString()
             })
 
         })
