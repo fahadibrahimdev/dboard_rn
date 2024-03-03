@@ -20,6 +20,7 @@ import { useAppSelector } from '../../../system/redux/store/hooks';
 import AppHeader from "../../uiHelpers/AppHeader";
 import FullScreenLoader from '../../uiHelpers/FullScreenLoader';
 import { h } from '../../../helpers/Dimensions';
+import { getDeviceInfo } from '../../../helpers/DeviceInfo';
 
 
 const SignInScreen = ({ route }) => {
@@ -111,6 +112,11 @@ const SignInScreen = ({ route }) => {
   }
 
 
+
+  const signInFunc = async () => {
+    const deviceData = await getDeviceInfo();
+    dispatch(APISignIn(emailInp, passwordInp, JSON.stringify(deviceData)));
+  }
 
   return (
     <View style={[styles.container, {
@@ -241,7 +247,7 @@ const SignInScreen = ({ route }) => {
 
             if (validateForm()) {
 
-              dispatch(APISignIn(emailInp, passwordInp));
+              signInFunc();
 
             }
 

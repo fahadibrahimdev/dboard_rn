@@ -18,6 +18,9 @@ export const API = {
   //Auth Related APIs
   SIGN_IN_API: `${ENV.BASEURL}/user/login`,
 
+  //Auth Related APIs
+  SIGN_IN_V2_API: `${ENV.BASEURL}/user/loginv2`,
+
   // Edit profile
   EDIT_PROFILE_API: `${ENV.BASEURL}/user/update_profile`,
 
