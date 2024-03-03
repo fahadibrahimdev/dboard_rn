@@ -96,7 +96,7 @@ const AttendanceCell = ({ item, index = 0, showArrowBtn, onArrowclick, highlight
 
                 var alertString = "Created on: ";
                 if (!!item.created_time) {
-                  alertString = alertString + item.created_time
+                  alertString = alertString + moment(item.created_time).format('DD-MMM-YYYY hh:mm:ss A')
                 } else {
                   alertString = alertString + " -- "
                 }

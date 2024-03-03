@@ -10,12 +10,11 @@ import { StyleSheet, View } from "react-native";
 import { Dropdown } from 'react-native-element-dropdown';
 import { Button, Text } from 'react-native-paper';
 import { RFValue } from 'react-native-responsive-fontsize';
-import { useDispatch } from 'react-redux';
 
 import moment from 'moment-timezone';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { adjustSystemShiftDataRed, adjustTeamDataRed } from '../../../../helpers/Utils';
+import { adjustStatusDataRed, adjustSystemShiftDataRed, adjustTeamDataRed } from '../../../../helpers/Utils';
 import { useAppSelector } from '../../../../system/redux/store/hooks';
 import AppHeader from '../../../uiHelpers/AppHeader';
 import DateTimeSelector from '../../../uiHelpers/DateTimeSelector';
@@ -45,11 +44,17 @@ const FiltersAttendanceScreen = ({ route }) => {
   const [teamValue, setTeamValue] = useState(null);
   const [isTeamFocus, setIsTeamFocus] = useState(false);
 
+  const [statusData, setStatusData] = useState([]);
+  const [statusValue, setStatusValue] = useState(null);
+  const [isstatusFocus, setIsStatusFocus] = useState(false);
+
 
   useEffect(() => {
 
-    setTeamData(adjustTeamDataRed(RedHeartBeat.actualPayload))
     setShiftData(adjustSystemShiftDataRed(RedHeartBeat.actualPayload));
+    setTeamData(adjustTeamDataRed(RedHeartBeat.actualPayload))
+
+    setStatusData(adjustStatusDataRed(RedHeartBeat.actualPayload));
 
     if (!!myAllFilters) {
       if (!!myAllFilters.startDate) {
@@ -66,6 +71,10 @@ const FiltersAttendanceScreen = ({ route }) => {
 
       if (!!myAllFilters.team) {
         setTeamValue(myAllFilters.team);
+      }
+
+      if (!!myAllFilters.status) {
+        setStatusValue(myAllFilters.status);
       }
 
     }
@@ -107,6 +116,24 @@ const FiltersAttendanceScreen = ({ route }) => {
       ]}>
         <Text style={styles.textItem}>{item.label}</Text>
         {item.value === teamValue && (
+          <AntDesign
+            style={styles.icon}
+            color="black"
+            name="checkcircle"
+            size={20}
+          />
+
+        )}
+      </View>
+    );
+  };
+
+  const renderStatusItem = item => {
+    return (
+
+      <View style={[styles.item,]}>
+        <Text style={styles.textItem}>{item.label}</Text>
+        {item.value === statusValue && (
           <AntDesign
             style={styles.icon}
             color="black"
@@ -265,7 +292,49 @@ const FiltersAttendanceScreen = ({ route }) => {
               renderItem={renderTeamItem}
             />
 
+            <Dropdown
+              style={[styles.dropdown, {
+                borderColor: colors.appTextPrimaryColor,
+              }, isTeamFocus && { borderWidth: 3, borderColor: '#007AFF', marginTop: 10 }]}
+              placeholderStyle={[styles.placeholderStyle, {
+                color: colors.appTextPlaceHolderColor,
 
+
+              }]}
+              selectedTextStyle={[styles.selectedTextStyle, {
+                color: colors.appTextPrimaryColor,
+
+
+              }]}
+
+              inputSearchStyle={styles.inputSearchStyle}
+              iconStyle={styles.iconStyle}
+              data={statusData}
+              search
+              maxHeight={300}
+              labelField="label"
+              valueField="value"
+              placeholder={!isstatusFocus ? 'Status*' : 'Status*'}
+              searchPlaceholder="Search..."
+              value={statusValue}
+
+              onFocus={() => setIsStatusFocus(true)}
+              onBlur={() => setIsStatusFocus(false)}
+              onChange={item => {
+                setStatusValue(item.value);
+                setIsStatusFocus(false);
+              }}
+              renderLeftIcon={() => (
+                <Icon
+                  style={styles.icon}
+                  color={isstatusFocus ? '#007AFF' : colors.appTextPrimaryColor}
+                  name="list-status"
+
+                  size={20}
+                />
+              )}
+              renderItem={renderStatusItem}
+            />
 
           </View>
 
@@ -294,6 +363,10 @@ const FiltersAttendanceScreen = ({ route }) => {
 
                     if (!!teamValue) {
                       filtersObj.team = teamValue;
+                    }
+
+                    if (!!statusValue) {
+                      filtersObj.status = statusValue;
                     }
 
                     onApply(filtersObj);

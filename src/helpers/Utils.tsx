@@ -150,7 +150,10 @@ export const adjustUserDataRed = (payload: any): any => {
 
         return payload.data.map((x: any) => {
             return ({
-                label: x.user_name, value: x.user_id.toString(), teamId: x.team_id, teamName: x.teamName
+                label: x.user_name,
+                value: x.user_id.toString(),
+                teamId: x.team_id,
+                teamCode: x.team_code
             })
 
         })

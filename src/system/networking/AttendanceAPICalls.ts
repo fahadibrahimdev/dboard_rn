@@ -38,6 +38,7 @@ export const APIGetAttendanceByPagination =
     shift,
     teamId,
     userId,
+    status,
   }) =>
   async (dispatch, getState) => {
     try {
@@ -89,6 +90,10 @@ export const APIGetAttendanceByPagination =
 
       if (!!userId) {
         data.append("user_id", userId.toString());
+      }
+
+      if (!!status) {
+        data.append("status", status.toString());
       }
 
       dispatch(
@@ -349,7 +354,7 @@ export const APIcreateAttendance =
 // working time
 
 export const APIGetWorkingTime =
-  ({ token, start_day, end_day, shift, teamId, userId }) =>
+  ({ token, start_day, end_day, shift, teamId, userId, status }) =>
   async (dispatch) => {
     try {
       const apiUrl = API.GET_WORKING_TIME_API;
@@ -391,6 +396,10 @@ export const APIGetWorkingTime =
 
       if (!!userId) {
         data.append("user_id", userId.toString());
+      }
+
+      if (!!status) {
+        data.append("status", status.toString());
       }
 
       dispatch(getWorkingTimePending());

@@ -6,7 +6,7 @@
  */
 import { useNavigation, useTheme } from '@react-navigation/native';
 import React, { useEffect, useState } from "react";
-import { StyleSheet, View } from "react-native";
+import { Alert, StyleSheet, View } from "react-native";
 import { Dropdown } from 'react-native-element-dropdown';
 import { Button, Text } from 'react-native-paper';
 import { RFValue } from 'react-native-responsive-fontsize';
@@ -16,11 +16,13 @@ import moment from 'moment-timezone';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { adjustStatusDataRed, adjustSystemShiftDataRed, adjustTeamDataRed, adjustUserDataRed } from '../../../../helpers/Utils';
+import { APIGetUserById } from '../../../../system/networking/AttendanceAPICalls';
 import { useAppSelector } from '../../../../system/redux/store/hooks';
 import AppHeader from '../../../uiHelpers/AppHeader';
 import DateTimeSelector from '../../../uiHelpers/DateTimeSelector';
 import FullScreenLoader from '../../../uiHelpers/FullScreenLoader';
-import { APIGetUserById } from '../../../../system/networking/AttendanceAPICalls';
+import { CALL_STATE } from '../../../../helpers/enum';
+import { getUserByIdIdle } from '../../../../system/redux/slice/attendanceSlice';
 
 
 const FiltersTeamAttendanceScreen = ({ route }) => {
@@ -51,15 +53,16 @@ const FiltersTeamAttendanceScreen = ({ route }) => {
 
 
 
-  const [userData, setuserData] = useState([]);
-  const [userValue, setuserValue] = useState(null);
-  const [isuserFocus, setIsuserFocus] = useState(false);
+  const [orignalUserData, setOrignalUserData] = useState([]);
+  const [userData, setUserData] = useState([]);
+  const [userValue, setUserValue] = useState(null);
+  const [isuserFocus, setIsUserFocus] = useState(false);
 
 
 
-  const [statusData, setstatusData] = useState([]);
-  const [statusValue, setstatusValue] = useState(null);
-  const [isstatusFocus, setIsstatusFocus] = useState(false);
+  const [statusData, setStatusData] = useState([]);
+  const [statusValue, setStatusValue] = useState(null);
+  const [isstatusFocus, setIsStatusFocus] = useState(false);
 
 
   useEffect(() => {
@@ -70,12 +73,12 @@ const FiltersTeamAttendanceScreen = ({ route }) => {
 
     dispatch(APIGetUserById(RedAuthUser.accessToken, commaSeperatedIds));
 
-    setstatusData(adjustStatusDataRed(RedHeartBeat.actualPayload));
-    setTeamData(adjustTeamDataRed(RedHeartBeat.actualPayload));
     setShiftData(adjustSystemShiftDataRed(RedHeartBeat.actualPayload));
-    let varb = adjustUserDataRed(RedGetUserById.actualPayload);
-    console.log("Fahad data: ", varb);
-    setuserData(varb);
+    setTeamData(adjustTeamDataRed(RedHeartBeat.actualPayload));
+
+    setStatusData(adjustStatusDataRed(RedHeartBeat.actualPayload));
+
+
 
     if (!!myAllFilters) {
       if (!!myAllFilters.startDate) {
@@ -94,9 +97,48 @@ const FiltersTeamAttendanceScreen = ({ route }) => {
         setTeamValue(myAllFilters.team);
       }
 
+      if (!!myAllFilters.user) {
+        setUserValue(myAllFilters.user);
+      }
+
+      if (!!myAllFilters.status) {
+        setStatusValue(myAllFilters.status);
+      }
+
     }
 
   }, []);
+
+  useEffect(() => {
+    if (!!orignalUserData && orignalUserData.length > 0) {
+      const filteredUsers = orignalUserData.filter((obj) => obj.teamId === parseInt(teamValue));
+      setUserData(filteredUsers);
+      setUserValue(null);
+    }
+  }, [teamValue]);
+
+  useEffect(() => {
+    if (!!teamValue && !!orignalUserData && orignalUserData.length > 0) {
+      const filteredUsers = orignalUserData.filter((obj) => obj.teamId === parseInt(teamValue));
+      setUserData(filteredUsers);
+    }
+  }, [orignalUserData]);
+
+  useEffect(() => {
+
+    if (
+      RedGetUserById.state !== CALL_STATE.IDLE &&
+      RedGetUserById.state !== CALL_STATE.FETCHING
+    ) {
+
+      dispatch(getUserByIdIdle());
+      if (RedGetUserById.state === CALL_STATE.SUCCESS) {
+        setOrignalUserData(adjustUserDataRed(RedGetUserById.actualPayload));
+      } else if (RedGetUserById.state === CALL_STATE.ERROR) {
+        Alert.alert('Error', RedGetUserById.error);
+      }
+    }
+  }, [RedGetUserById.state]);
 
 
 
@@ -104,7 +146,6 @@ const FiltersTeamAttendanceScreen = ({ route }) => {
 
     return true;
   }
-
 
 
   const renderShiftItem = item => {
@@ -145,26 +186,6 @@ const FiltersTeamAttendanceScreen = ({ route }) => {
     );
   };
 
-
-
-  const renderStatusItem = item => {
-    return (
-
-      <View style={[styles.item,]}>
-        <Text style={styles.textItem}>{item.label}</Text>
-        {item.value === statusValue && (
-          <AntDesign
-            style={styles.icon}
-            color="black"
-            name="checkcircle"
-            size={20}
-          />
-
-        )}
-      </View>
-    );
-  };
-
   const renderUserItem = item => {
     return (
 
@@ -184,6 +205,24 @@ const FiltersTeamAttendanceScreen = ({ route }) => {
         )}
 
 
+      </View>
+    );
+  };
+
+  const renderStatusItem = item => {
+    return (
+
+      <View style={[styles.item,]}>
+        <Text style={styles.textItem}>{item.label}</Text>
+        {item.value === statusValue && (
+          <AntDesign
+            style={styles.icon}
+            color="black"
+            name="checkcircle"
+            size={20}
+          />
+
+        )}
       </View>
     );
   };
@@ -335,49 +374,53 @@ const FiltersTeamAttendanceScreen = ({ route }) => {
             />
 
 
-            <Dropdown
-              style={[styles.dropdown, {
-                borderColor: colors.appTextPrimaryColor,
-              }, isTeamFocus && { borderWidth: 3, borderColor: '#007AFF', marginTop: 10 }]}
-              placeholderStyle={[styles.placeholderStyle, {
-                color: colors.appTextPlaceHolderColor,
+            {
+              !!teamValue &&
+              <Dropdown
+                style={[styles.dropdown, {
+                  borderColor: colors.appTextPrimaryColor,
+                }, isTeamFocus && { borderWidth: 3, borderColor: '#007AFF', marginTop: 10 }]}
+                placeholderStyle={[styles.placeholderStyle, {
+                  color: colors.appTextPlaceHolderColor,
 
 
-              }]}
-              selectedTextStyle={[styles.selectedTextStyle, {
-                color: colors.appTextPrimaryColor,
+                }]}
+                selectedTextStyle={[styles.selectedTextStyle, {
+                  color: colors.appTextPrimaryColor,
 
 
-              }]}
+                }]}
 
-              inputSearchStyle={styles.inputSearchStyle}
-              iconStyle={styles.iconStyle}
-              data={userData}
-              search
-              maxHeight={300}
-              labelField="label"
-              valueField="value"
-              placeholder={!isuserFocus ? 'Agent*' : 'Agent*'}
-              searchPlaceholder="Search..."
-              value={userValue}
+                inputSearchStyle={styles.inputSearchStyle}
+                iconStyle={styles.iconStyle}
+                data={userData}
+                search
+                maxHeight={300}
+                labelField="label"
+                valueField="value"
+                placeholder={!isuserFocus ? 'Agent*' : 'Agent*'}
+                searchPlaceholder="Search..."
+                value={userValue}
 
-              onFocus={() => setIsuserFocus(true)}
-              onBlur={() => setIsuserFocus(false)}
-              onChange={item => {
-                setuserValue(item.value);
-                setIsuserFocus(false);
-              }}
-              renderLeftIcon={() => (
-                <Icon
-                  style={styles.icon}
-                  color={isTeamFocus ? '#007AFF' : colors.appTextPrimaryColor}
-                  name="account"
+                onFocus={() => setIsUserFocus(true)}
+                onBlur={() => setIsUserFocus(false)}
+                onChange={item => {
+                  setUserValue(item.value);
+                  setIsUserFocus(false);
+                }}
+                renderLeftIcon={() => (
+                  <Icon
+                    style={styles.icon}
+                    color={isTeamFocus ? '#007AFF' : colors.appTextPrimaryColor}
+                    name="account"
 
-                  size={20}
-                />
-              )}
-              renderItem={renderUserItem}
-            />
+                    size={20}
+                  />
+                )}
+                renderItem={renderUserItem}
+              />
+            }
+
 
             <Dropdown
               style={[styles.dropdown, {
@@ -405,11 +448,11 @@ const FiltersTeamAttendanceScreen = ({ route }) => {
               searchPlaceholder="Search..."
               value={statusValue}
 
-              onFocus={() => setIsstatusFocus(true)}
-              onBlur={() => setIsstatusFocus(false)}
+              onFocus={() => setIsStatusFocus(true)}
+              onBlur={() => setIsStatusFocus(false)}
               onChange={item => {
-                setstatusValue(item.value);
-                setIsstatusFocus(false);
+                setStatusValue(item.value);
+                setIsStatusFocus(false);
               }}
               renderLeftIcon={() => (
                 <Icon
@@ -456,8 +499,18 @@ const FiltersTeamAttendanceScreen = ({ route }) => {
                     }
 
                     if (!!teamValue) {
-                      console.log("Shift Value: ", teamValue);
+                      console.log("Team Value: ", teamValue);
                       filtersObj.team = teamValue;
+                    }
+
+                    if (!!userValue) {
+                      console.log("User Value: ", userValue);
+                      filtersObj.user = userValue;
+                    }
+
+                    if (!!statusValue) {
+                      console.log("Status Value: ", statusValue);
+                      filtersObj.status = statusValue;
                     }
 
                     onApply(filtersObj);
@@ -497,7 +550,7 @@ const FiltersTeamAttendanceScreen = ({ route }) => {
       </View>
 
       <FullScreenLoader
-        loading={false}
+        loading={RedGetUserById.state === CALL_STATE.FETCHING}
       />
     </View>
   )

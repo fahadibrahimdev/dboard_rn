@@ -12,7 +12,7 @@ const UAT = {
 };
 
 //SET MAIN ENVIRONMENT
-export const ENV = UAT;
+export const ENV = PROD;
 
 export const API = {
   //Auth Related APIs
@@ -32,7 +32,6 @@ export const API = {
   //App Related APIs
   HEART_BEAT_API: `${ENV.BASEURL}/user/heartbeat`,
 
-
   // Update News APIs
   UPDATE_NEWS_API: `${ENV.BASEURL}/user/update_news_flags`,
 
@@ -44,13 +43,11 @@ export const API = {
   //Team Attendance
   GET_TEAM_ATTENDANCE_API: `${ENV.BASEURL}/attendance/team_id`,
 
-  //Get Working Time 
+  //Get Working Time
   GET_WORKING_TIME_API: `${ENV.BASEURL}/attendance/get_user_working_time`,
-  
-  //Get User By Id 
-  GET_USER_BY_ID__API: `${ENV.BASEURL}/user/get_users_by_team_id`,
 
-  
+  //Get User By Id
+  GET_USER_BY_ID__API: `${ENV.BASEURL}/user/get_users_by_team_id`,
 
   //Global Attendance
   GET_ATTENDANCE_BY_PAGINATION_API: `${ENV.BASEURL}/attendance/get_attendance_by_pagination`,

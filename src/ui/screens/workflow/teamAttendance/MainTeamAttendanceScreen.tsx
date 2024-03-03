@@ -5,23 +5,22 @@
  * @format
  */
 import { useNavigation, useTheme } from '@react-navigation/native';
+import moment from 'moment-timezone';
 import React, { useEffect, useState } from "react";
-import { Alert, FlatList, RefreshControl, Touchable, TouchableOpacity, View } from "react-native";
+import { Alert, FlatList, RefreshControl, View } from "react-native";
 import { } from 'react-native-gesture-handler';
 import { ActivityIndicator, Text } from 'react-native-paper';
 import { RFValue } from 'react-native-responsive-fontsize';
 import { useDispatch } from 'react-redux';
-import { adjustTeamDataRed, getStatusNameFromIdRed } from '../../../../helpers/Utils';
+import { adjustTeamDataRed, formatTime, getStatusNameFromIdRed } from '../../../../helpers/Utils';
 import { CALL_STATE, FILTER_DATE_CODES } from '../../../../helpers/enum';
 import { ScreenNames } from '../../../../system/navigation/ScreenNames';
 import { APIGetAttendanceByPagination, APIGetWorkingTime } from '../../../../system/networking/AttendanceAPICalls';
-import { getAttendanceByPaginationIdle, getTeamAttendanceIdle } from '../../../../system/redux/slice/attendanceSlice';
+import { getAttendanceByPaginationIdle } from '../../../../system/redux/slice/attendanceSlice';
 import { useAppSelector } from '../../../../system/redux/store/hooks';
 import AttendanceCell from '../../../helperComponents/AttendanceCell';
 import AppHeader from '../../../uiHelpers/AppHeader';
 import FiltersComponent from '../../../uiHelpers/FiltersComponent';
-import FullScreenLoader from '../../../uiHelpers/FullScreenLoader';
-import moment from 'moment-timezone';
 
 
 const MainTeamAttendanceScreen = ({ }) => {
@@ -110,6 +109,9 @@ const MainTeamAttendanceScreen = ({ }) => {
     var shiftValue = '';
     var teamIds = '';
 
+    var user = '';
+    var status = '';
+
     if (!!myAllFilters) {
 
       startDate = (!!myAllFilters.startDate) ? (myAllFilters.startDate) : ("");
@@ -123,6 +125,14 @@ const MainTeamAttendanceScreen = ({ }) => {
         teamIds = myAllFilters.team
       } else {
         teamIds = myCommaSeperatedTeams;
+      }
+
+      if (!!myAllFilters.user) {
+        user = myAllFilters.user
+      }
+
+      if (!!myAllFilters.status) {
+        status = myAllFilters.status
       }
 
     } else if (!!mySelectedTimeDuration) {
@@ -145,6 +155,9 @@ const MainTeamAttendanceScreen = ({ }) => {
       end_day: endDate,
       shift: shiftValue,
       teamId: teamIds,
+
+      userId: user,
+      status: status
     }
     ));
 
@@ -154,7 +167,9 @@ const MainTeamAttendanceScreen = ({ }) => {
         start_day: startDate,
         end_day: endDate,
         shift: shiftValue,
-        teamId: teamIds
+        teamId: teamIds,
+        userId: user,
+        status: status
       }));
 
   };
@@ -272,16 +287,6 @@ const MainTeamAttendanceScreen = ({ }) => {
     );
   };
 
-  const formatTime = (timeString: string) => {
-    // Split the time string into hours, minutes, and seconds
-    const [hours, minutes, seconds] = timeString.split(':').map(Number);
-
-    // Format the time
-    const formattedTime = `${hours} hrs ${minutes} mins ${seconds} sec`;
-
-    return formattedTime;
-  }
-
   return (
 
     <View style={{
@@ -344,30 +349,41 @@ const MainTeamAttendanceScreen = ({ }) => {
         marginHorizontal: 12
       }}>
         <Text
-        style={{
-          color:colors.appTextPrimaryColor,
-        }}
-        >Total Time: </Text>
-        <Text
           variant='bodyLarge'
           style={{
 
-            borderWidth: 2,
-            borderColor: colors.bordercolor,
-            borderRadius: 20,
-            marginTop: 5,
-            paddingHorizontal: 12,
-            paddingVertical: 4,
-            alignSelf: 'center',
             color: colors.appTextPrimaryColor,
             fontWeight: 'bold'
-          }}>
+          }}
+        >Total Time: </Text>
+        <View style={{
+          minWidth: RFValue(100),
+          borderWidth: 2,
+          borderColor: colors.bordercolor,
+          borderRadius: 20,
 
-          {(
-            !!RedGetWorkingTime.actualPayload?.data &&
-            RedGetWorkingTime.actualPayload?.data.length > 0 &&
-            !!RedGetWorkingTime.actualPayload?.data[0]?.total_time_spent) ?
-            (formatTime(RedGetWorkingTime.actualPayload?.data[0]?.total_time_spent)) : ('--')}</Text>
+          paddingHorizontal: 12,
+          paddingVertical: 4,
+          alignItems: 'center',
+
+        }}>
+
+
+          <Text
+            variant='bodyLarge'
+            style={{
+
+              color: colors.appTextPrimaryColor,
+              fontWeight: 'bold'
+            }}>
+
+            {(
+              !!RedGetWorkingTime.actualPayload?.data &&
+              RedGetWorkingTime.actualPayload?.data.length > 0 &&
+              !!RedGetWorkingTime.actualPayload?.data[0]?.total_time_spent) ?
+              (formatTime(RedGetWorkingTime.actualPayload?.data[0]?.total_time_spent)) : ('--')}</Text>
+
+        </View>
       </View>
 
       <FlatList
