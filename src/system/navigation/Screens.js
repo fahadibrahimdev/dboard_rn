@@ -11,6 +11,7 @@ import PolicyScreen from "../../ui/screens/drawer/PolicyScreen";
 import Settings from "../../ui/screens/drawer/Settings";
 import CreateAttendanceScreen from "../../ui/screens/workflow/attendance/CreateAttendanceScreen";
 import MainAttendanceScreen from "../../ui/screens/workflow/attendance/MainAttendanceScreen";
+import CreateFinanceScreen from "../../ui/screens/workflow/finance/CreateFinanceScreen";
 
 import ViewAttendanceScreen from "../../ui/screens/workflow/attendance/ViewAttendanceScreen";
 import FinanceScreen from "../../ui/screens/workflow/finance/FinanceScreen";
@@ -45,6 +46,7 @@ export const Screens = {
   Settings: Settings,
   ViewAttendanceScreen: ViewAttendanceScreen,
   CreateAttendanceScreen: CreateAttendanceScreen,
+  CreateFinanceScreen: CreateFinanceScreen,
   EditAttendanceScreen: EditAttendanceScreen,
   ViewFinanceScreen: ViewFinanceScreen,
 

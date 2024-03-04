@@ -13,6 +13,7 @@ export const ScreenNames = {
   NewsScreen: "NewsScreen",
   NewsOpen: "NewsOpen",
   Settings: "Settings",
+  CreateFinanceScreen:"CreateFinanceScreen",
   CreateAttendanceScreen: "CreateAttendanceScreen",
   ViewAttendanceScreen: "ViewAttendanceScreen",
   EditAttendanceScreen: "EditAttendanceScreen",

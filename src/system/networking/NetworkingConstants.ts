@@ -12,7 +12,7 @@ const UAT = {
 };
 
 //SET MAIN ENVIRONMENT
-export const ENV = PROD;
+export const ENV = UAT;
 
 export const API = {
   //Auth Related APIs

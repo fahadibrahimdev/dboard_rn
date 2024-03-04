@@ -72,6 +72,12 @@ export default function RootNavigator() {
         component={Screens.FinanceScreen}
         options={{ headerShown: false }}
       />
+       <Stack.Screen
+        name={ScreenNames.CreateFinanceScreen}
+        component={Screens.CreateFinanceScreen}
+        options={{ headerShown: false }}
+      />
+     
       <Stack.Screen
         name={ScreenNames.ReportScreen}
         component={Screens.ReportScreen}
@@ -99,6 +105,7 @@ export default function RootNavigator() {
         component={Screens.DeleteUser}
         options={{ headerShown: false }}
       />
+
 
       <Stack.Screen
         name={ScreenNames.CreateAttendanceScreen}
