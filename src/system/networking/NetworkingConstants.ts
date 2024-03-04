@@ -16,7 +16,8 @@ export const ENV = PROD;
 
 export const API = {
   //Auth Related APIs
-  SIGN_IN_API: `${ENV.BASEURL}/user/login`,
+  // (OLD API Deprecated)
+  // SIGN_IN_API: `${ENV.BASEURL}/user/login`,
 
   //Auth Related APIs
   SIGN_IN_V2_API: `${ENV.BASEURL}/user/loginv2`,
