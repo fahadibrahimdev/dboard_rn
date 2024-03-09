@@ -92,10 +92,10 @@ const DashboardScreen = ({ route }) => {
 
         }));
       } else if (RedUpdateNews.state === CALL_STATE.ERROR) {
-        
+
       }
     }
-    
+
   }, [RedUpdateNews.state])
 
 
@@ -151,14 +151,14 @@ navigation.openDrawer();
           navigation.openDrawer();
           // props.navigation.openDrawer();
         }}
+
         showRightButton={true}
         rightButtonIcon={'bell'}
         onRightItemClick={() => {
           navigation.navigate(ScreenNames.NotificationScreen)
 
-
-
         }}
+
         showDivider={true}
       />
       <View
@@ -207,7 +207,7 @@ navigation.openDrawer();
             return (
 
               <CellComponent
-              
+
                 item={item}
                 index={index}
                 myUserID={0}
@@ -221,10 +221,10 @@ navigation.openDrawer();
 
                   } else if (item.code === "NEWS") {
 
-                    if(item.code === "NEWS" && !!RedHeartBeat?.actualPayload?.data?.all_notifications_seen) {
+                    if (item.code === "NEWS" && !!RedHeartBeat?.actualPayload?.data?.all_notifications_seen) {
                       dispatch(APIUpdateNews(RedAuthUser.accessToken));
                     }
-                    
+
 
                     navigation.navigate(ScreenNames.NewsScreen);
                   }

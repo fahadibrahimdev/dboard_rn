@@ -373,6 +373,7 @@ const MainAttendanceScreen = ({ }) => {
           navigation.goBack();
 
         }}
+
         showRightButton={true}
         rightButtonIcon={(!!myAllFilters) ? ('filter-check') : ('filter-variant')}
         rightButtonIconColor={(!!myAllFilters) ? ("#007AFF") : (colors.appdrawerIconTextColor)}
@@ -392,14 +393,15 @@ const MainAttendanceScreen = ({ }) => {
             }
           });
         }}
-        showExportButton={true}
-        ExportButtonIcon={'download-box'}
-        onExportItemClick={() => {
-          exportDataFunc();
-          
 
+
+        showSecondRightButton={true}
+        secondRightButtonIcon={'download-box'}
+        onSecondRightItemClick={() => {
+          exportDataFunc();
         }}
-       
+
+
         showDivider={true}
       />
 
@@ -500,7 +502,7 @@ const MainAttendanceScreen = ({ }) => {
                 navigation.navigate(ScreenNames.RemarksScreen, {
                   selectedItem: item,
                   onBack: () => {
-                    
+
                   }
                 });
               }
