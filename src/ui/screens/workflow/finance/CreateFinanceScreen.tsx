@@ -183,7 +183,7 @@ const CreateFinanceScreen = ({ route }) => {
             }}>Create Finance</Text>
 
           <DateTimeSelector
-            value={startDate}
+            value={startDate} 
             placeholder='Start DateTime*'
             onChange={(newValue: any) => {
               setStartDate(newValue);

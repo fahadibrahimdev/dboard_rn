@@ -18,10 +18,13 @@ const AppHeader = props => {
     leftButtonTitle,
     leftButtonIcon,
     showRightButton,
+    showExportButton,
     rightMenuOptions,
     onRightItemClick,
+    onExportItemClick,
     rightButtonTitle,
     rightButtonIcon,
+    exportButtonIcon,
     rightButtonIconColor,
     showDivider
   } = props;
@@ -66,46 +69,73 @@ const AppHeader = props => {
           justifyContent: 'center',
           alignItems: 'flex-start',
           paddingVertical: RFValue(2),
-          paddingHorizontal: RFValue(2)
-          // backgroundColor: "#001122"
+          paddingHorizontal: RFValue(2),
+          backgroundColor: "#001122"
         }}>
           <Image source={dBoardAppIcon}
             style={{ height: '100%', width: '100%', resizeMode: 'contain' }}
 
           />
         </View>
-
+        
         <View
           style={{
-            width: '20%',
-            justifyContent: 'center',
-            alignItems: 'center',
-            // backgroundColor: "#907877"
-          }}>
-          {showRightButton && (
+            // alignItems:'flex-end',
+            // width: '20%',
+            
+            // justifyContent: 'center',
+            // alignItems: 'center',
+            // backgroundColor: "red"
+          }}></View>
+        {showExportButton && (
+
+              
 
 
-            <IconButton
-              icon={(!!rightButtonIcon) ? (rightButtonIcon) : ("logout")}
-              iconColor={(!!rightButtonIconColor) ? (rightButtonIconColor) : (colors.appdrawerIconTextColor)}
-              size={25}
-              onPress={() => {
-                onRightItemClick()
-              }}
-            />
+<IconButton
+
+  icon={(!!exportButtonIcon) ? (exportButtonIcon) : ("download-box")}
+  iconColor={(!!rightButtonIconColor) ? (rightButtonIconColor) : (colors.appdrawerIconTextColor)}
+  size={30}
+  onPress={() => {
+    onExportItemClick()
+  }}
+/>
 
 
 
-          )}
-        </View>
+
+
+)}
+</View>
+
+       
+        
+        {/* 
+        {showRightButton && (
+
+              
+
+
+<IconButton
+  icon={(!!rightButtonIcon) ? (rightButtonIcon) : ("logout")}
+  iconColor={(!!rightButtonIconColor) ? (rightButtonIconColor) : (colors.appdrawerIconTextColor)}
+  size={25}
+  onPress={() => {
+    onRightItemClick()
+  }}
+/>
+
+
+
+)}
+</View> */}
+
 
       </View>
 
-      {showDivider && <Divider style={{
-        backgroundColor: 'gray'
-      }} />}
 
-    </View>
+    
   );
 };
 

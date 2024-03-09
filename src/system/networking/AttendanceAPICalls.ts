@@ -22,9 +22,14 @@ import {
   getUserByIdPending,
   getUserByIdSuccess,
   getUserByIdError,
+  getExportUserDataIdle,
+  getExportUserDataPending,
+  getExportUserDataSuccess,
+  getExportUserDataError,
 } from "../redux/slice/attendanceSlice";
 import { API, HEADERS } from "./NetworkingConstants";
 import { CALL_STATE } from "../../helpers/enum";
+import { parseXmlData } from "../../helpers/Utils";
 
 export const APIGetAttendanceByPagination =
   ({
@@ -451,6 +456,7 @@ export const APIGetWorkingTime =
     }
   };
 
+
 export const ApiApproveAttendance =
   (token, end_time, attendanceID, attendanceStatus) => async (dispatch) => {
     try {
@@ -522,4 +528,109 @@ export const ApiApproveAttendance =
         })
       );
     }
-  };
+  }
+    // Get Export user Data
+
+    export const APIexportUserdata =
+    ({
+      token,
+      start_day,
+      end_day,
+      shift,
+      teamId,
+      userId,
+      status,
+    }) => async (dispatch) => {
+      try {
+        const apiUrl = API.EXPORT_USER_DATA_API;
+  
+        const data = new URLSearchParams();
+
+
+      if (!!start_day) {
+        const myUTCDateTime = moment(start_day)
+          .utc()
+          .format("YYYY-MM-DD HH:mm:ss");
+        data.append("start_date", myUTCDateTime);
+      }
+
+      if (!!end_day) {
+        const myUTCDateTime = moment(end_day)
+          .utc()
+          .format("YYYY-MM-DD HH:mm:ss");
+        data.append("end_date", myUTCDateTime);
+      } else {
+        const myUTCDateTime = moment(new Date())
+          .utc()
+          .format("YYYY-MM-DD 23:59:59");
+        data.append("end_date", myUTCDateTime);
+      }
+
+      if (!!shift) {
+        data.append("shift_id", shift);
+      }
+
+      if (!!teamId) {
+        data.append("team_id", teamId.toString());
+      }
+
+      if (!!userId) {
+        data.append("user_id", userId.toString());
+      }
+
+      if (!!status) {
+        data.append("status", status.toString());
+      }
+
+        dispatch(getExportUserDataPending());
+  
+        const response = await fetch(apiUrl, {
+          method: "POST",
+          headers: {
+            ...HEADERS,
+            Accept: "application/json",
+            Authorization: "Bearer " + token,
+          },
+          body: data.toString(),
+        });
+  
+        if (response.status >= 200 && response.status <= 202) {
+          // const responseData = await response.json();
+
+          const xmlData = await response.text();
+          parseXmlData(xmlData);
+          
+  
+          dispatch(
+            getExportUserDataSuccess({
+              data: {},
+            })
+          );
+        } else if (response.status === 401) {
+          dispatch(
+            getExportUserDataError({
+              error: "Export-User-Data  Api Call Auth Failed!",
+            })
+          );
+        } else if (response.status === 400) {
+          const responseData = await response.json();
+          dispatch(
+            getExportUserDataError({
+              error: responseData.message,
+            })
+          );
+        } else {
+          dispatch(
+            getExportUserDataError({
+              error: "Export-User-Data  Api Call Failed!",
+            })
+          );
+        }
+      } catch (error) {
+        dispatch(
+          getExportUserDataError({
+            error: " Error in Export-User-Data Api Call!",
+          })
+        );
+      }
+    };

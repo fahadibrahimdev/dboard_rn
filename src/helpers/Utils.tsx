@@ -1,3 +1,7 @@
+import { Alert, Linking, Platform } from "react-native";
+import * as RNFS from 'react-native-fs';
+import xml2js from 'react-native-xml2js'; // You might need to install this library
+
 export const getShiftFromIdRed = (id: number, hbPayload: any) => {
 
     if (!!hbPayload && !!hbPayload.data && !!hbPayload.data.system_lookups && !!hbPayload.data.system_lookups.shift_data) {
@@ -189,3 +193,52 @@ export const formatTime = (timeString: string) => {
 
     return formattedTime;
 }
+
+
+
+export const parseXmlData = async (xmlData) => {
+    try {
+      const parser = new xml2js.Parser();
+      parser.parseString(xmlData, (err, result) => {
+        if (err) {
+          console.error('Error parsing XML:', err);
+          Alert.alert('Error', 'Failed to parse XML data');
+          return;
+        }
+        // Extract the URL of the XLS file from the XML data
+        const xlsUrl = result?.data?.xlsUrl[0]; // Adjust this according to your XML structure
+        // setXlsUrl(xlsUrl);
+
+        downloadXls(xlsUrl);
+      });
+    } catch (error) {
+      console.error('Error parsing XML:', error);
+      Alert.alert('Error', 'Failed to parse XML data');
+    }
+  };
+
+  const downloadXls = async (xlsUrl: string) => {
+    try {
+      const downloadDest = `${RNFS.TemporaryDirectoryPath}file.xls`;
+      const options = {
+        fromUrl: xlsUrl,
+        toFile: downloadDest,
+      };
+      const response = await RNFS.downloadFile(options).promise;
+      if (response.statusCode === 200) {
+        if (Platform.OS === 'ios') {
+          // Open XLS in default viewer on iOS
+          RNFS.openURL(downloadDest);
+        } else {
+          // Open XLS in default viewer on Android
+          Alert.alert('Success', 'XLS downloaded successfully');
+          Linking.openURL(`file://${downloadDest}`);
+        }
+      } else {
+        Alert.alert('Error', 'Failed to download XLS');
+      }
+    } catch (error) {
+      console.error('Error downloading XLS:', error);
+      Alert.alert('Error', 'Failed to download XLS');
+    }
+  };

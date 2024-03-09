@@ -32,6 +32,7 @@ export interface AttendanceState {
     error: string;
   };
 
+
   getWorkingTime: {
     state: string;
     actualPayload: any;
@@ -42,6 +43,12 @@ export interface AttendanceState {
     actualPayload: any;
     error: string;
   };
+  getExportUserData: {
+    state: string;
+    actualPayload: any;
+    error: string;
+  };
+ 
 
 }
 
@@ -83,6 +90,12 @@ const initialState: AttendanceState = {
     actualPayload: {},
     error: '',
   },
+  getExportUserData: {
+    state: CALL_STATE.IDLE,
+    actualPayload: {},
+    error: '',
+  },
+  
 };
 
 export const AttendanceSlice = createSlice({
@@ -117,6 +130,7 @@ export const AttendanceSlice = createSlice({
 
       console.log('Slice-GET-attendanceSuccess:', current(state).getAttendance);
     },
+
     getAttendanceError: (state, action: PayloadAction<any>) => {
       state.getAttendance = {
         state: CALL_STATE.ERROR,
@@ -438,6 +452,57 @@ export const AttendanceSlice = createSlice({
       );
     },
 
+    // Export User Data 
+    getExportUserDataIdle: state => {
+      const currentState = current(state);
+
+      state.getExportUserData = {
+        state: CALL_STATE.IDLE,
+        actualPayload: currentState.getExportUserData.actualPayload,
+        error: currentState.getExportUserData.error,
+      };
+
+      console.log(
+        'Slice-getExport-User-DataIdle:',
+        current(state).getExportUserData,
+      );
+    },
+    getExportUserDataPending: state => {
+      state.getExportUserData = {
+        state: CALL_STATE.FETCHING,
+        actualPayload: {},
+        error: '',
+      };
+      console.log(
+        'Slice-getExport-User-DataPending:',
+        current(state).getExportUserData,
+      );
+    },
+    getExportUserDataSuccess: (state, action: PayloadAction<any>) => {
+      state.getExportUserData = {
+        state: CALL_STATE.SUCCESS,
+        actualPayload: action.payload.data,
+        error: '',
+      };
+
+      console.log(
+        'Slice-getExport-User-DataSuccess:',
+        current(state).getExportUserData,
+      );
+    },
+    getExportUserDataError: (state, action: PayloadAction<any>) => {
+      state.getExportUserData = {
+        state: CALL_STATE.ERROR,
+        actualPayload: {},
+        error: action.payload.error,
+      };
+
+      console.log(
+        'Slice-getExport-User-DataError:',
+        current(state).getExportUserData,
+      );
+    },
+    
     logoutAttendance: state => initialState,
   },
   
@@ -480,6 +545,11 @@ export const {
   getUserByIdPending,
   getUserByIdSuccess,
   getUserByIdError,
+
+  getExportUserDataIdle,
+  getExportUserDataPending,
+  getExportUserDataSuccess,
+  getExportUserDataError,
 
   logoutAttendance,
 } = AttendanceSlice.actions;

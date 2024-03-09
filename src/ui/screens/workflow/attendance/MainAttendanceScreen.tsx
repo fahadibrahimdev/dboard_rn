@@ -15,8 +15,8 @@ import { useDispatch } from 'react-redux';
 import { adjustTeamDataRed, formatTime, getStatusNameFromIdRed } from '../../../../helpers/Utils';
 import { CALL_STATE, FILTER_DATE_CODES } from '../../../../helpers/enum';
 import { ScreenNames } from '../../../../system/navigation/ScreenNames';
-import { APIGetAttendanceByPagination, APIGetWorkingTime } from '../../../../system/networking/AttendanceAPICalls';
-import { getAttendanceByPaginationIdle } from '../../../../system/redux/slice/attendanceSlice';
+import { APIGetAttendanceByPagination, APIGetWorkingTime, APIexportUserdata } from '../../../../system/networking/AttendanceAPICalls';
+import { getAttendanceByPaginationIdle, getExportUserDataIdle } from '../../../../system/redux/slice/attendanceSlice';
 import { useAppSelector } from '../../../../system/redux/store/hooks';
 import AttendanceCell from '../../../helperComponents/AttendanceCell';
 import AppHeader from '../../../uiHelpers/AppHeader';
@@ -191,6 +191,59 @@ const MainAttendanceScreen = ({ }) => {
       }));
   };
 
+  const exportDataFunc = () => {
+
+    const userId = RedHeartBeat.actualPayload.data.user_data?.id;
+
+    var startDate = '';
+    var endDate = '';
+
+    var shiftValue = '';
+    var teamIds = '';
+
+    var status = '';
+
+    if (!!myAllFilters) {
+
+      startDate = (!!myAllFilters.startDate) ? (myAllFilters.startDate) : ("");
+      endDate = (!!myAllFilters.endDate) ? (myAllFilters.endDate) : ("");
+
+      if (!!myAllFilters.shift) {
+        shiftValue = myAllFilters.shift
+      }
+
+      if (!!myAllFilters.team) {
+        teamIds = myAllFilters.team
+      } else {
+        teamIds = myCommaSeperatedTeams;
+      }
+
+      if (!!myAllFilters.status) {
+        status = myAllFilters.status
+      }
+
+    } else if (!!mySelectedTimeDuration) {
+      const quickFilterDates = getStartEndDateFromQuickFilters();
+
+      startDate = quickFilterDates.start_day;
+      endDate = quickFilterDates.end_day;
+
+      teamIds = myCommaSeperatedTeams;
+    }
+
+    dispatch(APIexportUserdata(
+      {
+        token: RedAuthUser.accessToken,
+        start_day: startDate,
+        end_day: endDate,
+        shift: shiftValue,
+        teamId: teamIds,
+        userId: userId,
+
+        status: status
+      }));
+  }
+
   const onPageChange = () => {
     const newPageNumber = RedGetAttendanceByPagination.actualPayload.data.pagination.currentPage + 1;
 
@@ -339,6 +392,14 @@ const MainAttendanceScreen = ({ }) => {
             }
           });
         }}
+        showExportButton={true}
+        ExportButtonIcon={'download-box'}
+        onExportItemClick={() => {
+          exportDataFunc();
+          
+
+        }}
+       
         showDivider={true}
       />
 
@@ -431,6 +492,15 @@ const MainAttendanceScreen = ({ }) => {
                   selectedItem: item,
                   onBack: () => {
                     onRefresh()
+                  }
+                });
+              }
+              }
+              onRemarksclick={() => {
+                navigation.navigate(ScreenNames.RemarksScreen, {
+                  selectedItem: item,
+                  onBack: () => {
+                    
                   }
                 });
               }

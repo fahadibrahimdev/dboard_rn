@@ -15,6 +15,10 @@ import {
   signUpError,
   signUpPending,
   signUpSuccess,
+  createRemarksIdle,
+  createRemarksPending,
+  createRemarksSuccess,
+  createRemarksError,
 } from "../redux/slice/authSlice";
 import { API, HEADERS } from "./NetworkingConstants";
 import { getDeviceInfo } from "../../helpers/DeviceInfo";
@@ -311,3 +315,60 @@ export const APIDELETEUSER = (user_name, password) => async (dispatch) => {
     );
   }
 };
+
+// Create Remarks API CALL
+
+export const API_CREATE_REMARKS =
+  (token,attendance_id) => async (dispatch) => {
+    try {
+      // Define the URL of the API endpoint
+      const apiUrl = API.CREATE_REMARKS_API;
+
+      // Define the data you want to send in the body as key-value pairs
+      const data = new URLSearchParams();
+
+      data.append("attendance_id", attendance_id);
+
+
+      dispatch(createRemarksPending());
+
+      const response = await fetch(apiUrl, {
+        method: "POST",
+        headers: {
+          ...HEADERS,
+          Authorization: "Bearer " + token,
+        },
+        body: data.toString(), // Convert the data to a URL-encoded string
+      });
+
+      if (response.status === 200) {
+        const responseData = await response.json();
+
+        dispatch(
+          createRemarksSuccess({
+            data: responseData,
+          })
+        );
+      } else if (response.status === 400) {
+        const responseData = await response.json();
+        dispatch(
+          createRemarksError({
+            error: responseData.message,
+          })
+        );
+      } else {
+        dispatch(
+          createRemarksError({
+            error: "Api Called Failed!",
+          })
+        );
+      }
+    } catch (error) {
+      dispatch(
+        createRemarksError({
+          error: "Error in Api Call!",
+        })
+      );
+    }
+  };
+

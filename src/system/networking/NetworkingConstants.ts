@@ -43,6 +43,8 @@ export const API = {
   GET_ATTENDANCE_API: `${ENV.BASEURL}/attendance/user_id`,
   CREATE_ATTENDANCE_API: `${ENV.BASEURL}/attendance/create_attendance`,
   EDIT_ATTENDANCE_API: `${ENV.BASEURL}/attendance/edit_attendance_status`,
+  EXPORT_USER_DATA_API: `${ENV.BASEURL}/user/export_user_data`,
+
 
   //Team Attendance
   GET_TEAM_ATTENDANCE_API: `${ENV.BASEURL}/attendance/team_id`,
@@ -59,4 +61,10 @@ export const API = {
   //Finance Related APIs
   GET_FINANCE_API: `${ENV.BASEURL}/attendance`,
   CREATE_FINANCE_API: `${ENV.BASEURL}/attendance/put_attendance`,
+
+// Remarks Related APIs
+
+CREATE_REMARKS_API: `${ENV.BASEURL}/attendance/remarks/get_remarks_by_pagination`,
+
+
 };

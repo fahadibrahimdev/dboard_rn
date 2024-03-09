@@ -128,6 +128,13 @@ export default function RootNavigator() {
         component={Screens.ViewFinanceScreen}
         options={{ headerShown: false }}
       />
+
+      
+<Stack.Screen
+        name={ScreenNames.RemarksScreen}
+        component={Screens.RemarksScreen}
+        options={{ headerShown: false }}
+      />
     </Stack.Navigator>
   );
 }

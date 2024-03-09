@@ -33,7 +33,12 @@ export interface AuthState {
     state: string;
     actualPayload: any;
     error: string;
-  }
+  };
+  createRemark: {
+    state: string;
+    actualPayload: any;
+    error: string;
+  };
 
 
 
@@ -66,6 +71,11 @@ const initialState: AuthState = {
   },
   
   changepassword: {
+    state: CALL_STATE.IDLE,
+    actualPayload: {},
+    error: '',
+  },
+  createRemark: {
     state: CALL_STATE.IDLE,
     actualPayload: {},
     error: '',
@@ -286,6 +296,46 @@ export const authSlice = createSlice({
 
       console.log('Slice-changepasswordError:', current(state).changepassword);
     },
+    
+    //  Create Remarks
+
+    createRemarksIdle: state => {
+      const currentState = current(state);
+
+      state.createRemark = {
+        state: CALL_STATE.IDLE,
+        actualPayload: currentState.createRemark.actualPayload,
+        error: currentState.createRemark.error,
+      };
+
+      console.log('Slice-create-Remarks-Idle:', current(state).createRemark);
+    },
+    createRemarksPending: state => {
+      state.createRemark = {
+        state: CALL_STATE.FETCHING,
+        actualPayload: {},
+        error: '',
+      };
+      console.log('Slice-create-Remarks-Pending:', current(state).createRemark);
+    },
+    createRemarksSuccess: (state, action: PayloadAction<any>) => {
+      state.createRemark = {
+        state: CALL_STATE.SUCCESS,
+        actualPayload: action.payload.data,
+        error: '',
+      };
+
+      console.log('Slice-create-Remarks-Success:', current(state).createRemark);
+    },
+    createRemarksError: (state, action: PayloadAction<any>) => {
+      state.createRemark = {
+        state: CALL_STATE.ERROR,
+        actualPayload: {},
+        error: action.payload.error,
+      };
+
+      console.log('Slice-create-Remarks-Error:', current(state).createRemark);
+    },
 
     logoutAuth: state => initialState,
 
@@ -320,6 +370,12 @@ export const {
   deleteuserPending,
   deleteuserSuccess,
   deleteuserError,
+
+  
+  createRemarksIdle,
+  createRemarksPending,
+  createRemarksSuccess,
+  createRemarksError,
 
   logoutAuth,
   

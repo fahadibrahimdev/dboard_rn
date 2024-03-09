@@ -18,7 +18,7 @@ export const ScreenNames = {
   ViewAttendanceScreen: "ViewAttendanceScreen",
   EditAttendanceScreen: "EditAttendanceScreen",
   ViewFinanceScreen: "ViewFinanceScreen",
-
+  RemarksScreen:"RemarksScreen",
   DrawerNavigator: "DrawerNavigator",
   DashboardScreen: "DashboardScreen",
   NotificationScreen: "NotificationScreen",

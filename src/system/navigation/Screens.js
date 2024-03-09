@@ -29,6 +29,9 @@ import MainTeamAttendanceScreen from "../../ui/screens/workflow/teamAttendance/M
 import DrawerNavigator from "./DrawerNavigator";
 import DeleteUser from "../../ui/screens/drawer/DeleteUser";
 
+import RemarksScreen from "../../ui/screens/workflow//remarks//RemarksScreen";
+
+
 export const Screens = {
   SplashScreen: SplashScreen,
 
@@ -57,4 +60,6 @@ export const Screens = {
   DeleteUser:DeleteUser,
   ContactUsScreen: ContactUsScreen,
   ChangePasswordScreen: ChangePasswordScreen,
+
+  RemarksScreen:RemarksScreen,
 };
