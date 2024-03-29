@@ -57,7 +57,7 @@ const AppHeader = props => {
           }}>
 
           <IconButton
-            style={{ display: (!!showLeftButton) ? ('flex') : ('none') }}
+            style={{ opacity: (!!showLeftButton) ? (1) : (0) }}
             icon={(!!leftButtonIcon) ? (leftButtonIcon) : ('arrow-left')}
             iconColor={colors.appdrawerIconTextColor}
             size={25}
@@ -68,8 +68,8 @@ const AppHeader = props => {
 
           {/* Remarks - Following Button is Dummy, Just to adjust UI proportionally */}
           <IconButton
-            style={{ display: 'none' }}
-            icon={(!!leftButtonIcon) ? (leftButtonIcon) : ('arrow-left')}
+          style={{ opacity: 0 }}
+           icon={(!!leftButtonIcon) ? (leftButtonIcon) : ('-left')}
             iconColor={colors.appdrawerIconTextColor}
             size={25}
             onPress={() => {
@@ -103,7 +103,7 @@ const AppHeader = props => {
           }}>
 
           <IconButton
-            style={{ display: (!!showRightButton) ? ('flex') : ('none') }}
+            style={{ opacity: (!!showRightButton) ? (1) : (0) }}
             icon={(!!rightButtonIcon) ? (rightButtonIcon) : ("logout")}
             iconColor={(!!rightButtonIconColor) ? (rightButtonIconColor) : (colors.appdrawerIconTextColor)}
             size={25}
@@ -113,7 +113,7 @@ const AppHeader = props => {
           />
 
           <IconButton
-            style={{ display: (!!showSecondRightButton) ? ('flex') : ('none') }}
+            style={{ opacity: (!!showSecondRightButton) ? (1) : (0) }}
             icon={(!!secondRightButtonIcon) ? (secondRightButtonIcon) : ("logout")}
             iconColor={(!!secondRightButtonIconColor) ? (secondRightButtonIconColor) : (colors.appdrawerIconTextColor)}
             size={25}

@@ -1,123 +1,156 @@
-import { useNavigation, useTheme } from '@react-navigation/native';
-import { useState } from 'react';
-import {
-  View,
-  StyleSheet,
-  KeyboardAvoidingView,
-  Platform,
-  TextInput,
-} from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, TextInput, TouchableOpacity, FlatList, Alert } from 'react-native';
+import { IconButton } from 'react-native-paper';
+import { Colors } from 'react-native/Libraries/NewAppScreen';
 import AppHeader from '../../../uiHelpers/AppHeader';
-import { IconButton, Text } from 'react-native-paper';
 
 
-const RemarksScreen = ({ }) => {
+import { useNavigation, useTheme } from '@react-navigation/native';
+// import { useEffect, useState } from 'react';
+// import {
+//   View,
+//   StyleSheet,
+//   KeyboardAvoidingView,
+//   Platform,
+//   TextInput,
+//   Alert,
+// } from 'react-native';
 
-  const { colors } = useTheme();
-  const navigation = useNavigation();
-  const [myUserID, setMyUserID] = useState(1);
+const navigation = useNavigation();
+const Message = ({ sender, content, timestamp }) => {
 
-  const keyboardVerticalOffset = Platform.OS === 'ios' ? 40 : 0
+    
+  return (<View style={{
+    flex: 1,
+    alignItems: sender === 'me' ? 'flex-end': 'flex-start',
+    marginHorizontal: 20,
+    
+  
+    
+  }}>
+    <View style={{
 
+      maxWidth:'80%',
+      padding: 10,
+      backgroundColor: sender === 'me' ? '#DCF8C6' : '#FFFFFF', // Adjusted background color based on sender
+      borderRadius: 10,
+      marginVertical: 5,
+
+    }}>
+      <Text style={{ fontSize: 16, fontWeight: 'bold',color:'black' }}>{sender}</Text>
+      <View style={{ flexDirection: 'column', flex: 1, }}>
+        <Text style={{ padding: 12,color:'black', textAlign: sender === 'me' ? 'left' : 'left' }}>{content}</Text>
+        <Text style={{ fontSize: 12, color: 'black', textAlign: sender === 'me' ? 'right' : 'right' }}>{timestamp}</Text>
+      </View>
+
+    </View>
+  </View>);
+
+};
+
+const RemarksScreen = () => {
+
+
+  const [messages, setMessages] = useState([
+    { sender: 'me', content: 'Hi there2!', timestamp: '08:00 PM' },
+    { sender: 'You', content: 'Hi there3!',timestamp: '08:00 PM' },
+    { sender: 'me', content: 'Hi there4!', timestamp: '08:00 PM' },
+    { sender: 'me', content: 'Hi there5!', timestamp: '08:00 PM' },
+    { sender: 'me', content: 'Hi there6!', timestamp: '08:00 PM' },
+    { sender: 'You', content: 'Hi there7!',timestamp: '08:00 PM' },
+    { sender: 'You', content: 'Hi there3!',timestamp: '08:00 PM' },
+    { sender: 'me', content: 'Hi there4!', timestamp: '08:00 PM' },
+    { sender: 'me', content: 'Hi there5!', timestamp: '08:00 PM' },
+    { sender: 'me', content: 'Hi there6!', timestamp: '08:00 PM' },
+    { sender: 'You', content: 'Hi there7!',timestamp: '08:00 PM' },
+    { sender: 'You', content: 'Hi there8!',timestamp: '08:00 PM' },
+    { sender: 'You', content: 'Hi there8!hahsahashjsajhsahjsahjsahjsahjsajhsahjsajhsajhsajhsajhsajh',timestamp: '08:00 PM' }
+  ]);
+
+  const [newMessage, setNewMessage] = useState('');
+
+  const sendMessage = () => {
+    if (newMessage.trim()) {
+      setMessages([...messages, {
+        sender: 'me',
+        content: newMessage,
+        timestamp: new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true })
+      }]);
+      setNewMessage('');
+    }
+  };
 
   return (
+    <View style={{ flex: 1, backgroundColor:'grey' }}>
+      {/* Chat Header (replace with your implementation) */}
 
-
-
-
-
-    <KeyboardAvoidingView
-      style={styles.container}
-      // backgroundColor={colors.appBackground}
-      behavior={Platform.OS === 'ios' ? 'padding' : null} // Adjust behavior for iOS
-      keyboardVerticalOffset={Platform.OS === 'ios' ? 64 : 0} // Adjust vertical offset for iOS
-
-    >
       <AppHeader
         showLeftButton={true}
         leftButtonIcon={'arrow-left'}
         onLeftItemClick={() => {
           navigation.goBack();
-
         }}
         showRightButton={false}
         rightButtonIcon={'bell'}
-        onRightItemClick={() => {
-
-
-        }}
+        onRightItemClick={() => { }}
         showDivider={true}
       />
-      <View style={{
-        flex: 1,
-        backgroundColor: "#122215"
-        // backgroundColor: colors.appBackground,
-      }}>
 
-      </View>
+      {/* Chat History */}
+      <FlatList
+        data={messages}
+        renderItem={({ item }) => <Message {...item} />}
+        inverted
+      />
 
-      <View
-        style={{
-          flexDirection: 'row',
-          backgroundColor: "#445544"
-        }}>
+      {/* Input Bar */}
+
+      <View style={{ flexDirection: 'row', padding: 10 }}>
 
         <View style={{
           flex: 1,
+          flexDirection: 'row',
           justifyContent: 'center',
-          borderRadius: 33,
-          backgroundColor: "pink",
+          borderRadius: 43,
+          backgroundColor: 'grey',
           paddingLeft: 25,
           paddingRight: 25,
           paddingTop: 2,
-          paddingBottom: 2
+          paddingBottom: 2,
+        borderEndColor:'black'
         }}>
           <TextInput
-            // mode='flat'
             style={{
               width: '100%',
               fontSize: 20,
-              maxHeight: 200
-              // backgroundColor: "#996698"
+              maxHeight: 200,
+              paddingLeft: 20
             }}
-            // value={message}
-            // onChangeText={setMessage}
             placeholder={'Message...'}
-            multiline // Enable multiple lines
-            returnKeyType="send" // Use "Send" button on keyboard
-          // onSubmitEditing={handleSendMessage} // Trigger send on "Send" button
+            multiline
+            returnKeyType='send'
+          // value={newMessage}
+          // onChangeText={setNewMessage}
+          // onSubmitEditing={sendMessage}
           />
+
+          <IconButton
+            icon='send'
+            iconColor={Colors.appdrawerIconTextColor}
+            containerColor='grey'
+            size={30}
+            onPress={() => {
+              Alert.alert('Enter');
+              // sendMessage(); // Uncomment this line to send message on button press
+            }}
+          />
+
         </View>
 
-        <IconButton
-          icon={'send'}
-          iconColor={colors.appdrawerIconTextColor}
-          containerColor='grey'
-          size={28}
-
-        />
-
-
       </View>
-    </KeyboardAvoidingView>
 
-  )
-}
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    flexDirection: 'column',
-    padding: 12,
-    backgroundColor: "#987654"
-
-
-  },
-  input: {
-
-
-
-  },
-
-})
+    </View>
+  );
+};
 
 export default RemarksScreen;
