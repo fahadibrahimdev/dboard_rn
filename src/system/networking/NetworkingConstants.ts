@@ -64,7 +64,9 @@ export const API = {
 
 // Remarks Related APIs
 
-CREATE_REMARKS_API: `${ENV.BASEURL}/attendance/remarks/get_remarks_by_pagination`,
+CREATE_REMARKS_API: `${ENV.BASEURL}/attendance/remarks/create_remakrs`,
+
+GET_REMARKS_API: `${ENV.BASEURL}/attendance/remarks/get_remarks_by_pagination`,
 
 
 };

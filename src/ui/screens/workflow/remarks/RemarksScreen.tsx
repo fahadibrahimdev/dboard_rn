@@ -1,9 +1,14 @@
 import { useNavigation } from '@react-navigation/native';
-import React, { useState } from 'react';
-import { FlatList, Text, TextInput, View } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { Alert, FlatList, Text, TextInput, View } from 'react-native';
+import { useDispatch } from 'react-redux';
 import { IconButton } from 'react-native-paper';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 import AppHeader from '../../../uiHelpers/AppHeader';
+import { APIGetRemarks } from '../../../../system/networking/RemarksAPICalls ';
+import { useAppSelector } from '../../../../system/redux/store/hooks';
+import { CALL_STATE } from '../../../../helpers/enum';
+import { getRemarksIdle } from '../../../../system/redux/slice/remarksSlice';
 
 const Message = ({ sender, content, timestamp }) => {
 
@@ -38,7 +43,7 @@ const Message = ({ sender, content, timestamp }) => {
 
 const RemarksScreen = () => {
 
-
+  const dispatch = useDispatch();
   const navigation = useNavigation();
 
   const [messages, setMessages] = useState([
@@ -58,6 +63,37 @@ const RemarksScreen = () => {
   ]);
 
   const [newMessage, setNewMessage] = useState('');
+
+  const RedAuthUser = useAppSelector(state => state.auth.authUser);
+  const RedGetRemarks = useAppSelector(state => state.remarks.getRemarks);
+
+
+  useEffect(() => {
+    dispatch(APIGetRemarks(RedAuthUser.accessToken, 1));
+
+  }, []);
+
+  useEffect(() => {
+    if (
+      RedGetRemarks.state !== CALL_STATE.IDLE &&
+      RedGetRemarks.state !== CALL_STATE.FETCHING
+    ) {
+
+      dispatch(getRemarksIdle());
+      if (RedGetRemarks.state === CALL_STATE.SUCCESS) {
+
+
+        Alert.alert("API Success!");
+        // setFilteredListData(RedGetRemarks.actualPayload.data.attendances)
+
+
+        // setPermissions(RedHeartBeat.actualPayload.data.permission);
+      } else if (RedGetRemarks.state === CALL_STATE.ERROR) {
+        Alert.alert('Error', RedGetRemarks.error);
+      }
+
+    }
+  }, [RedGetRemarks.state]);
 
   const sendMessage = () => {
     if (newMessage.trim()) {

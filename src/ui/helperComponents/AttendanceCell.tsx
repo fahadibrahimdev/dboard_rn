@@ -2,13 +2,13 @@ import { useNavigation, useTheme } from '@react-navigation/native';
 import moment from 'moment-timezone';
 import React, { useState } from "react";
 import { Alert, View } from "react-native";
-import { Button, IconButton, Text } from "react-native-paper";
+import { IconButton, Text } from "react-native-paper";
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { getShiftFromIdRed, getStatusColorBGFromName, getStatusColorFromName, getStatusNameFromIdRed, getTeamFromIdRed } from '../../helpers/Utils';
 import { useAppSelector } from '../../system/redux/store/hooks';
 
 
-const AttendanceCell = ({ item, index = 0, showArrowBtn, onArrowclick, highlightBorder,onRemarksclick }) => {
+const AttendanceCell = ({ item, index = 0, showArrowBtn, onArrowclick, highlightBorder, onRemarksclick }) => {
   const { colors } = useTheme();
   const navigation = useNavigation();
 
@@ -236,55 +236,55 @@ const AttendanceCell = ({ item, index = 0, showArrowBtn, onArrowclick, highlight
               </View>
             </View>
 
-            {!!showArrowBtn && 
-            <View style={{
-              flexDirection: 'row',
-              alignSelf: 'flex-end',
-              justifyContent: 'center',
-              marginBottom: 5,
-              borderRadius: 10,
-          
-            }}>
-              <View
-              style={{
-                
-                
-                marginRight:10
-                
-              }}
-              >
-                 <IconButton
-                icon={'chat'}
-                iconColor={colors.appdrawerIconTextColor}
-                containerColor='grey'
-                size={17}
-                onPress={() => {
+            {!!showArrowBtn &&
+              <View style={{
+                flexDirection: 'row',
+                alignSelf: 'flex-end',
+                justifyContent: 'center',
+                marginBottom: 5,
+                borderRadius: 10,
 
-                  if (!!onRemarksclick) {
-                    onRemarksclick()
-                  }
-
-                }}
-              />
-
-              </View>
-                
-              <IconButton
-                icon={'arrow-right-bold'}
-                iconColor={colors.appdrawerIconTextColor}
-                containerColor='grey'
-                size={17}
-                onPress={() => {
-
-                  if (!!onArrowclick) {
-                    onArrowclick()
-                  }
-
-                }}
-              />
+              }}>
+                <View
+                  style={{
 
 
-            </View>}
+                    marginRight: 10
+
+                  }}
+                >
+                  <IconButton
+                    icon={'chat'}
+                    iconColor={colors.appdrawerIconTextColor}
+                    containerColor='grey'
+                    size={17}
+                    onPress={() => {
+
+                      if (!!onRemarksclick) {
+                        onRemarksclick();
+                      }
+
+                    }}
+                  />
+
+                </View>
+
+                <IconButton
+                  icon={'arrow-right-bold'}
+                  iconColor={colors.appdrawerIconTextColor}
+                  containerColor='grey'
+                  size={17}
+                  onPress={() => {
+
+                    if (!!onArrowclick) {
+                      onArrowclick()
+                    }
+
+                  }}
+                />
+
+
+              </View>}
 
 
           </View>

@@ -1,15 +1,17 @@
-import {configureStore} from '@reduxjs/toolkit';
-import authSliceReducer from '../slice/authSlice';
+import { configureStore } from '@reduxjs/toolkit';
 import appSliceReducer from '../slice/appSlice ';
 import attendanceSliceReducer from '../slice/attendanceSlice';
+import authSliceReducer from '../slice/authSlice';
 import financeSliceReducer from '../slice/financeSlice';
+import remarksSlice from '../slice/remarksSlice';
 
 export const store = configureStore({
   reducer: {
     auth: authSliceReducer,
-    app:appSliceReducer,
-    attendance:attendanceSliceReducer,
-    finance:financeSliceReducer,
+    app: appSliceReducer,
+    attendance: attendanceSliceReducer,
+    finance: financeSliceReducer,
+    remarks: remarksSlice,
   },
 });
 
