@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux';
 import { IconButton } from 'react-native-paper';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 import AppHeader from '../../../uiHelpers/AppHeader';
-import { APIGetRemarks } from '../../../../system/networking/RemarksAPICalls ';
+import { APICreateRemarks, APIGetRemarks } from '../../../../system/networking/RemarksAPICalls ';
 import { useAppSelector } from '../../../../system/redux/store/hooks';
 import { CALL_STATE } from '../../../../helpers/enum';
 import { getRemarksIdle } from '../../../../system/redux/slice/remarksSlice';
@@ -24,17 +24,21 @@ const Message = ({ sender, content, timestamp }) => {
     <View style={{
 
       maxWidth: '80%',
-      padding: 10,
-      backgroundColor: sender === 'me' ? '#DCF8C6' : '#FFFFFF',
+    
+      
+      // padding: 10,
+      backgroundColor: sender === 'me' ? '#DCF8C6' : '#FAF9F6',
       borderRadius: 10,
       marginVertical: 5,
+      flexDirection:'column'
 
     }}>
-      <Text style={{ fontSize: 16, fontWeight: 'bold', color: 'black' }}>{sender}</Text>
-      <View style={{ flexDirection: 'column', flex: 1, }}>
-        <Text style={{ padding: 12, color: 'black', textAlign: sender === 'me' ? 'left' : 'left' }}>{content}</Text>
-        <Text style={{ fontSize: 12, color: 'black', textAlign: sender === 'me' ? 'right' : 'right' }}>{timestamp}</Text>
+      {/* <Text style={{ fontSize: 16, fontWeight: 'bold', color: 'black' }}>{sender}</Text> */}
+      <View style={{ flex: 1, }}>
+        <Text style={{   paddingTop:5, paddingHorizontal:10, color: 'black', textAlign: sender === 'me' ? 'right' : 'left' }}>{content} </Text>
+        <Text style={{ paddingHorizontal:5, fontSize: 11, color: 'black', textAlign: sender === 'me' ? 'right' : 'right' }}>{timestamp}</Text>
       </View>
+
 
     </View>
   </View>);
@@ -83,11 +87,9 @@ const RemarksScreen = () => {
       if (RedGetRemarks.state === CALL_STATE.SUCCESS) {
 
 
-        Alert.alert("API Success!");
-        // setFilteredListData(RedGetRemarks.actualPayload.data.attendances)
 
 
-        // setPermissions(RedHeartBeat.actualPayload.data.permission);
+
       } else if (RedGetRemarks.state === CALL_STATE.ERROR) {
         Alert.alert('Error', RedGetRemarks.error);
       }
@@ -97,17 +99,19 @@ const RemarksScreen = () => {
 
   const sendMessage = () => {
     if (newMessage.trim()) {
-      setMessages([{
-        sender: 'me',
-        content: newMessage,
-        timestamp: new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true })
-      }, ...messages]);
-      setNewMessage('');
+
+      dispatch(APICreateRemarks(RedAuthUser.accessToken,1,newMessage.trim()));
+      // setMessages([{
+      //   sender: 'me',
+      //   content: newMessage,
+      //   timestamp: new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true })
+      // }, ...messages]);
+      // setNewMessage('');
     }
   };
 
   return (
-    <View style={{ flex: 1, backgroundColor: 'green' }}>
+    <View style={{ flex: 1, backgroundColor: 'black' }}>
       {/* Chat Header (replace with your implementation) */}
 
       <AppHeader

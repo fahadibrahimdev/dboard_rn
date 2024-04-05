@@ -55,12 +55,14 @@ export const APIGetRemarks = (token, attendance_id) => async dispatch => {
   }
 };
 
-export const APICreateRemarks = token => async dispatch => {
+export const APICreateRemarks = (token, attendance_id, comments)=> async dispatch => {
   try {
     // Define the URL of the API endpoint
     const apiUrl = API.CREATE_REMARKS_API;
 
     const data = new URLSearchParams();
+    data.append("attendance_id", attendance_id);
+    data.append("comments", comments);
 
     dispatch(createRemarksPending());
     // Make the POST request

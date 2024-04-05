@@ -8,11 +8,16 @@ const PROD = {
 };
 
 const UAT = {
-  BASEURL: "https://mabuat.thundertechsol.com/mab",
+  BASEURL: "https://dboarduat.thundertechsol.com/mab",
 };
 
+const QA= {
+  BASEURL: "https://dboardqa.thundertechsol.com/mab",
+};
+
+
 //SET MAIN ENVIRONMENT
-export const ENV = UAT;
+export const ENV = QA;
 
 export const API = {
   //Auth Related APIs

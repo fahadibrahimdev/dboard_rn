@@ -21,8 +21,8 @@ const DateTimeSelector = (props: any) => {
 
   const [myDate, setMyDate] = useState(new Date());
 
-  // const [endDate, setEndDate] = useState(new Date());
-  // const [myStartDate, setMyStartDate] = useState(null);
+  const [endDate, setEndDate] = useState(new Date());
+  const [myStartDate, setMyStartDate] = useState(null);
 
   return (
     <View style={{
@@ -81,11 +81,11 @@ const DateTimeSelector = (props: any) => {
         modal
         
         date={myDate}
-        minimumDate={new Date("2023-10-01")}
+        minimumDate={new Date(myDate.getTime() - (7 * 24 * 60 * 60 * 1000))} // 7 days before today
         mode={'datetime'}
         open={dateModalOpen}
         is24Hour={true}
-        textColor='black'
+        textColor={colors.appTextPrimaryColor}
         onConfirm={(newdate) => {
           setDateModalOpen(false);
           setMyDate(newdate);
@@ -95,7 +95,9 @@ const DateTimeSelector = (props: any) => {
           setDateModalOpen(false);
         }}
 
-      />
+      /> 
+          
+
     </View>
   )
 };
