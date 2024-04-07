@@ -6,7 +6,7 @@ const DarkColors = {
   TEXT: {
     PRIMARY: '#FFFFFF',
     SECONDARY: '#66acf2',
-    PLACEHOLDER: '#7d7d7d'
+    PLACEHOLDER: '#c7c7c7'
   },
 
   BUTTON: {
@@ -23,7 +23,7 @@ const DarkColors = {
 
   },
 
-  
+
   delete_BUTTON: {
     TEXT_COLOR: '#FFFFFF',
     BG_COLOR: 'red',

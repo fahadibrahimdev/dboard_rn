@@ -1,16 +1,15 @@
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useTheme } from '@react-navigation/native';
 import { useEffect, useState } from 'react';
 import { Alert, FlatList, KeyboardAvoidingView, Text, TextInput, View } from 'react-native';
 import { IconButton } from 'react-native-paper';
-import { Colors } from 'react-native/Libraries/NewAppScreen';
 import { useDispatch } from 'react-redux';
 import { CALL_STATE } from '../../../../helpers/enum';
 import { APICreateRemarks, APIGetRemarks } from '../../../../system/networking/RemarksAPICalls ';
 import { createRemarksIdle, getRemarksIdle } from '../../../../system/redux/slice/remarksSlice';
 import { useAppSelector } from '../../../../system/redux/store/hooks';
 import AppHeader from '../../../uiHelpers/AppHeader';
-import moment = require('moment-timezone');
 import FullScreenLoader from '../../../uiHelpers/FullScreenLoader';
+import moment = require('moment-timezone');
 
 const Message = ({ sender, content, timestamp }) => {
 
@@ -28,14 +27,15 @@ const Message = ({ sender, content, timestamp }) => {
       // padding: 10,
       backgroundColor: sender === 'me' ? '#DCF8C6' : '#FAF9F6',
       borderRadius: 10,
-      marginVertical: 5,
+      marginVertical: 8,
+      paddingVertical: 5,
       flexDirection: 'column'
 
     }}>
       {/* <Text style={{ fontSize: 16, fontWeight: 'bold', color: 'black' }}>{sender}</Text> */}
       <View style={{ flex: 1, }}>
-        <Text style={{ paddingTop: 5, paddingHorizontal: 10, color: 'black', textAlign: sender === 'me' ? 'right' : 'left' }}>{content} </Text>
-        <Text style={{ paddingHorizontal: 5, fontSize: 11, color: 'black', textAlign: sender === 'me' ? 'right' : 'right' }}>{timestamp}</Text>
+        <Text style={{ paddingTop: 5, paddingHorizontal: 10, color: 'black', }}>{content} </Text>
+        <Text style={{ paddingHorizontal: 5, fontSize: 11, color: 'black', textAlign: 'right' }}>{timestamp}</Text>
       </View>
 
 
@@ -46,6 +46,7 @@ const Message = ({ sender, content, timestamp }) => {
 
 const RemarksScreen = ({ route }) => {
 
+  const { colors } = useTheme();
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
@@ -160,7 +161,10 @@ const RemarksScreen = ({ route }) => {
   };
 
   return (
-    <View style={{ flex: 1, backgroundColor: Colors.appBackground }}>
+    <KeyboardAvoidingView style={{ flex: 1, backgroundColor: colors.appBackground }}
+      behavior={Platform.OS === "ios" ? "padding" : null}
+
+      keyboardVerticalOffset={Platform.OS === "ios" ? 64 : 0}>
       {/* Chat Header (replace with your implementation) */}
 
       <AppHeader
@@ -177,7 +181,7 @@ const RemarksScreen = ({ route }) => {
 
 
       {/* Chat History */}
-      <View style={{ flex: 1, justifyContent: 'space-between' }}>
+      <View style={{ flex: 1, justifyContent: 'space-between', }}>
 
         <View style={{ maxHeight: "80%", }}>
           <FlatList
@@ -190,12 +194,20 @@ const RemarksScreen = ({ route }) => {
 
             data={messages}
             renderItem={({ item }) => <Message {...item} />}
+            ListEmptyComponent={() => {
+              return (
+                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                  <View style={{ transform: [{ scaleY: -1 }] }}><Text style={{
+                    color: colors.appTextPrimaryColor
+                  }}
+                  >No Data to show</Text></View>
+                </View>)
+            }}
             inverted
           />
         </View>
 
-        <KeyboardAvoidingView
-          behavior={Platform.OS === "ios" ? "padding" : "height"}
+        <View
           style={{
             alignSelf: 'flex-end',
             flexDirection: 'row',
@@ -227,12 +239,14 @@ const RemarksScreen = ({ route }) => {
                   fontSize: 22,
                   paddingLeft: 5,
                   alignSelf: 'center',
-                  color: "black"
+                  color: colors.appTextPrimaryColor,
                 }}
                 placeholder={'Message...'}
+                placeholderTextColor={colors.appTextPlaceHolderColor}
                 multiline
-                returnKeyType='send'
+                returnKeyType='default'
                 value={newMessage}
+                keyboardType='default'
                 onChangeText={setNewMessage}
               />
 
@@ -242,7 +256,7 @@ const RemarksScreen = ({ route }) => {
               }}>
                 <IconButton
                   icon='send'
-                  iconColor={Colors.appdrawerIconTextColor}
+                  iconColor={colors.appdrawerIconTextColor}
                   containerColor='grey'
                   size={30}
                   onPress={() => {
@@ -257,7 +271,7 @@ const RemarksScreen = ({ route }) => {
           </View>
 
 
-        </KeyboardAvoidingView>
+        </View>
       </View>
       {/* Input Bar */}
 
@@ -267,7 +281,7 @@ const RemarksScreen = ({ route }) => {
           RedCreateRemarks.state === CALL_STATE.FETCHING
         }
       />
-    </View>
+    </KeyboardAvoidingView >
   );
 };
 
