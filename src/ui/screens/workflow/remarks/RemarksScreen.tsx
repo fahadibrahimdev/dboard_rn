@@ -1,6 +1,6 @@
 import { useNavigation, useTheme } from '@react-navigation/native';
 import { useEffect, useState } from 'react';
-import { Alert, FlatList, KeyboardAvoidingView, Text, TextInput, View } from 'react-native';
+import { Alert, FlatList, KeyboardAvoidingView, Text, TextInput, View,RefreshControl } from 'react-native';
 import { IconButton } from 'react-native-paper';
 import { useDispatch } from 'react-redux';
 import { CALL_STATE } from '../../../../helpers/enum';
@@ -173,10 +173,23 @@ const RemarksScreen = ({ route }) => {
         onLeftItemClick={() => {
           navigation.goBack();
         }}
-        showRightButton={false}
-        rightButtonIcon={'bell'}
+        showRightButton={true}
+        rightButtonIcon={'information'}
         onRightItemClick={() => { }}
+        
+        showSecondRightButton={true}
+        secondRightButtonIcon={'refresh'}
+        onSecondRightItemClick={() => {
+
+          
+          dispatch(APIGetRemarks(RedAuthUser.accessToken, selectedItem.id));
+          
+        }}
+        
+        
+        
         showDivider={true}
+
       />
 
 
@@ -226,7 +239,7 @@ const RemarksScreen = ({ route }) => {
               flexDirection: 'row',
               justifyContent: 'center',
               borderRadius: 43,
-              backgroundColor: 'grey',
+              backgroundColor: '#f5785f',
               paddingLeft: 25,
               paddingRight: 0,
               paddingTop: 2,
@@ -257,7 +270,7 @@ const RemarksScreen = ({ route }) => {
                 <IconButton
                   icon='send'
                   iconColor={colors.appdrawerIconTextColor}
-                  containerColor='grey'
+                  containerColor='#f5785f'
                   size={30}
                   onPress={() => {
                     // Alert.alert('Enter');

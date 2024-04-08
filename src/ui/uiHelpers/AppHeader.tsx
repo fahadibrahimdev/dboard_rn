@@ -114,12 +114,14 @@ const AppHeader = props => {
 
           <IconButton
             style={{ opacity: (!!showSecondRightButton) ? (1) : (0) }}
-            icon={(!!secondRightButtonIcon) ? (secondRightButtonIcon) : ("logout")}
+            icon={(!!secondRightButtonIcon) ? (secondRightButtonIcon) : ("information")}
             iconColor={(!!secondRightButtonIconColor) ? (secondRightButtonIconColor) : (colors.appdrawerIconTextColor)}
             size={25}
             onPress={() => {
               onSecondRightItemClick()
+          
             }}
+            
           />
 
         </View>
