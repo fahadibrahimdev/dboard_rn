@@ -2,6 +2,7 @@ import type {PayloadAction} from '@reduxjs/toolkit';
 import {createSlice, current} from '@reduxjs/toolkit';
 import { CALL_STATE } from '../../../helpers/enum';
 import { resetAll } from './appSlice ';
+import { API } from '../../networking/NetworkingConstants';
 
 
 export interface FinanceState {
@@ -16,6 +17,11 @@ export interface FinanceState {
     error: string;
   };
 
+  filterPlayerEntry: {
+    state: string;
+    actualPayload: any;
+    error: string;
+  };
 }
 
 const initialState: FinanceState = {
@@ -25,6 +31,13 @@ const initialState: FinanceState = {
     error: '',
   },
   createFinance: {
+    state: CALL_STATE.IDLE,
+    actualPayload: {},
+    error: '',
+  },
+  
+
+  filterPlayerEntry: {
     state: CALL_STATE.IDLE,
     actualPayload: {},
     error: '',
@@ -115,9 +128,64 @@ export const financeSlice = createSlice({
 
       console.log('Slice-Create-finance_Error:', current(state).createFinance);
     },
+  
 
+    // Filter Player Entry 
+    filterPlayerEntryIdle: state => {
+      const currentState = current(state);
+
+      state.filterPlayerEntry = {
+        state: CALL_STATE.IDLE,
+        actualPayload: currentState.filterPlayerEntry.actualPayload,
+        error: currentState.filterPlayerEntry.error,
+      };
+
+      console.log(
+        'Slice-Filter-Player-Entry-Idle:',
+        current(state).filterPlayerEntry,
+      );
+    },
+    filterPlayerEntryPending: state => {
+      state.filterPlayerEntry = {
+        state: CALL_STATE.FETCHING,
+        actualPayload: {},
+        error: '',
+      };
+      console.log(
+        'Slice-Filter-Player-Entry-Pending:',
+        current(state).filterPlayerEntry,
+      );
+    },
+    filterPlayerEntrySuccess: (state, action: PayloadAction<any>) => {
+      state.filterPlayerEntry = {
+        state: CALL_STATE.SUCCESS,
+        actualPayload: action.payload.data,
+        error: '',
+      };
+
+      console.log(
+        'Slice-Filter-Player-Entry-Success:',
+        current(state).filterPlayerEntry,
+      );
+    },
+    filterPlayerEntryError: (state, action: PayloadAction<any>) => {
+      state.filterPlayerEntry = {
+        state: CALL_STATE.ERROR,
+        actualPayload: {},
+        error: action.payload.error,
+      };
+
+      console.log(
+        'Slice-Filter-Player-Entry-Error:',
+        current(state).filterPlayerEntry,
+      );
+    },
+  
 
     logoutFinance: state => initialState,
+
+  
+
 }})
 // Action creators are generate for each case reducer function
 export const {
@@ -132,6 +200,11 @@ export const {
   createFinanceSuccess,
   createFinanceError,
 
+  
+  filterPlayerEntryIdle,
+  filterPlayerEntryPending,
+  filterPlayerEntrySuccess,
+  filterPlayerEntryError,
 
   logoutFinance,
 

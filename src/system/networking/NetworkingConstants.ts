@@ -64,8 +64,9 @@ export const API = {
   GET_ATTENDANCE_BY_PAGINATION_API: `${ENV.BASEURL}/attendance/get_attendance_by_pagination`,
 
   //Finance Related APIs
-  GET_FINANCE_API: `${ENV.BASEURL}/attendance`,
-  CREATE_FINANCE_API: `${ENV.BASEURL}/attendance/put_attendance`,
+  // GET_FINANCE_API: `${ENV.BASEURL}/attendance`,
+  CREATE_PLAYER_ENTRY_API: `${ENV.BASEURL}/transaction/creat_transaction`,
+  FILTER_PLAYER_ENTRY_API: `${ENV.BASEURL}/transaction/get_transactions_by_pagination`,
 
 // Remarks Related APIs
 

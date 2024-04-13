@@ -1,10 +1,3 @@
-
-
-/**
-  
- *
- * @format
- */
 import { useNavigation, useTheme } from '@react-navigation/native';
 import moment from 'moment-timezone';
 import React, { useEffect, useState } from "react";
@@ -16,8 +9,10 @@ import { useDispatch } from 'react-redux';
 import { adjustTeamDataRed, formatTime, getStatusNameFromIdRed } from '../../../../helpers/Utils';
 import { CALL_STATE, FILTER_DATE_CODES } from '../../../../helpers/enum';
 import { ScreenNames } from '../../../../system/navigation/ScreenNames';
-import { APIGetAttendanceByPagination, APIGetWorkingTime } from '../../../../system/networking/AttendanceAPICalls';
+import { filterPlayerEntry } from '../../../../system/networking/FinanceAPICalls';
+import {  APIGetWorkingTime } from '../../../../system/networking/AttendanceAPICalls';
 import { getAttendanceByPaginationIdle } from '../../../../system/redux/slice/attendanceSlice';
+import { filterPlayerEntryIdle } from '../../../../system/redux/slice/financeSlice';
 import { useAppSelector } from '../../../../system/redux/store/hooks';
 import AttendanceCell from '../../../helperComponents/AttendanceCell';
 import AppHeader from '../../../uiHelpers/AppHeader';
@@ -47,6 +42,7 @@ const FinanceScreen = ({ }) => {
 
   const RedHeartBeat = useAppSelector(state => state.app.heartBeat);
   const RedGetAttendanceByPagination = useAppSelector(state => state.attendance.getAttendanceByPagination);
+  const RedFilterPlayerEntry = useAppSelector(state => state.finance.filterPlayerEntry);
 
   const RedGetWorkingTime = useAppSelector(state => state.attendance.getWorkingTime);
 
@@ -63,24 +59,24 @@ const FinanceScreen = ({ }) => {
   useEffect(() => {
 
     if (
-      RedGetAttendanceByPagination.state !== CALL_STATE.IDLE &&
-      RedGetAttendanceByPagination.state !== CALL_STATE.FETCHING
+      RedFilterPlayerEntry.state !== CALL_STATE.IDLE &&
+      RedFilterPlayerEntry.state !== CALL_STATE.FETCHING
     ) {
 
-      dispatch(getAttendanceByPaginationIdle());
-      if (RedGetAttendanceByPagination.state === CALL_STATE.SUCCESS) {
+      dispatch(filterPlayerEntryIdle());
+      if (RedFilterPlayerEntry.state === CALL_STATE.SUCCESS) {
 
 
-        setFilteredListData(RedGetAttendanceByPagination.actualPayload.data.attendances)
+        setFilteredListData(RedFilterPlayerEntry.actualPayload.data.attendances)
 
 
         // setPermissions(RedHeartBeat.actualPayload.data.permission);
-      } else if (RedGetAttendanceByPagination.state === CALL_STATE.ERROR) {
-        Alert.alert('Error', RedGetAttendanceByPagination.error);
+      } else if (RedFilterPlayerEntry.state === CALL_STATE.ERROR) {
+        Alert.alert('Error', RedFilterPlayerEntry.error);
       }
 
     }
-  }, [RedGetAttendanceByPagination.state])
+  }, [RedFilterPlayerEntry.state])
 
   useEffect(() => {
 
@@ -102,122 +98,108 @@ const FinanceScreen = ({ }) => {
 
     // dispatch(APIGetAttendance(RedAuthUser.accessToken));
 
-    const userId = RedHeartBeat.actualPayload.data.user_data?.id;
+    // const userId = RedHeartBeat.actualPayload.data.user_data?.id;
 
-    var startDate = '';
-    var endDate = '';
+    // var startDate = '';
+    // var endDate = '';
 
-    var shiftValue = '';
-    var teamIds = '';
+    // var shiftValue = '';
+    // var teamIds = '';
 
-    var status = '';
+    // var status = '';
 
-    if (!!myAllFilters) {
-
-      startDate = (!!myAllFilters.startDate) ? (myAllFilters.startDate) : ("");
-      endDate = (!!myAllFilters.endDate) ? (myAllFilters.endDate) : ("");
-
-      if (!!myAllFilters.shift) {
-        shiftValue = myAllFilters.shift
-      }
-
-      if (!!myAllFilters.team) {
-        teamIds = myAllFilters.team
-      } else {
-        teamIds = myCommaSeperatedTeams;
-      }
-
-      if (!!myAllFilters.status) {
-        status = myAllFilters.status
-      }
-
-    } else if (!!mySelectedTimeDuration) {
-      const quickFilterDates = getStartEndDateFromQuickFilters();
-
-      startDate = quickFilterDates.start_day;
-      endDate = quickFilterDates.end_day;
-
-      teamIds = myCommaSeperatedTeams;
-    }
+    // if (!!myAllFilters) {
 
 
-    dispatch(APIGetAttendanceByPagination({
+    //   if (!!myAllFilters.) {
+    //     shiftValue = myAllFilters.shift
+    //   }
+
+    //   if (!!myAllFilters.team) {
+    //     teamIds = myAllFilters.team
+    //   } else {
+    //     teamIds = myCommaSeperatedTeams;
+    //   }
+
+    //   if (!!myAllFilters.status) {
+    //     status = myAllFilters.status
+    //   }
+
+    // } else if (!!mySelectedTimeDuration) {
+    //   const quickFilterDates = getStartEndDateFromQuickFilters();
+
+    //   startDate = quickFilterDates.start_day;
+    //   endDate = quickFilterDates.end_day;
+
+    //   teamIds = myCommaSeperatedTeams;
+    // }
+
+
+    dispatch(filterPlayerEntry({
       token: RedAuthUser.accessToken,
-      sortBy: 'start_time',
-      sortDirection: 'desc',
+      
       callState: CALL_STATE.REFRESHING,
+      page:'1',
+      limit:'20',    
+      sortBy: 'user_id',
+      sortDirection: 'ASC',
+      callState: CALL_STATE.REFRESHING,
+      // shift_id: 'shift_id',
+      // team_id: 'team_id',
+      // user_id: 'user_id',
+      // clientInfo:'clientInfo',
+      // isActive:'isActive',
+      }    ));
 
-      start_day: startDate,
-      end_day: endDate,
-      shift: shiftValue,
-      teamId: teamIds,
-      userId: userId,
 
-      status: status
-    }
-    ));
+    // dispatch(APIGetWorkingTime(
+    //   {
+    //     token: RedAuthUser.accessToken,
+    //     start_day: startDate,
+    //     end_day: endDate,
+    //     shift: shiftValue,
+    //     teamId: teamIds,
+    //     userId: userId,
 
-    dispatch(APIGetWorkingTime(
-      {
-        token: RedAuthUser.accessToken,
-        start_day: startDate,
-        end_day: endDate,
-        shift: shiftValue,
-        teamId: teamIds,
-        userId: userId,
-
-        status: status
-      }));
+    //     status: status
+    //   }));
   };
 
   const onPageChange = () => {
-    const newPageNumber = RedGetAttendanceByPagination.actualPayload.data.pagination.currentPage + 1;
+    const newPageNumber = RedFilterPlayerEntry.actualPayload.data.transactions.pagination.currentPage + 1;
 
     const userId = RedHeartBeat.actualPayload.data.user_data?.id;
 
     var startDate = '';
     var endDate = '';
 
-    var shiftValue = '';
-    var teamIds = '';
+    var shift_id = '';
+    var team_id = '';
 
     if (!!myAllFilters) {
 
-      startDate = (!!myAllFilters.startDate) ? (myAllFilters.startDate) : ("");
-      endDate = (!!myAllFilters.endDate) ? (myAllFilters.endDate) : ("");
+      // startDate = (!!myAllFilters.startDate) ? (myAllFilters.startDate) : ("");
+      // endDate = (!!myAllFilters.endDate) ? (myAllFilters.endDate) : ("");
 
-      if (!!myAllFilters.shift) {
-        shiftValue = myAllFilters.shift
+      if (!!myAllFilters.shift_id) {
+        shift_id = myAllFilters.shift_id
       }
 
-      if (!!myAllFilters.team) {
-        teamIds = myAllFilters.team
+      if (!!myAllFilters.team_id) {
+        team_id = myAllFilters.team_id
       } else {
-        teamIds = myCommaSeperatedTeams;
+        team_id = myCommaSeperatedTeams;
       }
     } else if (!!mySelectedTimeDuration) {
       const quickFilterDates = getStartEndDateFromQuickFilters();
 
-      startDate = quickFilterDates.start_day;
-      endDate = quickFilterDates.end_day;
+      // startDate = quickFilterDates.start_day;
+      // endDate = quickFilterDates.end_day;
 
-      teamIds = myCommaSeperatedTeams
+      team_id = myCommaSeperatedTeams
     }
 
-    dispatch(APIGetAttendanceByPagination({
-      token: RedAuthUser.accessToken,
-      sortBy: 'start_time',
-      sortDirection: 'desc',
-      pageNo: newPageNumber,
-      callState: CALL_STATE.FETCHING,
-
-      start_day: startDate,
-      end_day: endDate,
-      shift: shiftValue,
-      teamId: teamIds,
-      userId: userId
-    }
-    ));
+    
 
   };
 
@@ -329,7 +311,7 @@ const FinanceScreen = ({ }) => {
 
           }}>
           <FiltersComponent
-            isBusy={RedGetAttendanceByPagination.state !== CALL_STATE.IDLE}
+            isBusy={RedFilterPlayerEntry.state !== CALL_STATE.IDLE}
             onItemSelection={(selectedItem) => {
 
               setMySelectedTimeDuration(selectedItem);
@@ -354,7 +336,7 @@ const FinanceScreen = ({ }) => {
             color: colors.appTextPrimaryColor,
             fontWeight: 'bold'
           }}
-        >Total Time: </Text>
+        >Total Players: </Text>
         <View style={{
           minWidth: RFValue(100),
           borderWidth: 2,
@@ -376,12 +358,14 @@ const FinanceScreen = ({ }) => {
               fontWeight: 'bold'
             }}>
 
-            {(
+            {/* {(
               !!RedGetWorkingTime.actualPayload?.data &&
               RedGetWorkingTime.actualPayload?.data.length > 0 &&
               !!RedGetWorkingTime.actualPayload?.data[0]?.total_time_spent) ?
-              (formatTime(RedGetWorkingTime.actualPayload?.data[0]?.total_time_spent)) : ('--')}</Text>
+              (formatTime(RedGetWorkingTime.actualPayload?.data[0]?.total_time_spent)) : ('--')}
+               */}
 
+</Text>
         </View>
       </View>
 
@@ -406,7 +390,7 @@ const FinanceScreen = ({ }) => {
               highlightBorder={!!myAllFilters}
               showArrowBtn={(getStatusNameFromIdRed(item.status, []) === 'Pending') ? (true) : (false)}
               onArrowclick={() => {
-                navigation.navigate(ScreenNames.EditAttendanceScreen, {
+                navigation.navigate(ScreenNames.ViewFinanceScreen, {
                   selectedItem: item,
                   onBack: () => {
                     onRefresh()
@@ -439,19 +423,19 @@ const FinanceScreen = ({ }) => {
             tintColor={colors.appTextPrimaryColor}
             title={'Refreshing...'}
             titleColor={colors.appTextPrimaryColor}
-            refreshing={RedGetAttendanceByPagination.state === CALL_STATE.REFRESHING}
+            refreshing={RedFilterPlayerEntry.state === CALL_STATE.REFRESHING}
             onRefresh={onRefresh}
           />
         }
 
         ListFooterComponent={() => {
-          const myFlag = RedGetAttendanceByPagination.state !== CALL_STATE.REFRESHING &&
-            !!RedGetAttendanceByPagination.actualPayload &&
-            !!RedGetAttendanceByPagination.actualPayload.data &&
-            !!RedGetAttendanceByPagination.actualPayload.data.attendances &&
-            RedGetAttendanceByPagination.actualPayload.data.attendances.length > 0 &&
-            !!RedGetAttendanceByPagination.actualPayload.data.pagination &&
-            RedGetAttendanceByPagination.actualPayload.data.pagination.currentPage !== RedGetAttendanceByPagination.actualPayload.data.pagination.totalPages;
+          const myFlag = RedFilterPlayerEntry.state !== CALL_STATE.REFRESHING &&
+            !!RedFilterPlayerEntry.actualPayload &&
+            !!RedFilterPlayerEntry.actualPayload.data &&
+            !!RedFilterPlayerEntry.actualPayload.data.finance &&
+            RedFilterPlayerEntry.actualPayload.data.finance.length > 0 &&
+            !!RedFilterPlayerEntry.actualPayload.data.transactions &&
+            RedFilterPlayerEntry.actualPayload.data.transactions.pagination.currentPage !== RedFilterPlayerEntry.actualPayload.data.transactions.pagination.totalPages;
 
           // RedGetAttendanceByPagination.actualPayload.data.attendances.length <
           // RedLoads.payload.Data.TotalRows,
@@ -461,13 +445,13 @@ const FinanceScreen = ({ }) => {
 
         onEndReached={() => {
 
-          const myFlag = RedGetAttendanceByPagination.state !== CALL_STATE.REFRESHING &&
-            !!RedGetAttendanceByPagination.actualPayload &&
-            !!RedGetAttendanceByPagination.actualPayload.data &&
-            !!RedGetAttendanceByPagination.actualPayload.data.attendances &&
-            RedGetAttendanceByPagination.actualPayload.data.attendances.length > 0 &&
-            !!RedGetAttendanceByPagination.actualPayload.data.pagination &&
-            RedGetAttendanceByPagination.actualPayload.data.pagination.currentPage !== RedGetAttendanceByPagination.actualPayload.data.pagination.totalPages;
+          const myFlag = RedFilterPlayerEntry.state !== CALL_STATE.REFRESHING &&
+            !!RedFilterPlayerEntry.actualPayload &&
+            !!RedFilterPlayerEntry.actualPayload.data &&
+            !!RedFilterPlayerEntry.actualPayload.data.finance &&
+            RedFilterPlayerEntry.actualPayload.data.finance.length > 0 &&
+            !!RedFilterPlayerEntry.actualPayload.data.transactions &&
+            RedFilterPlayerEntry.actualPayload.data.transactions.pagination.currentPage !== RedFilterPlayerEntry.actualPayload.data.transactions.pagination.totalPages;
 
           if (myFlag) {
             onPageChange();
@@ -489,7 +473,7 @@ const FinanceScreen = ({ }) => {
         }}
         color={colors.appIconColor}
         onPress={() => {
-          navigation.navigate(ScreenNames.CreateFinanceScreen, {
+          navigation.navigate(ScreenNames.TransactionsScreen, {
             onBack: () => {
               onRefresh();
             }
