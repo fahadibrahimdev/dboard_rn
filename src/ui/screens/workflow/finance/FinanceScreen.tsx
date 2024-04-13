@@ -6,15 +6,13 @@ import { } from 'react-native-gesture-handler';
 import { ActivityIndicator, FAB, Text } from 'react-native-paper';
 import { RFValue } from 'react-native-responsive-fontsize';
 import { useDispatch } from 'react-redux';
-import { adjustTeamDataRed, formatTime, getStatusNameFromIdRed } from '../../../../helpers/Utils';
+import { adjustTeamDataRed, getStatusNameFromIdRed } from '../../../../helpers/Utils';
 import { CALL_STATE, FILTER_DATE_CODES } from '../../../../helpers/enum';
 import { ScreenNames } from '../../../../system/navigation/ScreenNames';
 import { filterPlayerEntry } from '../../../../system/networking/FinanceAPICalls';
-import {  APIGetWorkingTime } from '../../../../system/networking/AttendanceAPICalls';
-import { getAttendanceByPaginationIdle } from '../../../../system/redux/slice/attendanceSlice';
 import { filterPlayerEntryIdle } from '../../../../system/redux/slice/financeSlice';
 import { useAppSelector } from '../../../../system/redux/store/hooks';
-import AttendanceCell from '../../../helperComponents/AttendanceCell';
+import PlayerEntryCell from '../../../helperComponents/PlayerEntryCell';
 import AppHeader from '../../../uiHelpers/AppHeader';
 import FiltersComponent from '../../../uiHelpers/FiltersComponent';
 
@@ -67,7 +65,7 @@ const FinanceScreen = ({ }) => {
       if (RedFilterPlayerEntry.state === CALL_STATE.SUCCESS) {
 
 
-        setFilteredListData(RedFilterPlayerEntry.actualPayload.data.attendances)
+        setFilteredListData(RedFilterPlayerEntry.actualPayload.data.transactions)
 
 
         // setPermissions(RedHeartBeat.actualPayload.data.permission);
@@ -137,10 +135,10 @@ const FinanceScreen = ({ }) => {
 
     dispatch(filterPlayerEntry({
       token: RedAuthUser.accessToken,
-      
+
       callState: CALL_STATE.REFRESHING,
-      page:'1',
-      limit:'20',    
+      page: '1',
+      limit: '20',
       sortBy: 'user_id',
       sortDirection: 'ASC',
       callState: CALL_STATE.REFRESHING,
@@ -149,7 +147,7 @@ const FinanceScreen = ({ }) => {
       // user_id: 'user_id',
       // clientInfo:'clientInfo',
       // isActive:'isActive',
-      }    ));
+    }));
 
 
     // dispatch(APIGetWorkingTime(
@@ -199,7 +197,7 @@ const FinanceScreen = ({ }) => {
       team_id = myCommaSeperatedTeams
     }
 
-    
+
 
   };
 
@@ -365,7 +363,7 @@ const FinanceScreen = ({ }) => {
               (formatTime(RedGetWorkingTime.actualPayload?.data[0]?.total_time_spent)) : ('--')}
                */}
 
-</Text>
+          </Text>
         </View>
       </View>
 
@@ -383,7 +381,7 @@ const FinanceScreen = ({ }) => {
         keyExtractor={(item, index) => index.toString()} // Unique key for each item
         renderItem={({ item, index }) => {
           return (
-            <AttendanceCell
+            <PlayerEntryCell
               item={item}
               index={index}
               myUserID={myUserID}
@@ -432,10 +430,10 @@ const FinanceScreen = ({ }) => {
           const myFlag = RedFilterPlayerEntry.state !== CALL_STATE.REFRESHING &&
             !!RedFilterPlayerEntry.actualPayload &&
             !!RedFilterPlayerEntry.actualPayload.data &&
-            !!RedFilterPlayerEntry.actualPayload.data.finance &&
-            RedFilterPlayerEntry.actualPayload.data.finance.length > 0 &&
             !!RedFilterPlayerEntry.actualPayload.data.transactions &&
-            RedFilterPlayerEntry.actualPayload.data.transactions.pagination.currentPage !== RedFilterPlayerEntry.actualPayload.data.transactions.pagination.totalPages;
+            RedFilterPlayerEntry.actualPayload.data.transactions.length > 0 &&
+            !!RedFilterPlayerEntry.actualPayload.data.pagination &&
+            RedFilterPlayerEntry.actualPayload.data.pagination.currentPage !== RedFilterPlayerEntry.actualPayload.data.pagination.totalPages;
 
           // RedGetAttendanceByPagination.actualPayload.data.attendances.length <
           // RedLoads.payload.Data.TotalRows,
@@ -448,10 +446,10 @@ const FinanceScreen = ({ }) => {
           const myFlag = RedFilterPlayerEntry.state !== CALL_STATE.REFRESHING &&
             !!RedFilterPlayerEntry.actualPayload &&
             !!RedFilterPlayerEntry.actualPayload.data &&
-            !!RedFilterPlayerEntry.actualPayload.data.finance &&
-            RedFilterPlayerEntry.actualPayload.data.finance.length > 0 &&
             !!RedFilterPlayerEntry.actualPayload.data.transactions &&
-            RedFilterPlayerEntry.actualPayload.data.transactions.pagination.currentPage !== RedFilterPlayerEntry.actualPayload.data.transactions.pagination.totalPages;
+            RedFilterPlayerEntry.actualPayload.data.transactions.length > 0 &&
+            !!RedFilterPlayerEntry.actualPayload.data.pagination &&
+            RedFilterPlayerEntry.actualPayload.data.pagination.currentPage !== RedFilterPlayerEntry.actualPayload.data.pagination.totalPages;
 
           if (myFlag) {
             onPageChange();

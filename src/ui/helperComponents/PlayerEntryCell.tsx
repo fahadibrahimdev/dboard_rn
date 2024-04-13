@@ -8,7 +8,7 @@ import { getShiftFromIdRed, getStatusColorBGFromName, getStatusColorFromName, ge
 import { useAppSelector } from '../../system/redux/store/hooks';
 
 
-const AttendanceCell = ({ item, index = 0, showArrowBtn, onArrowclick, highlightBorder, onRemarksclick }) => {
+const PlayerEntryCell = ({ item, index = 0, showArrowBtn, onArrowclick, highlightBorder, onRemarksclick }) => {
   const { colors } = useTheme();
   const navigation = useNavigation();
 
@@ -58,9 +58,9 @@ const AttendanceCell = ({ item, index = 0, showArrowBtn, onArrowclick, highlight
               style={{
                 color: colors.appTextPrimaryColor,
               }}
-            >{((item.full_name).length > maxFullNameLength) ?
-              (((item.full_name).substring(0, maxFullNameLength - 3)) + '...') :
-              item.full_name}</Text>
+            >{((item?.client_info)?.length > maxFullNameLength) ?
+              (((item?.client_info).substring(0, maxFullNameLength - 3)) + '...') :
+              item?.client_info}</Text>
           </View>
 
           <View style={{
@@ -297,4 +297,4 @@ const AttendanceCell = ({ item, index = 0, showArrowBtn, onArrowclick, highlight
   );
 }
 
-export default AttendanceCell;
+export default PlayerEntryCell;

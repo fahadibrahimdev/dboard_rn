@@ -1,6 +1,6 @@
 import { useNavigation, useTheme } from '@react-navigation/native';
 import { useEffect, useState } from 'react';
-import { Alert, FlatList, KeyboardAvoidingView, Text, TextInput, View,RefreshControl } from 'react-native';
+import { Alert, FlatList, KeyboardAvoidingView, Text, TextInput, View, RefreshControl } from 'react-native';
 import { IconButton } from 'react-native-paper';
 import { useDispatch } from 'react-redux';
 import { CALL_STATE } from '../../../../helpers/enum';
@@ -10,6 +10,7 @@ import { useAppSelector } from '../../../../system/redux/store/hooks';
 import AppHeader from '../../../uiHelpers/AppHeader';
 import FullScreenLoader from '../../../uiHelpers/FullScreenLoader';
 import moment = require('moment-timezone');
+import { ScreenNames } from '../../../../system/navigation/ScreenNames';
 
 const Message = ({ sender, content, timestamp }) => {
 
@@ -29,12 +30,13 @@ const Message = ({ sender, content, timestamp }) => {
       borderRadius: 10,
       marginVertical: 8,
       paddingVertical: 5,
+      paddingHorizontal: 10,
       flexDirection: 'column'
 
     }}>
-      {/* <Text style={{ fontSize: 16, fontWeight: 'bold', color: 'black' }}>{sender}</Text> */}
+      {sender !== 'me' && <Text style={{ fontSize: 16, fontWeight: 'bold', color: 'black' }}>{sender}</Text>}
       <View style={{ flex: 1, }}>
-        <Text style={{ paddingTop: 5, paddingHorizontal: 10, color: 'black', }}>{content} </Text>
+        <Text style={{ paddingTop: 5, color: 'black', }}>{content} </Text>
         <Text style={{ paddingHorizontal: 5, fontSize: 11, color: 'black', textAlign: 'right' }}>{timestamp}</Text>
       </View>
 
@@ -88,7 +90,8 @@ const RemarksScreen = ({ route }) => {
 
       console.log("Item: ", route.params.selectedItem);
       setSelectedItem(route.params.selectedItem);
-      dispatch(APIGetRemarks(RedAuthUser.accessToken, route.params.selectedItem.id));
+
+      onRefresh(route.params.selectedItem.id)
     }
 
 
@@ -134,7 +137,7 @@ const RemarksScreen = ({ route }) => {
 
         setNewMessage('');
 
-        dispatch(APIGetRemarks(RedAuthUser.accessToken, selectedItem.id));
+        onRefresh(selectedItem.id);
 
 
       } else if (RedCreateRemarks.state === CALL_STATE.ERROR) {
@@ -144,6 +147,9 @@ const RemarksScreen = ({ route }) => {
     }
   }, [RedCreateRemarks.state]);
 
+  const onRefresh = (itemID) => {
+    dispatch(APIGetRemarks(RedAuthUser.accessToken, itemID));
+  }
   const sendMessage = () => {
     const myMessage = newMessage.trim();
     if (!!myMessage) {
@@ -175,19 +181,26 @@ const RemarksScreen = ({ route }) => {
         }}
         showRightButton={true}
         rightButtonIcon={'information'}
-        onRightItemClick={() => { }}
-        
+        onRightItemClick={() => {
+          navigation.navigate(ScreenNames.EditAttendanceScreen, {
+            selectedItem: selectedItem,
+            onBack: () => {
+              onRefresh(selectedItem.id)
+            }
+          });
+        }}
+
         showSecondRightButton={true}
         secondRightButtonIcon={'refresh'}
         onSecondRightItemClick={() => {
 
-          
-          dispatch(APIGetRemarks(RedAuthUser.accessToken, selectedItem.id));
-          
+
+
+
         }}
-        
-        
-        
+
+
+
         showDivider={true}
 
       />

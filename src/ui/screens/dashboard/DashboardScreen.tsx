@@ -20,18 +20,21 @@ import CellComponent from '../../uiHelpers/CellComponent';
 import FullScreenLoader from '../../uiHelpers/FullScreenLoader';
 
 const DashboardScreen = ({ route }) => {
-  
+
   const navigation = useNavigation();
   const { colors } = useTheme();
 
   const [permissions, setPermissions] = useState([]);
-  
+
   const data = [
+
+
     { id: 1, title: 'Attendance', icons: 'account-clock', code: 'ATTENDANCE' },
-    { id: 2, title: 'News', icons: 'newspaper', code: 'NEWS' },
-    { id: 3, title: 'Report', icons: 'file-chart', code: 'REPORTS' },
+    { id: 2, title: 'Team Attendance', icons: 'account-supervisor', code: 'TEAM_ATTENDANCE' },
+    { id: 3, title: 'News', icons: 'newspaper', code: 'NEWS' },
     { id: 4, title: 'Finance', icons: 'finance', code: 'FINANCES' },
-    { id: 1, title: 'Team Attendance', icons: 'account-supervisor', code: 'TEAM_ATTENDANCE' },
+    // { id: 5, title: 'Report', icons: 'file-chart', code: 'REPORTS' },
+
   ];
 
   const [filteredData, setFilteredData] = useState([]);

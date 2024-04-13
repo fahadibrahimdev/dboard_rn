@@ -415,6 +415,15 @@ const MainTeamAttendanceScreen = ({ }) => {
                 });
               }
               }
+              onRemarksclick={() => {
+                navigation.navigate(ScreenNames.RemarksScreen, {
+                  selectedItem: item,
+                  onBack: () => {
+
+                  }
+                });
+              }
+              }
             />
           )
         }}
