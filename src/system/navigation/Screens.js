@@ -19,6 +19,7 @@ import TransactionsScreen from "../../ui/screens/workflow/finance/TransactionsSc
 import ViewFinanceScreen from "../../ui/screens/workflow/finance/ViewFinanceScreen";
 import ReportScreen from "../../ui/screens/workflow/report/ReportScreen";
 
+import EditPlayerEntryScreen from "../../ui/screens/workflow/finance/EditPlayerEntryScreen";
 import EditAttendanceScreen from "../../ui/screens/workflow/attendance/EditAttendanceScreen";
 import NewsScreen from "../../ui/screens/workflow/news/NewsScreen";
 
@@ -50,6 +51,7 @@ export const Screens = {
   ViewAttendanceScreen: ViewAttendanceScreen,
   CreateAttendanceScreen: CreateAttendanceScreen,
   CreateFinanceScreen: CreateFinanceScreen,
+  EditPlayerEntryScreen:EditPlayerEntryScreen,
   EditAttendanceScreen: EditAttendanceScreen,
   ViewFinanceScreen: ViewFinanceScreen,
 

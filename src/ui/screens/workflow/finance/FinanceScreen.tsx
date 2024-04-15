@@ -388,7 +388,7 @@ const FinanceScreen = ({ }) => {
               highlightBorder={!!myAllFilters}
               showArrowBtn={(getStatusNameFromIdRed(item.status, []) === 'Pending') ? (true) : (false)}
               onArrowclick={() => {
-                navigation.navigate(ScreenNames.ViewFinanceScreen, {
+                navigation.navigate(ScreenNames.EditPlayerEntryScreen, {
                   selectedItem: item,
                   onBack: () => {
                     onRefresh()

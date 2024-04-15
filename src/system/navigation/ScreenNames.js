@@ -14,6 +14,7 @@ export const ScreenNames = {
   NewsOpen: "NewsOpen",
   Settings: "Settings",
   CreateFinanceScreen:"CreateFinanceScreen",
+  EditPlayerEntryScreen:"EditPlayerEntryScreen",
   CreateAttendanceScreen: "CreateAttendanceScreen",
   ViewAttendanceScreen: "ViewAttendanceScreen",
   EditAttendanceScreen: "EditAttendanceScreen",

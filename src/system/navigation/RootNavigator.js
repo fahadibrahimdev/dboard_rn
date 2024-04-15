@@ -128,6 +128,12 @@ export default function RootNavigator() {
         component={Screens.ViewFinanceScreen}
         options={{ headerShown: false }}
       />
+      
+      <Stack.Screen
+        name={ScreenNames.EditPlayerEntryScreen}
+        component={Screens.EditPlayerEntryScreen}
+        options={{ headerShown: false }}
+      />
 
       
 <Stack.Screen
