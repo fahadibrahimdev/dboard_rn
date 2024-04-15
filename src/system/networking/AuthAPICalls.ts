@@ -9,6 +9,9 @@ import {
   editprofileError,
   editprofilePending,
   editprofileSuccess,
+  logoutError,
+  logoutPending,
+  logoutSuccess,
   signInError,
   signInPending,
   signInSuccess,
@@ -311,3 +314,57 @@ export const APIDELETEUSER = (user_name, password) => async (dispatch) => {
     );
   }
 };
+
+// SignUp API CALL
+
+export const API_LOGOUT =
+  (user_id,platform) => async (dispatch) => {
+    try {
+      // Define the URL of the API endpoint
+      const apiUrl = API.SIGN_UP_API;
+
+      // Define the data you want to send in the body as key-value pairs
+      const data = new URLSearchParams();
+
+      data.append("user_id", user_id);
+      data.append("platform", platform.OS);
+
+      dispatch(logoutPending());
+      
+      const response = await fetch(apiUrl, {
+        method: "POST",
+        headers: { ...HEADERS },
+        body: data.toString(), // Convert the data to a URL-encoded string
+      });
+
+      if (response.status === 200) {
+        const responseData = await response.json();
+
+        dispatch(
+          logoutSuccess({
+            data: responseData,
+          })
+        );
+      } else if (response.status === 400) {
+        const responseData = await response.json();
+        dispatch(
+          logoutError({
+            error: responseData.message,
+          })
+        );
+      } else {
+        dispatch(
+          logoutError({
+            error: "Api Called Failed!",
+          })
+        );
+      }
+    } catch (error) {
+      dispatch(
+        logoutError({
+          error: "Error in Api Call!",
+        })
+      );
+    }
+  };
+

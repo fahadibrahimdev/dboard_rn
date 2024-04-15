@@ -12,6 +12,7 @@ import { ENV } from '../../../system/networking/NetworkingConstants';
 import { resetAll } from '../../../system/redux/slice/appSlice ';
 import { useAppSelector } from '../../../system/redux/store/hooks';
 import NavItem from '../../helperComponents/NavItem';
+import { API_LOGOUT } from '../../../system/networking/AuthAPICalls';
 
 
 const AppDrawer = (props: any) => {
@@ -284,7 +285,7 @@ const AppDrawer = (props: any) => {
 
           onPress={() => {
 
-            clearAll();
+            dispatch(API_LOGOUT());
 
           }}
         >
