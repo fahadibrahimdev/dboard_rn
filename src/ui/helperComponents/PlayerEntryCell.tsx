@@ -82,7 +82,7 @@ const PlayerEntryCell = ({ item, index = 0, showArrowBtn, onArrowclick, highligh
                 color: colors.appTextPrimaryColor,
                 marginRight: 6
               }}
-            >{moment(item.start_time).format('DD-MMM-YYYY')}</Text>
+            >{moment(item.start_time).format('DD-MMM-YY hh:mm A')}</Text>
 
 
             <Icon
@@ -133,12 +133,12 @@ const PlayerEntryCell = ({ item, index = 0, showArrowBtn, onArrowclick, highligh
               style={{
                 color: colors.appTextPrimaryColor,
               }}
-            >{moment(item.start_time).format('hh:mm A')}</Text>
+            >{item.type}</Text>
             <Text
               style={{
                 color: colors.appTextPrimaryColor,
 
-              }}>{(!!item && !!item.end_time) ? (moment(item.end_time).format('hh:mm A')) : ('--')}</Text>
+              }}>{item.amount}</Text>
 
           </View>
 
@@ -165,7 +165,8 @@ const PlayerEntryCell = ({ item, index = 0, showArrowBtn, onArrowclick, highligh
               <View style={{
                 // flexDirection: 'row',
                 // justifyContent: "center",
-                alignItems: 'center'
+                alignItems: 'center',
+                // backgroundColor: "#786756"
 
               }}>
                 <Text
@@ -196,9 +197,11 @@ const PlayerEntryCell = ({ item, index = 0, showArrowBtn, onArrowclick, highligh
                     }}>{getShiftFromIdRed(item.shift_id, RedHeartBeat.actualPayload)}
 
                   </Text>
-                </View>
+                  </View>
+                   
               </View>
 
+                  
 
 
               <View style={{
@@ -238,26 +241,59 @@ const PlayerEntryCell = ({ item, index = 0, showArrowBtn, onArrowclick, highligh
 
 
             <View style={{
+              flex:1,
               flexDirection: 'row',
-              alignSelf: 'flex-end',
-              justifyContent: 'center',
+              // alignSelf: 'flex-end',
+              justifyContent: 'space-between',
               marginBottom: 5,
               borderRadius: 10,
+                    // backgroundColor: "#887755",
+
 
             }}>
+
+            <View style={{
+              maxWidth:"30%",
+                  // borderWidth: 2,
+                  // borderColor: colors.bordercolor,
+                  // borderRadius: 20,
+                  marginTop: 5,
+                  paddingHorizontal:6,
+                  // flexDirection:'row',
+                  alignItems:'flex-end',
+                  // paddingHorizontal: 12,
+                  // paddingVertical: 5,
+                  // justifyContent: 'center',
+                  // backgroundColor: '#009900'
+                }}>
+                  <Text
+                    style={{
+                      color: colors.appTextPrimaryColor,
+
+                    }}>{(item.game)}
+
+                  </Text>
+                  </View>
+                  
               <View
                 style={{
-
-
-                  marginRight: 10
+                  flexDirection:'row',
+                  alignItems:'flex-end'
+                  // marginRight: 
 
                 }}
               >
+
+                
                 <IconButton
+                style={{
+                  // alignItems:'flex-end'
+                }}
                   icon={'chat'}
                   iconColor={colors.appdrawerIconTextColor}
                   containerColor='grey'
-                  size={17}
+
+                  size={16}
                   onPress={() => {
 
                     if (!!onRemarksclick) {
@@ -267,9 +303,9 @@ const PlayerEntryCell = ({ item, index = 0, showArrowBtn, onArrowclick, highligh
                   }}
                 />
 
-              </View>
+              
 
-              {!!showArrowBtn &&
+              {/* {!!showArrowBtn && */}
                 <IconButton
                   icon={'arrow-right-bold'}
                   iconColor={colors.appdrawerIconTextColor}
@@ -283,9 +319,12 @@ const PlayerEntryCell = ({ item, index = 0, showArrowBtn, onArrowclick, highligh
 
                   }}
                 />
-              }
-
+              {/* } */}
+              </View>
             </View>
+            
+
+
 
 
           </View>
