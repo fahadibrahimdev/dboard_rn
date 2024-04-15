@@ -22,17 +22,30 @@ import {
 } from "../redux/slice/authSlice";
 import { API, HEADERS } from "./NetworkingConstants";
 import { getDeviceInfo } from "../../helpers/DeviceInfo";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { AsyncStorageConstants } from "../../helpers/AsyncStorageConstants";
 
 export const APISignIn = (email, password, deviceData) => async (dispatch) => {
   try {
     // Define the URL of the API endpoint
     const apiUrl = API.SIGN_IN_V2_API;
 
+    let myDeviceToken = "";
+    const deviceTokenInfo = await AsyncStorage.getItem(
+      AsyncStorageConstants.DEVICE_TOKEN
+    );
+    if (!!deviceTokenInfo) {
+      myDeviceToken = JSON.parse(deviceTokenInfo).deviceToken;
+    }
+
     // Define the data you want to send in the body as key-value pairs
     const data = new URLSearchParams();
     data.append("user_name", email?.trim());
     data.append("password", password?.trim());
-    data.append("device_token", "Dummy Token");
+    data.append(
+      "device_token",
+      !!myDeviceToken ? myDeviceToken : "DUMMY TOKEN"
+    );
     data.append("platform", Platform.OS);
     data.append("device_info", !!deviceData ? deviceData : "--");
 
@@ -89,6 +102,13 @@ export const APISignUp =
       // Define the URL of the API endpoint
       const apiUrl = API.SIGN_UP_API;
 
+      let myDeviceToken = "";
+      const deviceTokenInfo = await AsyncStorage.getItem(
+        AsyncStorageConstants.DEVICE_TOKEN
+      );
+      if (!!deviceTokenInfo) {
+        myDeviceToken = JSON.parse(deviceTokenInfo).deviceToken;
+      }
       // Define the data you want to send in the body as key-value pairs
       const data = new URLSearchParams();
 
@@ -96,7 +116,10 @@ export const APISignUp =
       data.append("user_name", UserName?.trim());
       data.append("email", email?.trim());
       data.append("password", password?.trim());
-      data.append("device_token", "DUMMY TOKEN");
+      data.append(
+        "device_token",
+        !!myDeviceToken ? myDeviceToken : "DUMMY TOKEN"
+      );
       data.append("platform", Platform.OS);
 
       dispatch(signUpPending());
@@ -319,7 +342,7 @@ export const APIDELETEUSER = (user_name, password) => async (dispatch) => {
 // Create Remarks API CALL
 
 export const API_CREATE_REMARKS =
-  (token,attendance_id) => async (dispatch) => {
+  (token, attendance_id) => async (dispatch) => {
     try {
       // Define the URL of the API endpoint
       const apiUrl = API.CREATE_REMARKS_API;
@@ -328,7 +351,6 @@ export const API_CREATE_REMARKS =
       const data = new URLSearchParams();
 
       data.append("attendance_id", attendance_id);
-
 
       dispatch(createRemarksPending());
 
@@ -371,4 +393,3 @@ export const API_CREATE_REMARKS =
       );
     }
   };
-

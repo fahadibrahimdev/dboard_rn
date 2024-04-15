@@ -18,6 +18,7 @@ import { useAppSelector } from '../../../system/redux/store/hooks';
 import AppHeader from '../../uiHelpers/AppHeader';
 import CellComponent from '../../uiHelpers/CellComponent';
 import FullScreenLoader from '../../uiHelpers/FullScreenLoader';
+import { AsyncStorageConstants } from '../../../helpers/AsyncStorageConstants';
 
 const DashboardScreen = ({ route }) => {
 
@@ -111,7 +112,20 @@ const DashboardScreen = ({ route }) => {
 
   const clearAll = async () => {
     try {
+      const deviceToken = await AsyncStorage.getItem(AsyncStorageConstants.DEVICE_TOKEN);
       await AsyncStorage.clear();
+      if (!!deviceToken) {
+        AsyncStorage.multiSet([
+          [AsyncStorageConstants.DEVICE_TOKEN, deviceToken],
+        ])
+          .then(data => {
+            console.log('Local Storage Updated: ', AsyncStorageConstants.DEVICE_TOKEN);
+          })
+          .catch(err => {
+            console.log(err);
+            console.log('Local Storage Error : ', AsyncStorageConstants.DEVICE_TOKEN);
+          });
+      }
     } catch (e) {
       // clear error
     }

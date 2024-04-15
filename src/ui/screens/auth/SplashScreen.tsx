@@ -27,7 +27,13 @@ const SplashScreen = () => {
   const RedAuthUser = useAppSelector(state => state.auth.authUser);
 
   const checkAuth = async () => {
+
+    const deviceToken = await AsyncStorage.getItem(AsyncStorageConstants.DEVICE_TOKEN);
     const userData = await AsyncStorage.getItem(AsyncStorageConstants.SIGN_IN);
+
+    if (!!deviceToken) {
+      console.log("Fahad Device TOken for Firebase => ", deviceToken);
+    }
 
     if (!!userData) {
 
