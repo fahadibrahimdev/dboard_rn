@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "765583870915",
-    "project_id": "dboard-b6765",
-    "storage_bucket": "dboard-b6765.appspot.com"
+    "project_number": "883690480752",
+    "project_id": "dashboard-8829c",
+    "storage_bucket": "dashboard-8829c.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:765583870915:android:db73802970b00a79370b76",
+        "mobilesdk_app_id": "1:883690480752:android:6687434eef62e669b3c0b5",
         "android_client_info": {
           "package_name": "com.devdock.dboard"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyC3otmJCXpu0dTXj4FEKNt_BZgk7-JtceI"
+          "current_key": "AIzaSyBxEA5hNfhbhuW2EDvhg-3lUi7fTDMwHNY"
         }
       ],
       "services": {
