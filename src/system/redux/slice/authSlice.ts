@@ -39,6 +39,11 @@ export interface AuthState {
     actualPayload: any;
     error: string;
   };
+  logout: {
+    state: string;
+    actualPayload: any;
+    error: string;
+  };
 
 
 
@@ -76,6 +81,11 @@ const initialState: AuthState = {
     error: '',
   },
   createRemark: {
+    state: CALL_STATE.IDLE,
+    actualPayload: {},
+    error: '',
+  },
+  logout: {
     state: CALL_STATE.IDLE,
     actualPayload: {},
     error: '',
@@ -296,6 +306,46 @@ export const authSlice = createSlice({
 
       console.log('Slice-changepasswordError:', current(state).changepassword);
     },
+
+    
+    // Logout user
+
+   logoutIdle: state => {
+      const currentState = current(state);
+      state.logout = {
+        state: CALL_STATE.IDLE,
+        actualPayload: currentState.logout.actualPayload,
+        error: currentState.logout.error,
+      };
+
+      console.log('Slice-logoutIdle:', current(state).logout);
+    },
+    logoutPending: state => {
+      state.logout = {
+        state: CALL_STATE.FETCHING,
+        actualPayload: {},
+        error: '',
+      };
+      console.log('Slice-logoutPending:', current(state).logout);
+    },
+    logoutSuccess: (state, action: PayloadAction<any>) => {
+      state.logout = {
+        state: CALL_STATE.SUCCESS,
+        actualPayload: action.payload.data,
+        error: '',
+      };
+
+      console.log('Slice-logoutSuccess:', current(state).logout);
+    },
+    logoutError: (state, action: PayloadAction<any>) => {
+      state.logout = {
+        state: CALL_STATE.ERROR,
+        actualPayload: {},
+        error: action.payload.error,
+      };
+
+      console.log('Slice-logoutError:', current(state).logout);
+    },
     
 
     logoutAuth: state => initialState,
@@ -331,6 +381,11 @@ export const {
   deleteuserPending,
   deleteuserSuccess,
   deleteuserError,
+
+  logoutIdle,
+  logoutPending,
+  logoutSuccess,
+  logoutError,
 
   logoutAuth,
   

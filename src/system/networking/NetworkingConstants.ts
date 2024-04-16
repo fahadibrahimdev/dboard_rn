@@ -38,6 +38,10 @@ export const API = {
 
   //DeleteUser Related APIs
   DELETE_USER_API: `${ENV.BASEURL}/user/delete_user`,
+
+
+  // LOGOUT APIs 
+  LOGOUT_API: `${ENV.BASEURL}/user/logout`,
   //App Related APIs
   HEART_BEAT_API: `${ENV.BASEURL}/user/heartbeat`,
 

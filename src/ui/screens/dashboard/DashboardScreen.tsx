@@ -42,6 +42,7 @@ const DashboardScreen = ({ route }) => {
   const RedHeartBeat = useAppSelector(state => state.app.heartBeat);
   const RedAuthUser = useAppSelector(state => state.auth.authUser);
   const RedUpdateNews = useAppSelector(state => state.app.updateNews);
+  const RedLogout = useAppSelector(state => state.auth.logout);
   const dispatch = useDispatch();
 
 
@@ -76,6 +77,22 @@ const DashboardScreen = ({ route }) => {
 
     }
   }, [RedHeartBeat.state])
+
+
+  useEffect(() => {
+
+    if (
+      RedLogout.state !== CALL_STATE.IDLE &&
+      RedLogout.state !== CALL_STATE.FETCHING
+    ) {
+
+      dispatch(heartbeatIdle());
+      if (RedLogout.state === CALL_STATE.SUCCESS) {
+
+      clearAll();
+
+    }}},
+ [RedLogout.state])
 
   useEffect(() => {
 

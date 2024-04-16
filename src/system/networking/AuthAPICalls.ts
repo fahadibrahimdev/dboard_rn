@@ -15,10 +15,9 @@ import {
   signUpError,
   signUpPending,
   signUpSuccess,
-  createRemarksIdle,
-  createRemarksPending,
-  createRemarksSuccess,
-  createRemarksError,
+  logoutPending,
+  logoutSuccess,
+  logoutError,
 } from "../redux/slice/authSlice";
 import { API, HEADERS } from "./NetworkingConstants";
 import { getDeviceInfo } from "../../helpers/DeviceInfo";
@@ -229,7 +228,7 @@ export const APIEditProfile =
     }
   };
 
-// SignUp API CALL
+// Change Password API CALL
 
 export const API_CHANGE_PASSWORD =
   (token, old_password, new_password, user_name) => async (dispatch) => {
@@ -393,3 +392,59 @@ export const API_CREATE_REMARKS =
       );
     }
   };
+
+  // Logoout API CALL
+
+export const API_LOGOUT =
+(user_id, Platform) => async (dispatch) => {
+  try {
+    // Define the URL of the API endpoint
+    const apiUrl = API.LOGOUT_API;
+
+    // Define the data you want to send in the body as key-value pairs
+    const data = new URLSearchParams();
+
+    data.append("user_id", user_id );
+    data.append("platform", Platform);
+    
+
+    dispatch(logoutPending());
+
+    const response = await fetch(apiUrl, {
+      method: "POST",
+      headers: {
+        ...HEADERS,
+      },
+      body: data.toString(), // Convert the data to a URL-encoded string
+    });
+
+    if (response.status === 200) {
+      const responseData = await response.json();
+
+      dispatch(
+        logoutSuccess({
+          data: responseData,
+        })
+      );
+    } else if (response.status === 400) {
+      const responseData = await response.json();
+      dispatch(
+        logoutError({
+          error: responseData.message,
+        })
+      );
+    } else {
+      dispatch(
+        logoutError({
+          error: "Api Called Failed!",
+        })
+      );
+    }
+  } catch (error) {
+    dispatch(
+      logoutError({
+        error: "Error in Api Call!",
+      })
+    );
+  }
+};
