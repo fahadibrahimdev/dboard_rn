@@ -209,7 +209,7 @@ const RemarksScreen = ({ route }) => {
       {/* Chat History */}
       <View style={{ flex: 1, justifyContent: 'space-between', }}>
 
-        <View style={{ maxHeight: "80%", }}>
+        <View style={{ maxHeight: "75%", }}>
           <FlatList
             style={{
 
@@ -238,7 +238,7 @@ const RemarksScreen = ({ route }) => {
             alignSelf: 'flex-end',
             flexDirection: 'row',
             padding: 10,
-            maxHeight: "20%",
+            maxHeight: "25%",
             justifyContent: 'center',
             alignItems: 'center',
           }}
@@ -278,12 +278,12 @@ const RemarksScreen = ({ route }) => {
 
               <View style={{
                 width: '15%',
-                // backgroundColor: '#665511'
+                alignSelf: "center"
               }}>
                 <IconButton
                   icon='send'
                   iconColor={colors.appdrawerIconTextColor}
-                  containerColor='#f5785f'
+                  // containerColor='#f5785f'
                   size={30}
                   onPress={() => {
                     // Alert.alert('Enter');
