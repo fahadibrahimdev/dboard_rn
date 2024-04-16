@@ -13,6 +13,8 @@ const AppHeader = props => {
 
   const {
     flexSize,
+
+    showLogo = true,
     showLeftButton,
     onLeftItemClick,
     leftButtonTitle,
@@ -68,8 +70,8 @@ const AppHeader = props => {
 
           {/* Remarks - Following Button is Dummy, Just to adjust UI proportionally */}
           <IconButton
-          style={{ opacity: 0 }}
-           icon={(!!leftButtonIcon) ? (leftButtonIcon) : ('-left')}
+            style={{ opacity: 0 }}
+            icon={(!!leftButtonIcon) ? (leftButtonIcon) : ('-left')}
             iconColor={colors.appdrawerIconTextColor}
             size={25}
             onPress={() => {
@@ -87,10 +89,13 @@ const AppHeader = props => {
           paddingHorizontal: RFValue(2),
           // backgroundColor: "#001122"
         }}>
-          <Image source={dBoardAppIcon}
-            style={{ height: '100%', width: '100%', resizeMode: 'contain' }}
+          {showLogo &&
+            <Image source={dBoardAppIcon}
+              style={{ height: '100%', width: '100%', resizeMode: 'contain' }}
 
-          />
+            />
+          }
+
         </View>
 
         <View
@@ -119,9 +124,9 @@ const AppHeader = props => {
             size={25}
             onPress={() => {
               onSecondRightItemClick()
-          
+
             }}
-            
+
           />
 
         </View>

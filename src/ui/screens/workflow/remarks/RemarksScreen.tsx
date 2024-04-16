@@ -194,7 +194,7 @@ const RemarksScreen = ({ route }) => {
         secondRightButtonIcon={'refresh'}
         onSecondRightItemClick={() => {
 
-
+          onRefresh(selectedItem.id);
 
 
         }}
@@ -223,7 +223,7 @@ const RemarksScreen = ({ route }) => {
             ListEmptyComponent={() => {
               return (
                 <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                  <View style={{ transform: [{ scaleY: -1 }] }}><Text style={{
+                  <View style={{ transform: [{ scale: -1 }] }}><Text style={{
                     color: colors.appTextPrimaryColor
                   }}
                   >No Data to show</Text></View>
