@@ -19,6 +19,7 @@ import AppHeader from '../../uiHelpers/AppHeader';
 import CellComponent from '../../uiHelpers/CellComponent';
 import FullScreenLoader from '../../uiHelpers/FullScreenLoader';
 import { AsyncStorageConstants } from '../../../helpers/AsyncStorageConstants';
+import { logoutIdle } from '../../../system/redux/slice/authSlice';
 
 const DashboardScreen = ({ route }) => {
 
@@ -86,13 +87,15 @@ const DashboardScreen = ({ route }) => {
       RedLogout.state !== CALL_STATE.FETCHING
     ) {
 
-      dispatch(heartbeatIdle());
+      dispatch(logoutIdle());
       if (RedLogout.state === CALL_STATE.SUCCESS) {
 
-      clearAll();
+      }
 
-    }}},
- [RedLogout.state])
+      clearAll();
+    }
+  },
+    [RedLogout.state])
 
   useEffect(() => {
 

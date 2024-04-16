@@ -1,4 +1,3 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { DrawerContentScrollView } from '@react-navigation/drawer';
 import { getFocusedRouteNameFromRoute, useNavigation, useRoute, useTheme } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
@@ -8,12 +7,10 @@ import { RFValue } from 'react-native-responsive-fontsize';
 import { useDispatch } from 'react-redux';
 import DeviceInfo from '../../../helpers/DeviceInfo';
 import { ScreenNames } from '../../../system/navigation/ScreenNames';
+import { API_LOGOUT } from '../../../system/networking/AuthAPICalls';
 import { ENV } from '../../../system/networking/NetworkingConstants';
-import { resetAll } from '../../../system/redux/slice/appSlice ';
 import { useAppSelector } from '../../../system/redux/store/hooks';
 import NavItem from '../../helperComponents/NavItem';
-import { AsyncStorageConstants } from '../../../helpers/AsyncStorageConstants';
-import { API_LOGOUT } from '../../../system/networking/AuthAPICalls';
 
 
 const AppDrawer = (props: any) => {
@@ -47,41 +44,6 @@ const AppDrawer = (props: any) => {
     }
 
   }, [RedHeartBeat.state])
-
-  const clearAll = async () => {
-    try {
-
-      const deviceToken = await AsyncStorage.getItem(AsyncStorageConstants.DEVICE_TOKEN);
-      await AsyncStorage.clear();
-      if (!!deviceToken) {
-        AsyncStorage.multiSet([
-          [AsyncStorageConstants.DEVICE_TOKEN, deviceToken],
-        ])
-          .then(data => {
-            console.log('Local Storage Updated: ', AsyncStorageConstants.DEVICE_TOKEN);
-          })
-          .catch(err => {
-            console.log(err);
-            console.log('Local Storage Error : ', AsyncStorageConstants.DEVICE_TOKEN);
-          });
-      }
-    } catch (e) {
-      // clear error
-    }
-
-    dispatch(resetAll());
-
-    navigation.reset({
-      index: 0,
-      routes: [
-        {
-          name: ScreenNames.SignInScreen as never,
-          params: {
-          },
-        },
-      ],
-    });
-  };
 
   return (
     <View

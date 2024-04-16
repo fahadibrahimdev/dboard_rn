@@ -4,23 +4,20 @@
  *
  * @format
  */
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation, useTheme } from '@react-navigation/native';
 import React, { useEffect, useRef, useState } from "react";
-import { Alert, StyleSheet, View } from "react-native";
+import { Alert, Platform, StyleSheet, View } from "react-native";
 import { Button, Text, TextInput } from "react-native-paper";
 import { RFValue } from 'react-native-responsive-fontsize';
 import { useDispatch } from 'react-redux';
 import { h } from '../../../helpers/Dimensions';
 import { CALL_STATE } from '../../../helpers/enum';
 import { ScreenNames } from "../../../system/navigation/ScreenNames";
-import { APIDELETEUSER } from '../../../system/networking/AuthAPICalls';
-import { resetAll } from '../../../system/redux/slice/appSlice ';
+import { APIDELETEUSER, API_LOGOUT } from '../../../system/networking/AuthAPICalls';
 import { deleteuserIdle } from '../../../system/redux/slice/authSlice';
 import { useAppSelector } from '../../../system/redux/store/hooks';
 import AppHeader from "../../uiHelpers/AppHeader";
 import FullScreenLoader from '../../uiHelpers/FullScreenLoader';
-import { AsyncStorageConstants } from '../../../helpers/AsyncStorageConstants';
 
 
 const DeleteUser = ({ route }) => {
@@ -40,30 +37,8 @@ const DeleteUser = ({ route }) => {
   const dispatch = useDispatch();
 
   const RedDeleteUser = useAppSelector(state => state.auth.deleteUser);
+  const RedHeartBeat = useAppSelector(state => state.app.heartBeat);
 
-  const clearAll = async () => {
-
-    try {
-      const deviceToken = await AsyncStorage.getItem(AsyncStorageConstants.DEVICE_TOKEN);
-      await AsyncStorage.clear();
-      if (!!deviceToken) {
-        AsyncStorage.multiSet([
-          [AsyncStorageConstants.DEVICE_TOKEN, deviceToken],
-        ])
-          .then(data => {
-            console.log('Local Storage Updated: ', AsyncStorageConstants.DEVICE_TOKEN);
-          })
-          .catch(err => {
-            console.log(err);
-            console.log('Local Storage Error : ', AsyncStorageConstants.DEVICE_TOKEN);
-          });
-      }
-    } catch (e) {
-      // clear error
-    }
-
-    dispatch(resetAll());
-  };
 
 
   useEffect(() => {
@@ -76,7 +51,7 @@ const DeleteUser = ({ route }) => {
       dispatch(deleteuserIdle());
       if (RedDeleteUser.state === CALL_STATE.SUCCESS) {
 
-        clearAll();
+        dispatch(API_LOGOUT(RedHeartBeat.actualPayload.data.user.id, Platform.OS));
         Alert.alert('Success', "User deleted successfully!", [{
           onPress: () => {
 
