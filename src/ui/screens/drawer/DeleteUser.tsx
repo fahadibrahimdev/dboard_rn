@@ -51,22 +51,23 @@ const DeleteUser = ({ route }) => {
       dispatch(deleteuserIdle());
       if (RedDeleteUser.state === CALL_STATE.SUCCESS) {
 
+        Alert.alert('Success', "User deleted successfully!");
         dispatch(API_LOGOUT(RedHeartBeat.actualPayload.data.user.id, Platform.OS));
-        Alert.alert('Success', "User deleted successfully!", [{
-          onPress: () => {
+        
+                  // onPress: () => {
 
-            navigation.reset({
-              index: 0,
-              routes: [
-                {
-                  name: ScreenNames.SignInScreen as never,
-                  params: {
-                  },
-                },
-              ],
-            });
-          }
-        }]);
+        //     navigation.reset({
+        //       index: 0,
+        //       routes: [
+        //         {
+        //           name: ScreenNames.SignInScreen as never,
+        //           params: {
+        //           },
+        //         },
+        //       ],
+        //     });
+        //   }
+        // }]);
 
 
       } else if (RedDeleteUser.state === CALL_STATE.ERROR) {
@@ -250,10 +251,10 @@ const DeleteUser = ({ route }) => {
         </Button>
 
       </View>
-
+{/* 
       <FullScreenLoader
         loading={RedDeleteUser.state === CALL_STATE.FETCHING}
-      />
+      /> */}
     </View>
   )
 };
