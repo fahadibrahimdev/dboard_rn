@@ -192,7 +192,79 @@ const Settings = () => {
   };
 
 
+  const imageSection = () => {
 
+
+    var currentImageView = null;
+
+    console.log("fahad pickedImages: ", pickedImage);
+    if (!!pickedImage) {
+
+      currentImageView = <Image
+        style={{
+          width: 90,
+          height: 90,
+
+
+        }}
+        // source={{ uri: ENV.BASEURL + '/' + RedAuthUser.actualPayload.data.user.image }}
+
+        resizeMode='contain'
+        source={pickedImage}
+
+      />;
+
+    } else if (!!RedAuthUser.actualPayload.data && !!RedAuthUser.actualPayload.data.user && !!RedAuthUser.actualPayload.data.user.image) {
+      currentImageView = <Image
+        style={{
+          width: 90,
+          height: 90,
+        }}
+        // source={{ uri: ENV.BASEURL + '/' + RedAuthUser.actualPayload.data.user.image }}
+
+        source={{ uri: RedAuthUser.actualPayload.data.user.image }}
+
+      />
+    } else {
+      currentImageView = <IconButton
+        style={{
+
+        }}
+        size={40}
+        icon={'account'}
+        mode='outlined'
+        iconColor={colors.appTextPrimaryColor}
+      />
+    }
+    return (<TouchableOpacity
+      activeOpacity={0.8}
+
+      style={
+        {
+          alignItems: 'center',
+        }
+      }
+    >
+
+      <View style={{
+        borderColor: colors.appTextPrimaryColor,
+        borderWidth: 2,
+        alignSelf: 'center',
+        marginTop: 17,
+        borderRadius: 100,
+        // padding: 20
+        overflow: 'hidden'
+      }}>
+
+        {currentImageView}
+      </View>
+
+
+
+
+
+    </TouchableOpacity>);
+  }
 
 
   return (
@@ -238,52 +310,7 @@ const Settings = () => {
         }}
 
       >
-        <TouchableOpacity
-          activeOpacity={0.8}
-
-          style={
-            {
-              alignItems: 'center',
-              //   justifyContent:'center',
-              //   width:'80%',
-              // alignContent:'center',
-
-              // backgroundColor:'red'
-            }
-          }
-        >
-
-          <View style={{
-            borderColor: colors.appTextPrimaryColor,
-            borderWidth: 2,
-            alignSelf: 'center',
-            marginTop: 17,
-            borderRadius: 100,
-            padding: 20
-          }}>
-            <Image
-              style={{
-
-
-
-                width: 90,
-                height: 90,
-
-
-              }}
-              // source={{ uri: ENV.BASEURL + '/' + RedAuthUser.actualPayload.data.user.image }}
-
-              resizeMode='contain'
-              source={{ uri: RedAuthUser.actualPayload.data.user.image }}
-
-            />
-          </View>
-
-
-
-
-
-        </TouchableOpacity>
+        {imageSection()}
 
         <TouchableOpacity
           activeOpacity={0.5}
@@ -328,7 +355,7 @@ const Settings = () => {
 
 
               onPress={() => {
-                handleImageSelection()
+                handleImageSelection();
 
 
 
