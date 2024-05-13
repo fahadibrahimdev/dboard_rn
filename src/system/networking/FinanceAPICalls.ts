@@ -1,4 +1,5 @@
 import { Alert } from 'react-native';
+import { Platform } from "react-native";
 import {
   createFinanceError,
   createFinancePending,
@@ -9,6 +10,10 @@ import {
   getFinanceError,
   getFinancePending,
   getFinanceSuccess,
+  editPlayerEntrySuccess,
+  editPlayerEntryError,
+  editPlayerEntryPending,
+  
 } from '../redux/slice/financeSlice';
 import {API, HEADERS} from './NetworkingConstants';
 import { CALL_STATE } from '../../helpers/enum';
@@ -253,3 +258,68 @@ export const APIcreateFinance =
     }
   };
 
+  // Edit Transection 
+  
+export const ApiEditPlayerEntry =
+(token, transaction_id, platform, amount,user_id,client_info) => async (dispatch) => {
+  try {
+    const apiUrl = API.EDIT_PLAYER_ENTRY_API;
+
+    const data = new URLSearchParams();
+
+    data.append("client_info", client_info);
+    data.append("transaction_id", transaction_id);
+    data.append("amount", amount);
+    data.append("user_id", user_id);
+    data.append("platform", Platform.OS);
+
+
+    
+    dispatch(editPlayerEntryPending());
+
+    const response = await fetch(apiUrl, {
+      method: "PATCH",
+      headers: {
+        ...HEADERS,
+        Accept: "application/json",
+        Authorization: "Bearer " + token,
+      },
+      body: data.toString(),
+    });
+
+    if (response.status >= 200 && response.status <= 202) {
+      const responseData = await response.json();
+
+      dispatch(
+        editPlayerEntrySuccess({
+          data: responseData,
+        })
+      );
+    } else if (response.status === 401) {
+      dispatch(
+        editPlayerEntryError({
+          error: "Edit_Player Api Call Auth Failed!",
+        })
+      );
+    } else if (response.status === 400) {
+      const responseData = await response.json();
+      dispatch(
+        editPlayerEntryError({
+          error: responseData.message,
+        })
+      );
+    } else {
+      dispatch(
+        editPlayerEntryError({
+          error: "Edit_Player Api Call Failed!",
+        })
+      );
+    }
+  } catch (error) {
+    dispatch(
+      editPlayerEntryError({
+        error: " Error in Edit_Player Api Call!",
+      })
+    );
+  }
+}

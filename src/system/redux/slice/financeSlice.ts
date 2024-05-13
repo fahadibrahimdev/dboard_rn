@@ -22,6 +22,13 @@ export interface FinanceState {
     actualPayload: any;
     error: string;
   };
+
+  editPlayerEntry: {
+    state: string;
+    actualPayload: any;
+    error: string;
+  };
+
 }
 
 const initialState: FinanceState = {
@@ -43,6 +50,13 @@ const initialState: FinanceState = {
     error: '',
   },
   
+
+  editPlayerEntry: {
+    state: CALL_STATE.IDLE,
+    actualPayload: {},
+    error: '',
+  },
+
 };
 
 export const financeSlice = createSlice({
@@ -180,6 +194,58 @@ export const financeSlice = createSlice({
         current(state).filterPlayerEntry,
       );
     },
+
+    // Edit Player Entry
+
+    editplayeridle: state => {
+      const currentState = current(state);
+
+      state.editPlayerEntry = {
+        state: CALL_STATE.IDLE,
+        actualPayload: currentState.editPlayerEntry.actualPayload,
+        error: currentState.editPlayerEntry.error,
+      };
+
+      console.log(
+        'Slice-edit-PlayerEntryIdle:',
+        current(state).editPlayerEntry,
+      );
+    },
+    editPlayerEntryPending: state => {
+      state.editPlayerEntry = {
+        state: CALL_STATE.FETCHING,
+        actualPayload: {},
+        error: '',
+      };
+      console.log(
+        'Slice-edit-PlayerEntryPending:',
+        current(state).editPlayerEntry,
+      );
+    },
+    editPlayerEntrySuccess: (state, action: PayloadAction<any>) => {
+      state.editPlayerEntry = {
+        state: CALL_STATE.SUCCESS,
+        actualPayload: action.payload.data,
+        error: '',
+      };
+
+      console.log(
+        'Slice-edit-PlayerEntrySuccess:',
+        current(state).editPlayerEntry,
+      );
+    },
+    editPlayerEntryError: (state, action: PayloadAction<any>) => {
+      state.editPlayerEntry = {
+        state: CALL_STATE.ERROR,
+        actualPayload: {},
+        error: action.payload.error,
+      };
+
+      console.log(
+        'Slice-edit-PlayerEntryError:',
+        current(state).editPlayerEntry,
+      );
+    },
   
 
     logoutFinance: state => initialState,
@@ -205,6 +271,11 @@ export const {
   filterPlayerEntryPending,
   filterPlayerEntrySuccess,
   filterPlayerEntryError,
+
+  editPlayerEntryError,
+  editPlayerEntryPending,
+  editPlayerEntrySuccess,
+  editplayeridle,
 
   logoutFinance,
 

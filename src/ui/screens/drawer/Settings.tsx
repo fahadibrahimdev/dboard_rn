@@ -18,8 +18,9 @@ import { editprofileIdle } from '../../../system/redux/slice/authSlice';
 import { useAppSelector } from '../../../system/redux/store/hooks';
 import AppHeader from '../../uiHelpers/AppHeader';
 import FullScreenLoader from '../../uiHelpers/FullScreenLoader';
-import ImagePicker from 'react-native-image-picker';
+import * as ImagePicker from 'react-native-image-picker';
 import { APIHeartBeat } from '../../../system/networking/AppAPICalls ';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 
 const Settings = () => {
@@ -48,6 +49,8 @@ const Settings = () => {
 
   const [PhoneNumberInp, setPhoneNumberInp] = useState('');
   const [PhoneNumberError, setPhoneNumbererror] = useState('');
+
+  const [pickedImage, setPickedImage] = useState(null);
 
 
 
@@ -163,6 +166,32 @@ const Settings = () => {
   }
 
 
+  const handleImageSelection = async () => {
+    try {
+      const options = {
+        title: 'Select Image',
+        storageOptions: {
+          skipBackup: true, // Prevent image from backing up to iCloud/Google Photos
+          // path: 'images', // Optional: Specific path for image storage on device
+        },
+      };
+
+      const result = await ImagePicker.launchImageLibrary(options);
+
+      if (result.didCancel) {
+        console.log('User cancelled image picker');
+      } else if (result.error) {
+        console.error('ImagePicker error:', result.error);
+      } else {
+        const source = { uri: result.assets[0].uri }; // Assuming single selection
+        setPickedImage(source);
+      }
+    } catch (error) {
+      console.error('Error picking image:', error);
+    }
+  };
+
+
 
 
 
@@ -200,7 +229,124 @@ const Settings = () => {
       >
         Edit Profile
       </Text>
+      <View
+        style={{
+          flexDirection: 'row',
+          // backgroundColor:'red',
+          alignItems: 'center',
+          justifyContent: 'center'
+        }}
 
+      >
+        <TouchableOpacity
+          activeOpacity={0.8}
+
+          style={
+            {
+              alignItems: 'center',
+              //   justifyContent:'center',
+              //   width:'80%',
+              // alignContent:'center',
+
+              // backgroundColor:'red'
+            }
+          }
+        >
+
+          <View style={{
+            borderColor: colors.appTextPrimaryColor,
+            borderWidth: 2,
+            alignSelf: 'center',
+            marginTop: 17,
+            borderRadius: 100,
+            padding: 20
+          }}>
+            <Image
+              style={{
+
+
+
+                width: 90,
+                height: 90,
+
+
+              }}
+              // source={{ uri: ENV.BASEURL + '/' + RedAuthUser.actualPayload.data.user.image }}
+
+              resizeMode='contain'
+              source={{ uri: RedAuthUser.actualPayload.data.user.image }}
+
+            />
+          </View>
+
+
+
+
+
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          activeOpacity={0.5}
+
+          style={{
+            // backgroundColor:'white',
+            alignSelf: 'flex-end'
+          }}
+
+        >
+
+          <View
+            style={{
+
+              alignSelf: 'flex-end',
+
+              // backgroundColor:'white',
+              width: 43,
+              height: 50,
+
+            }}
+
+          >
+
+            <IconButton
+              style={{
+
+
+
+                borderColor: colors.appTextPrimaryColor,
+                alignSelf: 'flex-end',
+                alignContent: 'flex-end',
+                marginLeft: -40,
+                marginTop: 15,
+              }}
+              size={19}
+              icon={'pencil'}
+              mode='outlined'
+              iconColor={colors.appTextPrimaryColor}
+
+
+
+
+              onPress={() => {
+                handleImageSelection()
+
+
+
+
+              }}
+            />
+
+          </View>
+        </TouchableOpacity>
+
+
+
+      </View>
+
+
+
+
+      {/* 
       <TouchableOpacity
 
       >
@@ -216,19 +362,25 @@ const Settings = () => {
                 alignSelf: 'center',
                 marginTop: 17,
 
-                width: 100,
-                height: 100,
+                width: 90,
+                height: 90,
                 borderRadius: 100
 
               }}
-              source={{ uri: ENV.BASEURL + '/' + RedAuthUser.actualPayload.data.user.image }}
+              // source={{ uri: ENV.BASEURL + '/' + RedAuthUser.actualPayload.data.user.image }}
 
-            />) : (
+              source={{ uri: RedAuthUser.actualPayload.data.user.image }}
+
+            />
+
+          
+          
+          ) : (
             <IconButton
               style={{
                 borderColor: colors.appTextPrimaryColor,
                 alignSelf: 'center',
-                marginTop: 17,
+                marginTop: 15,
               }}
               size={40}
               icon={'account'}
@@ -236,7 +388,7 @@ const Settings = () => {
               iconColor={colors.appTextPrimaryColor}
             />
           )}
-      </TouchableOpacity>
+      </TouchableOpacity> */}
       <KeyboardAwareScrollView
         style={{
           flexGrow: 0,
@@ -435,6 +587,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
+    position: 'relative', // Enable absolute positioning for child elements
+
     // justifyContent: 'center',
   },
   input: {
@@ -450,7 +604,17 @@ const styles = StyleSheet.create({
     fontSize: 2,
     fontWeight: 'bold',
     marginBottom: 20,
-  }
+  },
+  icon: {
+    width: 50,
+    height: 50,
+  },
+  image: {
+    width: 200,
+    height: 200,
+    marginTop: 20,
+  },
 });
+
 
 export default Settings;

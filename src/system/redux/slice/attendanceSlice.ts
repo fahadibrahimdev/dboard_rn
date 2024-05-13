@@ -197,7 +197,7 @@ export const AttendanceSlice = createSlice({
 
       state.approveAttendance = {
         state: CALL_STATE.IDLE,
-        actualPayload: currentState.createAttendance.actualPayload,
+        actualPayload: currentState.approveAttendance.actualPayload,
         error: currentState.approveAttendance.error,
       };
 

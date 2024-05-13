@@ -101,7 +101,8 @@ const AppDrawer = (props: any) => {
               borderRadius: 100
 
             }}
-            source={{ uri: ENV.BASEURL + '/' + RedHeartBeat.actualPayload.data.user_data?.image }}
+            // source={{ uri: ENV.BASEURL + '/' + RedHeartBeat.actualPayload.data.user_data?.image }}
+            source={{ uri: RedHeartBeat.actualPayload.data.user.image }}
 
           />) : (
             <IconButton
