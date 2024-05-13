@@ -21,6 +21,7 @@ import FullScreenLoader from '../../uiHelpers/FullScreenLoader';
 import * as ImagePicker from 'react-native-image-picker';
 import { APIHeartBeat } from '../../../system/networking/AppAPICalls ';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import { accountOutlineIcon } from '../../../assets/Images';
 
 
 const Settings = () => {
@@ -205,10 +206,7 @@ const Settings = () => {
           width: 90,
           height: 90,
 
-
         }}
-        // source={{ uri: ENV.BASEURL + '/' + RedAuthUser.actualPayload.data.user.image }}
-
         resizeMode='contain'
         source={pickedImage}
 
@@ -222,19 +220,25 @@ const Settings = () => {
         }}
         // source={{ uri: ENV.BASEURL + '/' + RedAuthUser.actualPayload.data.user.image }}
 
+        resizeMode='contain'
         source={{ uri: RedAuthUser.actualPayload.data.user.image }}
 
       />
     } else {
-      currentImageView = <IconButton
-        style={{
+      currentImageView =
+        <Image
 
-        }}
-        size={40}
-        icon={'account'}
-        mode='outlined'
-        iconColor={colors.appTextPrimaryColor}
-      />
+          source={accountOutlineIcon}
+          style={{
+            width: 90,
+            height: 90,
+
+          }}
+          tintColor={colors.appTextPrimaryColor}
+          resizeMode='contain'
+
+        />;
+
     }
     return (<TouchableOpacity
       activeOpacity={0.8}
@@ -250,7 +254,6 @@ const Settings = () => {
         borderColor: colors.appTextPrimaryColor,
         borderWidth: 2,
         alignSelf: 'center',
-        marginTop: 17,
         borderRadius: 100,
         // padding: 20
         overflow: 'hidden'
@@ -259,13 +262,50 @@ const Settings = () => {
         {currentImageView}
       </View>
 
-
-
-
-
     </TouchableOpacity>);
   }
 
+
+  function editImageAbsoluteSection(): React.ReactNode {
+
+    return (<View
+      style={{
+        // backgroundColor:'white',
+        alignSelf: 'flex-end',
+        position: 'absolute',
+
+      }}
+
+    >
+
+
+      <IconButton
+        style={{
+
+          borderWidth: 2,
+          borderRadius: 40,
+          borderColor: colors.appTextPrimaryColor,
+          backgroundColor: colors.appBackground
+
+
+
+        }}
+        size={19}
+        icon={'pencil'}
+        mode='outlined'
+        iconColor={colors.appTextPrimaryColor}
+
+        onPress={() => {
+          handleImageSelection();
+
+
+
+
+        }}
+      />
+
+    </View>);
+  }
 
   return (
 
@@ -301,6 +341,7 @@ const Settings = () => {
       >
         Edit Profile
       </Text>
+
       <View
         style={{
           flexDirection: 'row',
@@ -310,112 +351,22 @@ const Settings = () => {
         }}
 
       >
-        {imageSection()}
+        <View style={{
+          flexDirection: 'row',
+          // backgroundColor: 'blue',
+          justifyContent: 'flex-end',
+          paddingVertical: 10,
+          paddingHorizontal: 15
 
-        <TouchableOpacity
-          activeOpacity={0.5}
+        }}>
+          {imageSection()}
 
-          style={{
-            // backgroundColor:'white',
-            alignSelf: 'flex-end'
-          }}
-
-        >
-
-          <View
-            style={{
-
-              alignSelf: 'flex-end',
-
-              // backgroundColor:'white',
-              width: 43,
-              height: 50,
-
-            }}
-
-          >
-
-            <IconButton
-              style={{
-
-
-
-                borderColor: colors.appTextPrimaryColor,
-                alignSelf: 'flex-end',
-                alignContent: 'flex-end',
-                marginLeft: -40,
-                marginTop: 15,
-              }}
-              size={19}
-              icon={'pencil'}
-              mode='outlined'
-              iconColor={colors.appTextPrimaryColor}
-
-
-
-
-              onPress={() => {
-                handleImageSelection();
-
-
-
-
-              }}
-            />
-
-          </View>
-        </TouchableOpacity>
-
-
+          {editImageAbsoluteSection()}
+        </View>
 
       </View>
 
 
-
-
-      {/* 
-      <TouchableOpacity
-
-      >
-
-        {(!!RedAuthUser.actualPayload.data && !!RedAuthUser.actualPayload.data.user && !!RedAuthUser.actualPayload.data.user.image) ?
-          (
-
-            <Image
-              style={{
-
-                borderColor: colors.appTextPrimaryColor,
-                borderWidth: 2,
-                alignSelf: 'center',
-                marginTop: 17,
-
-                width: 90,
-                height: 90,
-                borderRadius: 100
-
-              }}
-              // source={{ uri: ENV.BASEURL + '/' + RedAuthUser.actualPayload.data.user.image }}
-
-              source={{ uri: RedAuthUser.actualPayload.data.user.image }}
-
-            />
-
-          
-          
-          ) : (
-            <IconButton
-              style={{
-                borderColor: colors.appTextPrimaryColor,
-                alignSelf: 'center',
-                marginTop: 15,
-              }}
-              size={40}
-              icon={'account'}
-              mode='outlined'
-              iconColor={colors.appTextPrimaryColor}
-            />
-          )}
-      </TouchableOpacity> */}
       <KeyboardAwareScrollView
         style={{
           flexGrow: 0,
@@ -599,6 +550,7 @@ const Settings = () => {
 
         </View>
       </KeyboardAwareScrollView>
+
       <FullScreenLoader
         loading={RedEditProfile.state === CALL_STATE.FETCHING}
       />
