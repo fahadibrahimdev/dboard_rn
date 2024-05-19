@@ -175,15 +175,34 @@ export const APISignUp =
 // Edit profile
 
 export const APIEditProfile =
-  (token, email, fullname, mobile) => async (dispatch) => {
+  (token, email, fullname, mobile, image) => async (dispatch) => {
     try {
       // Define the URL of the API endpoint
       const apiUrl = API.EDIT_PROFILE_API;
 
+
+      
+
+      console.log("Ahmad Image: ", image);
       var formdata = new FormData();
       formdata.append("email", email?.trim());
       formdata.append("full_name", fullname?.trim());
       formdata.append("mobile", mobile?.trim());
+
+      if(!!image) {
+        
+      const extension = image.type.split('/')[1];
+      const timestamp = Date.now().toString();
+    
+
+      const myImage = {
+        uri: image.uri,
+        type: image.type,
+        name: ( (Platform.OS === 'android')? 'A_':'I_') + timestamp + '.'+ extension, 
+      };
+      formdata.append("image", myImage);
+      }
+      
 
       dispatch(editprofilePending());
       // Make the POST request

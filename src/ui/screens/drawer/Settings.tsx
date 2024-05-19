@@ -184,8 +184,8 @@ const Settings = () => {
       } else if (result.error) {
         console.error('ImagePicker error:', result.error);
       } else {
-        const source = { uri: result.assets[0].uri }; // Assuming single selection
-        setPickedImage(source);
+        
+        setPickedImage(result.assets[0]);
       }
     } catch (error) {
       console.error('Error picking image:', error);
@@ -199,6 +199,7 @@ const Settings = () => {
     var currentImageView = null;
 
     console.log("fahad pickedImages: ", pickedImage);
+    
     if (!!pickedImage) {
 
       currentImageView = <Image
@@ -539,7 +540,7 @@ const Settings = () => {
               if (validateForm()) {
 
                 {
-                  dispatch(APIEditProfile(RedAuthUser.accessToken, emailInp, fullname_Inp, PhoneNumberInp));
+                  dispatch(APIEditProfile(RedAuthUser.accessToken, emailInp, fullname_Inp, PhoneNumberInp, pickedImage));
                 }
               }
 
