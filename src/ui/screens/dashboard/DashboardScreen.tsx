@@ -193,7 +193,7 @@ navigation.openDrawer();
         showRightButton={true}
         rightButtonIcon={'bell'}
         onRightItemClick={() => {
-          navigation.navigate(ScreenNames.NewsOpen)
+          navigation.navigate(ScreenNames.NewsScreen)
 
         }}
 

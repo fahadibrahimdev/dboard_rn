@@ -193,16 +193,17 @@ const Settings = () => {
   };
 
 
-  const imageSection = () => {
-
-
-    var currentImageView = null;
+  const imageViewSection = () => {
+    // var currentImageView = null;
 
     console.log("fahad pickedImages: ", pickedImage);
+    const myImage = ( ENV.BASEURL + '/' + RedHeartBeat?.actualPayload?.data?.user_data?.image)
+    console.log("fahad myImage: ",myImage);
+    
     
     if (!!pickedImage) {
 
-      currentImageView = <Image
+      return( <Image
         style={{
           width: 90,
           height: 90,
@@ -211,10 +212,10 @@ const Settings = () => {
         resizeMode='contain'
         source={pickedImage}
 
-      />;
+      />)
 
-    } else if (!!RedAuthUser.actualPayload.data && !!RedAuthUser.actualPayload.data.user && !!RedAuthUser.actualPayload.data.user.image) {
-      currentImageView = <Image
+    } else if (!!RedHeartBeat.actualPayload.data && !!RedHeartBeat.actualPayload.data.user_data && !!RedHeartBeat.actualPayload.data.user_data.image) {
+      return (<Image
         style={{
           width: 90,
           height: 90,
@@ -222,11 +223,11 @@ const Settings = () => {
         // source={{ uri: ENV.BASEURL + '/' + RedAuthUser.actualPayload.data.user.image }}
 
         resizeMode='contain'
-        source={{ uri: RedAuthUser.actualPayload.data.user.image }}
+        source={{ uri: myImage }}
 
-      />
+      />)
     } else {
-      currentImageView =
+      return (
         <Image
 
           source={accountOutlineIcon}
@@ -238,9 +239,13 @@ const Settings = () => {
           tintColor={colors.appTextPrimaryColor}
           resizeMode='contain'
 
-        />;
+        />)
 
     }
+  }
+  const imageSection = () => {
+
+
     return (<TouchableOpacity
       activeOpacity={0.8}
 
@@ -260,7 +265,7 @@ const Settings = () => {
         overflow: 'hidden'
       }}>
 
-        {currentImageView}
+        {imageViewSection()}
       </View>
 
     </TouchableOpacity>);

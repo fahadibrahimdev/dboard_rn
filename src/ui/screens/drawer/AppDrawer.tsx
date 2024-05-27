@@ -102,7 +102,7 @@ const AppDrawer = (props: any) => {
 
             }}
             // source={{ uri: ENV.BASEURL + '/' + RedHeartBeat.actualPayload.data.user_data?.image }}
-            source={{ uri: RedHeartBeat.actualPayload.data.user.image }}
+            source={{ uri: ENV.BASEURL + '/' + RedHeartBeat.actualPayload.data.user_data?.image }}
 
           />) : (
             <IconButton
