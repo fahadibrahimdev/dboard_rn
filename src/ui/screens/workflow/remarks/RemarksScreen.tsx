@@ -107,7 +107,7 @@ const RemarksScreen = ({ route }) => {
       dispatch(getRemarksIdle());
       if (RedGetRemarks.state === CALL_STATE.SUCCESS) {
 
-        const newMessages = RedGetRemarks.actualPayload.data.commentsData.map((obj) => {
+        const newMessages = RedGetRemarks?.actualPayload?.data?.commentsData?.map((obj) => {
           return ({
             sender: (obj.user_id === RedAuthUser.actualPayload.data.user?.id) ? ('me') : (obj.Full_name),
             content: obj.comments,
