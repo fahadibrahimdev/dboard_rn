@@ -8,7 +8,6 @@ import { useNavigation, useTheme } from '@react-navigation/native';
 import moment from 'moment-timezone';
 import React, { useEffect, useState } from "react";
 import { Alert, FlatList, RefreshControl, View } from "react-native";
-import { } from 'react-native-gesture-handler';
 import { ActivityIndicator, FAB, Text } from 'react-native-paper';
 import { RFValue } from 'react-native-responsive-fontsize';
 import { useDispatch } from 'react-redux';
@@ -16,7 +15,7 @@ import { adjustTeamDataRed, formatTime, getStatusNameFromIdRed } from '../../../
 import { CALL_STATE, FILTER_DATE_CODES } from '../../../../helpers/enum';
 import { ScreenNames } from '../../../../system/navigation/ScreenNames';
 import { APIGetAttendanceByPagination, APIGetWorkingTime, APIexportUserdata } from '../../../../system/networking/AttendanceAPICalls';
-import { getAttendanceByPaginationIdle, getExportUserDataIdle } from '../../../../system/redux/slice/attendanceSlice';
+import { getAttendanceByPaginationIdle } from '../../../../system/redux/slice/attendanceSlice';
 import { useAppSelector } from '../../../../system/redux/store/hooks';
 import AttendanceCell from '../../../helperComponents/AttendanceCell';
 import AppHeader from '../../../uiHelpers/AppHeader';

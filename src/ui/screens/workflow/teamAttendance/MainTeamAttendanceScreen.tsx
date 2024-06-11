@@ -8,7 +8,6 @@ import { useNavigation, useTheme } from '@react-navigation/native';
 import moment from 'moment-timezone';
 import React, { useEffect, useState } from "react";
 import { Alert, FlatList, RefreshControl, View } from "react-native";
-import { } from 'react-native-gesture-handler';
 import { ActivityIndicator, Text } from 'react-native-paper';
 import { RFValue } from 'react-native-responsive-fontsize';
 import { useDispatch } from 'react-redux';
