@@ -18,7 +18,7 @@ import { DarkTheme, LightTheme } from './src/helpers/Themes';
 import AppContextProvider from './src/system/AppContextProvider';
 import RootNavigator from './src/system/navigation/RootNavigator';
 import { store } from './src/system/redux/store/store';
-import NotificationController from './src/system/pushNotification/NotificationController';
+// import NotificationController from './src/system/pushNotification/NotificationController';
 
 function App(): JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
@@ -66,7 +66,7 @@ function App(): JSX.Element {
                 backgroundColor={myAppTheme.colors.appStatusBarColor}
                 barStyle={isDarkMode ? 'light-content' : 'dark-content'}
               />
-              <NotificationController />
+              {/* <NotificationController /> */}
               <RootNavigator />
 
 

@@ -1,13 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import { Image, StyleSheet, View, Alert, Animated } from 'react-native';
 import { useNavigation, useTheme } from '@react-navigation/native';
-import { Divider, IconButton, Text } from 'react-native-paper';
-import { Card } from "react-native-paper";
-import { bdLogo } from '../../assets/Images';
+import React, { useEffect, useState } from 'react';
+import { Animated, TouchableOpacity, View } from 'react-native';
+import { Text } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { Colors } from 'react-native/Libraries/NewAppScreen';
-import { TouchableOpacity } from 'react-native-gesture-handler';
-import { RFValue } from 'react-native-responsive-fontsize';
 import { w } from '../../helpers/Dimensions';
 
 
