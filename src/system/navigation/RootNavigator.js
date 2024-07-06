@@ -141,6 +141,13 @@ export default function RootNavigator() {
         component={Screens.RemarksScreen}
         options={{ headerShown: false }}
       />
+
+      
+<Stack.Screen
+        name={ScreenNames.PaymentScreen}
+        component={Screens.PaymentScreen}
+        options={{ headerShown: false }}
+      />
     </Stack.Navigator>
   );
 }

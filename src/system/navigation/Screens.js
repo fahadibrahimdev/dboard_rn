@@ -6,6 +6,7 @@ import NotificationScreen from "../../ui/screens/dashboard/NotificationScreen";
 import ChangePasswordScreen from "../../ui/screens/drawer/ChangePasswordScreen";
 import ContactUsScreen from "../../ui/screens/drawer/ContactUsScreen";
 import PolicyScreen from "../../ui/screens/drawer/PolicyScreen";
+import PaymentScreen from "../../ui/screens/auth/PaymentScreen";
 
 
 import Settings from "../../ui/screens/drawer/Settings";
@@ -64,4 +65,6 @@ export const Screens = {
   ChangePasswordScreen: ChangePasswordScreen,
 
   RemarksScreen:RemarksScreen,
+
+  PaymentScreen:PaymentScreen,
 };

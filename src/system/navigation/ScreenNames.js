@@ -28,4 +28,5 @@ export const ScreenNames = {
   DeleteUser:"DeleteUser",
   ContactUsScreen: "ContactUsScreen",
   LogoutScreen: "LogoutScreen",
+  PaymentScreen:"PaymentScreen",
 };

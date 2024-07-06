@@ -17,7 +17,7 @@ const QA= {
 
 
 //SET MAIN ENVIRONMENT
-export const ENV = UAT;
+export const ENV = QA
 
 export const API = {
   //Auth Related APIs
