@@ -1,7 +1,6 @@
-import type {PayloadAction} from '@reduxjs/toolkit';
-import {createAction, createSlice, current} from '@reduxjs/toolkit';
-import { CALL_STATE } from '../../../helpers/enum';
-import { State } from 'react-native-gesture-handler';
+import type { PayloadAction } from "@reduxjs/toolkit";
+import { createAction, createSlice, current } from "@reduxjs/toolkit";
+import { CALL_STATE } from "../../../helpers/enum";
 
 export interface AuthState {
   heartBeat: {
@@ -21,25 +20,25 @@ const initialState: AuthState = {
   heartBeat: {
     state: CALL_STATE.IDLE,
     actualPayload: {},
-    error: '',
+    error: "",
   },
 
   updateNews: {
     state: CALL_STATE.IDLE,
     actualPayload: {},
-    error: '',
+    error: "",
   },
 };
 
-export const resetAll = createAction('RESET_ALL')
+export const resetAll = createAction("RESET_ALL");
 
 export const appSlice = createSlice({
-  name: 'app',
+  name: "app",
   initialState,
   extraReducers: (builder) => builder.addCase(resetAll, () => initialState),
 
   reducers: {
-    heartbeatIdle: state => {
+    heartbeatIdle: (state) => {
       const currentState = current(state);
 
       state.heartBeat = {
@@ -48,24 +47,24 @@ export const appSlice = createSlice({
         error: currentState.heartBeat.error,
       };
 
-      console.log('Slice-heartbeatIdle:', current(state).heartBeat);
+      console.log("Slice-heartbeatIdle:", current(state).heartBeat);
     },
-    heartbeatPending: state => {
+    heartbeatPending: (state) => {
       state.heartBeat = {
         state: CALL_STATE.FETCHING,
         actualPayload: {},
-        error: '',
+        error: "",
       };
-      console.log('Slice-heartbeatPending:', current(state).heartBeat);
+      console.log("Slice-heartbeatPending:", current(state).heartBeat);
     },
     heartbeatSuccess: (state, action: PayloadAction<any>) => {
       state.heartBeat = {
         state: CALL_STATE.SUCCESS,
         actualPayload: action.payload.data,
-        error: '',
+        error: "",
       };
 
-      console.log('Slice-heartbeatSuccess:', current(state).heartBeat);
+      console.log("Slice-heartbeatSuccess:", current(state).heartBeat);
     },
     heartbeatError: (state, action: PayloadAction<any>) => {
       state.heartBeat = {
@@ -74,7 +73,7 @@ export const appSlice = createSlice({
         error: action.payload.error,
       };
 
-      console.log('Slice-heartbeatError:', current(state).heartBeat);
+      console.log("Slice-heartbeatError:", current(state).heartBeat);
     },
     heartbeatUpdate: (state, action: PayloadAction<any>) => {
       state.heartBeat = {
@@ -82,46 +81,37 @@ export const appSlice = createSlice({
         actualPayload: action.payload.data,
       };
 
-      console.log('Slice-heartbeatUpdated:', current(state).heartBeat);
+      console.log("Slice-heartbeatUpdated:", current(state).heartBeat);
     },
 
-// Update news 
-    updatenewsIdle: state => {
+    // Update news
+    updatenewsIdle: (state) => {
       const currentState = current(state);
-  
+
       state.updateNews = {
         state: CALL_STATE.IDLE,
         actualPayload: currentState.updateNews.actualPayload,
         error: currentState.updateNews.error,
       };
-  
-      console.log(
-        'Slice-Update-NewsIdle:',
-        current(state).updateNews,
-      );
+
+      console.log("Slice-Update-NewsIdle:", current(state).updateNews);
     },
-    updatenewsPending: state => {
+    updatenewsPending: (state) => {
       state.updateNews = {
         state: CALL_STATE.FETCHING,
         actualPayload: {},
-        error: '',
+        error: "",
       };
-      console.log(
-        'Slice-Update-News-Pending:',
-        current(state).updateNews,
-      );
+      console.log("Slice-Update-News-Pending:", current(state).updateNews);
     },
     updatenewsSuccess: (state, action: PayloadAction<any>) => {
       state.updateNews = {
         state: CALL_STATE.SUCCESS,
         actualPayload: action.payload.data,
-        error: '',
+        error: "",
       };
-  
-      console.log(
-        'Slice-Update-News-Succes:',
-        current(state).updateNews,
-      );
+
+      console.log("Slice-Update-News-Succes:", current(state).updateNews);
     },
     updatenewsError: (state, action: PayloadAction<any>) => {
       state.updateNews = {
@@ -129,16 +119,10 @@ export const appSlice = createSlice({
         actualPayload: {},
         error: action.payload.error,
       };
-  
-      console.log(
-        'Slice-Update-News-Error:',
-        current(state).updateNews,
-      );
 
+      console.log("Slice-Update-News-Error:", current(state).updateNews);
+    },
   },
-  
-  },
-
 });
 
 // Action creators are generated for each case reducer function
@@ -153,7 +137,6 @@ export const {
   updatenewsPending,
   updatenewsSuccess,
   updatenewsError,
-
 } = appSlice.actions;
 
 export default appSlice.reducer;

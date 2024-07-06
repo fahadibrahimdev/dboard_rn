@@ -1,10 +1,9 @@
 import { useTheme } from '@react-navigation/native';
 import React, { useRef, useState } from 'react';
-import { View } from 'react-native';
+import { TouchableOpacity, View } from 'react-native';
 import { TextInput } from 'react-native-paper';
 import moment from 'moment-timezone';
 import DatePicker from 'react-native-date-picker';
-import { TouchableOpacity } from 'react-native-gesture-handler';
 import { RFValue } from 'react-native-responsive-fontsize';
 
 
@@ -30,16 +29,16 @@ const DateTimeSelector = (props: any) => {
       marginTop: RFValue(20),
       width: '90%',
 
- 
+
     }}>
       <TouchableOpacity
         activeOpacity={0.5}
         onPress={() => {
 
-          if(!!!disable) {
+          if (!!!disable) {
             setDateModalOpen(true)
           }
-          
+
         }}>
 
         <View pointerEvents="none">
@@ -58,7 +57,7 @@ const DateTimeSelector = (props: any) => {
               setCurrentDateTime(val);
 
             }}
-            
+
             value={(!!value) ? (moment(value).format('DD-MMM-YYYY hh:mm:ss A')) : ('')}
             placeholder={!!placeholder ? placeholder : '-'}
 
@@ -79,7 +78,7 @@ const DateTimeSelector = (props: any) => {
       <DatePicker
 
         modal
-        
+
         date={myDate}
         minimumDate={new Date(myDate.getTime() - (7 * 24 * 60 * 60 * 1000))} // 7 days before today
         mode={'datetime'}
@@ -95,8 +94,8 @@ const DateTimeSelector = (props: any) => {
           setDateModalOpen(false);
         }}
 
-      /> 
-          
+      />
+
 
     </View>
   )

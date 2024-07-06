@@ -1,22 +1,12 @@
 
 import { useNavigation, useTheme } from '@react-navigation/native';
 import React, { useEffect, useState } from "react";
-import { Alert, StyleSheet, View } from "react-native";
-import { Dropdown } from 'react-native-element-dropdown';
-import { Button, Switch, Text } from 'react-native-paper';
-import { RFValue } from 'react-native-responsive-fontsize';
-import AntDesign from 'react-native-vector-icons/AntDesign';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import { Alert } from "react-native";
 import { useDispatch } from 'react-redux';
 import { adjustSystemShiftDataRed, adjustTeamDataRed } from '../../../../helpers/Utils';
 import { CALL_STATE } from '../../../../helpers/enum';
-import {APIcreateFinance } from '../../../../system/networking/FinanceAPICalls';
-import {createFinanceIdle} from '../../../../system/redux/slice/financeSlice';
-import {useAppSelector } from '../../../../system/redux/store/hooks';
-import AppHeader from '../../../uiHelpers/AppHeader';
-import DateTimeSelector from '../../../uiHelpers/DateTimeSelector';
-import FullScreenLoader from '../../../uiHelpers/FullScreenLoader';
-import { ScrollView } from 'react-native-gesture-handler';
+import { createFinanceIdle } from '../../../../system/redux/slice/financeSlice';
+import { useAppSelector } from '../../../../system/redux/store/hooks';
 
 const CreateFinanceScreen = ({ route }) => {
 
@@ -88,7 +78,7 @@ const CreateFinanceScreen = ({ route }) => {
   const validateForm = (): boolean => {
   }
 }
-    // var flag = true;
+// var flag = true;
 
 
 //     if (!!!team_idValue) {
@@ -111,23 +101,23 @@ const CreateFinanceScreen = ({ route }) => {
 //       return false;
 //     }
 
-    
+
 //     if (!!!game) {
 //       Alert.alert("Validation Error", "game selection is mandatory");
 //       return false;
 //     }
-    
-    
+
+
 //     if (!!!platform) {
 //       Alert.alert("Validation Error", "platform selection is mandatory");
 //       return false;
 //     }
-    
+
 //     if (!!!is_active) {
 //       Alert.alert("Validation Error", "is_active selection is mandatory");
 //       return false;
 //     }
-  
+
 //     if (!!!client_info) {
 //       Alert.alert("Validation Error", "client_info selection is mandatory");
 //       return false;
@@ -144,7 +134,7 @@ const CreateFinanceScreen = ({ route }) => {
 //       Alert.alert("Validation Error", "amount selection is mandatory");
 //       return false;
 //     }
-    
+
 
 //     return true;
 //   }
@@ -248,7 +238,7 @@ const CreateFinanceScreen = ({ route }) => {
 //             }}
 //           />
 
-          
+
 // <DateTimeSelector
 //             value={game}
 //             placeholder='End DateTime'
@@ -256,7 +246,7 @@ const CreateFinanceScreen = ({ route }) => {
 //               setgame(newValue);
 //             }}
 //           />
-          
+
 //           <DateTimeSelector
 //             value={platform}
 //             placeholder='End DateTime'
@@ -264,7 +254,7 @@ const CreateFinanceScreen = ({ route }) => {
 //               setplatform(newValue);
 //             }}
 //           />
-          
+
 //           <DateTimeSelector
 //             value={is_active}
 //             placeholder='End DateTime'
@@ -272,7 +262,7 @@ const CreateFinanceScreen = ({ route }) => {
 //               setis_active(newValue);
 //             }}
 //           />
-          
+
 //           <DateTimeSelector
 //             value={client_info}
 //             placeholder='End DateTime'
@@ -280,7 +270,7 @@ const CreateFinanceScreen = ({ route }) => {
 //               setclient_info(newValue);
 //             }}
 //           />
-          
+
 //           <DateTimeSelector
 //             value={fb_page}
 //             placeholder='End DateTime'
@@ -289,7 +279,7 @@ const CreateFinanceScreen = ({ route }) => {
 //             }}
 //           />
 
-          
+
 // <DateTimeSelector
 //             value={backend}
 //             placeholder='End DateTime'
@@ -395,7 +385,7 @@ const CreateFinanceScreen = ({ route }) => {
 //             />
 
 
-          
+
 
 //             {false &&
 //               <View
@@ -443,7 +433,7 @@ const CreateFinanceScreen = ({ route }) => {
 //             }}
 //           >
 //             Submit
-            
+
 //           </Button>
 //         </View>
 //       </View>
