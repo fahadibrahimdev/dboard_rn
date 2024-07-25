@@ -46,6 +46,10 @@ target 'RN_MAB' do
     :app_path => "#{Pod::Config.instance.installation_root}/.."
   )
 
+  pod 'FirebaseCoreInternal', :modular_headers => true
+  pod 'GoogleUtilities', :modular_headers => true
+
+
   target 'RN_MABTests' do
     inherit! :complete
     # Pods for testing
